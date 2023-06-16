@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import './styles.css';
 import { Header } from '../../components';
 import { SidebarItem } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 
-function Layout() {
+function Layout({ propchild }) {
   const dispatch = useDispatch();
 
   const [isActive, setIsActive] = useState(0);
@@ -21,21 +22,28 @@ function Layout() {
   return (
     <div className="layout">
       <Header />
-      <div className="layout__sidebar__menu">
-        <span>Feed</span>
-        {dataSidebar.map((_data, _idx) => {
-          return (
-            <SidebarItem
-              data={_data}
-              key={_idx}
-              onClick={() => handleActiveSidebar(_data.id, _data.key)}
-              isActive={isActive}
-            />
-          );
-        })}
+      <div className="below-header">
+        <div className="sidebar-menu">
+          <span>Feed</span>
+          {dataSidebar.map((_data, _idx) => {
+            return (
+              <SidebarItem
+                data={_data}
+                key={_idx}
+                onClick={() => handleActiveSidebar(_data.id, _data.key)}
+                isActive={isActive}
+              />
+            );
+          })}
+        </div>
+        <div>{propchild}</div>
       </div>
     </div>
   );
 }
+
+Layout.propTypes = {
+  propchild: PropTypes.object,
+};
 
 export { Layout };

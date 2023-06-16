@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  activePane: 'dashboard',
+  activePane: 'home',
 };
 
 export const pageSlice = createSlice({
-  name: 'popPage',
+  name: 'Page',
   initialState,
   reducers: {
     setActivePane: (state, action) => {
