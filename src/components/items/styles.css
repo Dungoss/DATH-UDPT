@@ -1,0 +1,31 @@
+.layout__sidebar__menu {
+  width: 270px;
+  background-color: #ffffff;
+  padding: 24px 0 0 16px;
+}
+
+.layout__sidebar__menu span {
+}
+
+.item__sidebar__menu {
+  display: flex;
+  align-items: center;
+  margin: 0 16px 0 0;
+  padding: 0 0 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.item__sidebar__menu img {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+}
+
+.item__sidebar__menu-active {
+  background: linear-gradient(0deg, rgba(234, 240, 247, 0.24), rgba(234, 240, 247, 0.24)), #21268a;
+}
+
+.item__sidebar__menu:hover {
+  background: linear-gradient(0deg, rgba(234, 240, 247, 0.08), rgba(234, 240, 247, 0.08)), #21268a;
+  cursor: pointer;
+}

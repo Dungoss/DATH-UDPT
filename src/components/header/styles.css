@@ -1,0 +1,47 @@
+.header {
+  padding: 13.5px 0 14.5px 28px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 66px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8ebed;
+}
+
+.header-logo {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+
+.header-logo img {
+  margin-right: 24px;
+}
+
+.header-input {
+}
+
+.header-avatar {
+  display: flex;
+  width: 200px;
+  align-items: center;
+}
+
+.header-avatar img {
+  width: 30px;
+  height: 30px;
+  margin-right: 12px;
+}
+
+.header-user {
+  width: 40px;
+  height: 40px;
+  background-color: aqua;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-user span {
+}
