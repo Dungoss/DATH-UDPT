@@ -9,4 +9,26 @@ import IconCrypto from '../../assets/images/crypto.svg';
 import IconTV from '../../assets/images/TV.svg';
 import IconCeleb from '../../assets/images/celeb.svg';
 
-export { IconLogo, IconNoti, IconHome, IconPopular, IconGame, IconSport, IconBusiness, IconCrypto, IconTV, IconCeleb };
+import ArrowLeft from '../../assets/images/arrow-left.svg';
+import ArrowRight from '../../assets/images/arrow-right.svg';
+import Slider1 from '../../assets/images/slider1.jpg';
+import Slider2 from '../../assets/images/slider2.jpg';
+import Login from '../../assets/images/login.png';
+
+export {
+  IconLogo,
+  IconNoti,
+  IconHome,
+  IconPopular,
+  IconGame,
+  IconSport,
+  IconBusiness,
+  IconCrypto,
+  IconTV,
+  IconCeleb,
+  ArrowLeft,
+  ArrowRight,
+  Slider1,
+  Slider2,
+  Login,
+};

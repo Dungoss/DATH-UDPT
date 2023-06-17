@@ -23,8 +23,9 @@
 
 .header-avatar {
   display: flex;
-  width: 200px;
+  width: 250px;
   align-items: center;
+  margin-right: 98px;
 }
 
 .header-avatar img {
@@ -44,4 +45,25 @@
 }
 
 .header-user span {
+}
+
+.signin-up {
+  cursor: pointer;
+  width: 100px;
+  height: 36px;
+  background: #f05123;
+  border-radius: 999px;
+  margin-left: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-up span {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
 }

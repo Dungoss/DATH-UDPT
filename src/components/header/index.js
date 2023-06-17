@@ -1,10 +1,18 @@
 import React from 'react';
 
 import './styles.css';
-import { IconLogo, IconNoti } from '../../utils/constants/img';
+import { IconLogo } from '../../utils/constants/img';
 import { SearchBox } from '../search-box';
 
 const Header = () => {
+  const handleToLogin = () => {
+    window.location.href = '/login';
+  };
+
+  const handleToSignup = () => {
+    window.location.href = '/signup';
+  };
+
   return (
     <div className="header">
       <div className="header-logo">
@@ -15,9 +23,15 @@ const Header = () => {
         <SearchBox />
       </div>
       <div className="header-avatar">
-        <img src={IconNoti} />
+        {/* <img src={IconNoti} />
         <div className="header-user">
           <span>L</span>
+        </div> */}
+        <div className="signin-up" onClick={handleToLogin}>
+          <span>Đăng nhập</span>
+        </div>
+        <div className="signin-up" onClick={handleToSignup}>
+          <span> Đăng ký</span>
         </div>
       </div>
     </div>

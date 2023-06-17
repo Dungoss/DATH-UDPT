@@ -3,6 +3,7 @@
 }
 
 .below-header {
+  width: 100%;
   display: flex;
 }
 
@@ -13,4 +14,8 @@
 }
 
 .sidebar-menu span {
+}
+
+.content-container {
+  width: 100%;
 }
