@@ -1,6 +1,8 @@
-import { Button, Checkbox, Form, Input, Select } from 'antd';
+import { Button, Checkbox, Form, Input, Select, DatePicker } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 import './styles.css';
+import AuthUser from '../../components/auth/AuthUser';
 
 const { Option } = Select;
 
@@ -36,8 +38,14 @@ const tailFormItemLayout = {
 };
 const Signup = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const { http } = AuthUser();
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
+    http.post('/register', { email: values.email, password: values.password, name: values.username }).then((res) => {
+      console.log(res);
+      navigate('/login');
+    });
   };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -52,9 +60,16 @@ const Signup = () => {
     </Form.Item>
   );
 
+  const handleToLogin = () => {
+    window.location.href = '/login';
+  };
+
   return (
     <div className="signup">
       <div className="signup-form">
+        <div className="signup-title">
+          <h1>Đăng ký</h1>
+        </div>
         <Form
           {...formItemLayout}
           form={form}
@@ -70,6 +85,19 @@ const Signup = () => {
           }}
           scrollToFirstError
         >
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your username!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input />
+          </Form.Item>
           <Form.Item
             name="email"
             label="E-mail"
@@ -142,34 +170,8 @@ const Signup = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            name="intro"
-            label="Intro"
-            rules={[
-              {
-                required: true,
-                message: 'Please input Intro',
-              },
-            ]}
-          >
-            <Input.TextArea showCount maxLength={100} />
-          </Form.Item>
-
-          <Form.Item
-            name="gender"
-            label="Gender"
-            rules={[
-              {
-                required: true,
-                message: 'Please select gender!',
-              },
-            ]}
-          >
-            <Select placeholder="select your gender">
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
-              <Option value="other">Other</Option>
-            </Select>
+          <Form.Item label="Ngày sinh">
+            <DatePicker />
           </Form.Item>
 
           <Form.Item
@@ -187,6 +189,10 @@ const Signup = () => {
               I have read the <a href="">agreement</a>
             </Checkbox>
           </Form.Item>
+          <span className="no-account">Already have an account? </span>
+          <span className="redirect-login" onClick={handleToLogin}>
+            Login
+          </span>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
               Register

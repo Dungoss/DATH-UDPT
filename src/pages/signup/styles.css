@@ -14,6 +14,29 @@
   width: 700px;
   height: 550px;
   background-color: #ffffff;
-  padding: 150px 0 0 0;
+  padding: 0px 0 0 0;
   border-radius: 16px;
+}
+
+.signup-title {
+  width: 100%;
+}
+
+.signup-title h1 {
+  position: relative;
+  margin-left: calc(50% - 70px);
+}
+
+.redirect-login {
+  border-bottom: 1px solid black;
+}
+
+.redirect-login:hover {
+  cursor: pointer;
+  color: gray;
+}
+
+.no-account {
+  /* position: relative; */
+  margin: 0 0 0 calc(50% - 50px);
 }

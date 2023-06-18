@@ -3,14 +3,23 @@ import React from 'react';
 import './styles.css';
 import { IconLogo } from '../../utils/constants/img';
 import { SearchBox } from '../search-box';
+import AuthUser from '../../components/auth/AuthUser';
 
 const Header = () => {
+  const { token, logout } = AuthUser();
+
   const handleToLogin = () => {
     window.location.href = '/login';
   };
 
   const handleToSignup = () => {
     window.location.href = '/signup';
+  };
+
+  const handleLogout = () => {
+    if (token != undefined) {
+      logout();
+    }
   };
 
   return (
@@ -32,6 +41,9 @@ const Header = () => {
         </div>
         <div className="signin-up" onClick={handleToSignup}>
           <span> Đăng ký</span>
+        </div>
+        <div className="signin-up" onClick={handleLogout}>
+          <span> Đăng xuất</span>
         </div>
       </div>
     </div>
