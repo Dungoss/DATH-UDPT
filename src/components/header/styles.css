@@ -4,7 +4,7 @@
   justify-content: space-between;
   box-sizing: border-box;
   height: 66px;
-  background: #ffffff;
+  background: #f5f5f5;
   border-bottom: 1px solid #e8ebed;
 }
 
@@ -18,33 +18,20 @@
   margin-right: 24px;
 }
 
-.header-input {
-}
-
 .header-avatar {
   display: flex;
   width: 250px;
   align-items: center;
+  justify-content: flex-end;
   margin-right: 98px;
+  position: relative;
+  right: 24px;
 }
 
 .header-avatar img {
   width: 30px;
   height: 30px;
   margin-right: 12px;
-}
-
-.header-user {
-  width: 40px;
-  height: 40px;
-  background-color: aqua;
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-user span {
 }
 
 .signin-up {

@@ -1,5 +1,7 @@
 export * from './home';
-export * from './popular';
+export * from './question';
 
 export * from './login';
 export * from './signup';
+export * from './topic';
+export * from './user';

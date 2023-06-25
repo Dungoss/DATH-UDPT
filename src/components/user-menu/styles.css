@@ -1,0 +1,70 @@
+.user-menu {
+  position: relative;
+}
+
+.user-menu-content {
+  position: absolute;
+  background-color: #ffffff;
+  width: 220px;
+  height: 300px;
+  padding: 24px;
+  top: 24px;
+  right: -40px;
+  z-index: 998;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-menu-content ul {
+  list-style: none;
+}
+
+.user-menu-content li {
+  width: 200px;
+  height: 30px;
+  cursor: pointer;
+  color: black;
+  opacity: 0.8;
+}
+
+.user-menu-content li:hover {
+  color: black;
+  opacity: 1;
+}
+
+.header-user-small {
+  width: 40px;
+  height: 40px;
+  background-color: aqua;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  position: fixed;
+  cursor: pointer;
+  padding: 0;
+  top: 12px;
+}
+.header-user-big {
+  width: 60px;
+  height: 60px;
+  background-color: aqua;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+}
+
+.user-name {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  margin-left: 8px;
+}

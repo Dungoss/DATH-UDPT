@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   IconHome,
   IconPopular,
-  // IconGame,
-  // IconSport,
+  IconGame,
+  IconSport,
   // IconBusiness,
   // IconCrypto,
   // IconTV,
@@ -20,22 +20,22 @@ const dataSidebar = [
   },
   {
     id: 1,
-    name: 'Popular',
+    name: 'Question',
     icon: IconPopular,
-    key: 'popular',
+    key: 'question',
   },
-  // {
-  //   id: 2,
-  //   name: 'Gaming',
-  //   icon: IconGame,
-  //   key: 'gaming',
-  // },
-  // {
-  //   id: 3,
-  //   name: 'Sports',
-  //   icon: IconSport,
-  //   key: 'sports',
-  // },
+  {
+    id: 2,
+    name: 'Topic',
+    icon: IconGame,
+    key: 'topic',
+  },
+  {
+    id: 3,
+    name: 'User',
+    icon: IconSport,
+    key: 'user',
+  },
   // {
   //   id: 4,
   //   name: 'Business',

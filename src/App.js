@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components';
-import { Home, Popular, Signup, Login } from './pages';
+import { Home, Question, Topic, User, Signup, Login } from './pages';
 
 const App = () => {
   const dataSelectPage = useSelector((state) => state.page.activePane);
@@ -13,8 +13,17 @@ const App = () => {
       render: <Home />,
     },
     {
-      key: 'popular',
-      render: <Popular />,
+      key: 'question',
+      render: <Question />,
+    },
+    {
+      key: 'topic',
+      render: <Topic />,
+    },
+
+    {
+      key: 'user',
+      render: <User />,
     },
   ];
   const displayPage = tabPanes.find((_page) => _page.key === dataSelectPage);
