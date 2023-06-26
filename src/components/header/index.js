@@ -26,7 +26,7 @@ const Header = () => {
         <h4>Học Lập Trình Để Đi Làm</h4>
       </div>
       <div className="header-input">
-        <SearchBox />
+        <SearchBox width={400} />
       </div>
       {!token && (
         <div className="header-avatar">

@@ -5,3 +5,4 @@ export * from './search-box';
 export * from './items';
 export * from './slider';
 export * from './user-menu';
+export * from './tag-cloud';
