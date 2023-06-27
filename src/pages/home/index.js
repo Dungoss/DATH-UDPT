@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './styles.css';
 import { TextShpere } from '../../components';
 // import { Slider1, Slider2 } from '../../utils/constants/img';
 
@@ -20,9 +21,16 @@ const Home = () => {
   //   margin: '0 auto',
   // };
   return (
-    <div>
-      <div>
+    <div className="home">
+      <div className="word-cloud">
         <TextShpere />
+      </div>
+      <span>Popular Topic</span>
+      <div className="popular-topic">
+        <div className="topic"></div>
+        <div className="topic"></div>
+        <div className="topic"></div>
+        <div className="topic"></div>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import ArrowRight from '../../assets/images/arrow-right.svg';
 import Slider1 from '../../assets/images/slider1.jpg';
 import Slider2 from '../../assets/images/slider2.jpg';
 import Login from '../../assets/images/login.png';
+import WallPaper from '../../assets/images/wall-paper.svg';
 
 export {
   IconLogo,
@@ -37,4 +38,5 @@ export {
   IconPop,
   IconNew,
   IconHot,
+  WallPaper,
 };

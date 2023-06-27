@@ -34,9 +34,21 @@ const TextShpere = () => {
       };
 
       TagCloud(container, texts, options);
+      const tagcloudElement = document.querySelector(container);
+      if (tagcloudElement !== null) {
+        tagcloudElement.addEventListener('click', handleTagClick);
+
+        return () => {
+          tagcloudElement.removeEventListener('click', handleTagClick);
+        };
+      }
     };
   }, []);
-
+  function handleTagClick(event) {
+    const selectedTag = event.target.innerText;
+    console.log('Clicked tag:', selectedTag);
+    // Do something with the selected tag value
+  }
   return (
     <>
       <div className="text-shpere">

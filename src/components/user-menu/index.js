@@ -25,6 +25,9 @@ const UserMenu = () => {
       window.location.href = '/';
     }
   };
+  const handleGoToProfile = () => {
+    window.location.href = '/profile';
+  };
   console.log(user);
   return (
     <div ref={menuRef} className="user-menu">
@@ -44,7 +47,7 @@ const UserMenu = () => {
           </div>
           <hr />
           <ul className="profile">
-            <li>Trang cá nhân</li>
+            <li onClick={handleGoToProfile}>Trang cá nhân</li>
           </ul>
           <hr />
           <ul className="post">
