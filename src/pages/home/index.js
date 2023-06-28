@@ -32,6 +32,13 @@ const Home = () => {
         <div className="topic"></div>
         <div className="topic"></div>
       </div>
+      <span>Topic</span>
+      <div className="popular-topic">
+        <div className="topic"></div>
+        <div className="topic"></div>
+        <div className="topic"></div>
+        <div className="topic"></div>
+      </div>
     </div>
   );
 };
