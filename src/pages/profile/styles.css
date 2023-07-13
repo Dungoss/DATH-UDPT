@@ -36,12 +36,11 @@
 }
 
 .profile-content {
-  /* margin-left: -60vw; */
   margin-top: 50px;
 }
 
 .profile-question {
   height: 500px;
-  width: 60vw;
+  width: 70vw;
   background-color: rgb(245, 240, 235);
 }

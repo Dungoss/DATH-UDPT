@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './styles.css';
 import { Header, SidebarItem } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
+import { getQuestionData } from '../../utils/api/question-api';
 
 function Layout({ propchild }) {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getQuestionData(dispatch);
+  });
 
   const [isActive, setIsActive] = useState(0);
 

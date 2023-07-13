@@ -1,0 +1,14 @@
+.question-detail {
+  display: flex;
+  padding: 24px;
+}
+
+.detail-content {
+  width: 65%;
+  height: 70vh;
+  background-color: #ffffff;
+}
+
+.detail-trend {
+  width: calc(35% - 24px);
+}
