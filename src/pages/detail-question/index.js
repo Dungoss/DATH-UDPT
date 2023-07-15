@@ -1,19 +1,18 @@
 import React from 'react';
 
 import './styles.css';
-import { Layout } from '../../components';
+import { useStateContext } from '../../contexts/contextProvider';
 
 const DetailQuestion = () => {
+  const { detailQuestion } = useStateContext();
+  console.log(detailQuestion);
   return (
     <div>
-      <Layout
-        propchild={
-          <div className="question-detail">
-            <div className="detail-content"></div>
-            <div className="detail-trend"></div>
-          </div>
-        }
-      />
+      <div className="question-detail">
+        <div className="detail-content"></div>
+        <div className="detail-trend"></div>
+      </div>
+      <span>hello</span>
     </div>
   );
 };

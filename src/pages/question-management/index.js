@@ -1,23 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'antd';
-import { useSelector } from 'react-redux';
+import { Table, Modal } from 'antd';
 import axios from 'axios';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 import { SearchBox } from '../../components';
-import { useStateContext } from '../../contexts/contextProvider';
 
-const Question = () => {
-  const { detailQuestion, setDetailQuestion } = useStateContext();
-  const data = useSelector((state) => state.question.questionData);
+const QuestionManagement = () => {
+  const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [questionsToDelete, setQuestionsToDelete] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (id) => {
+    setQuestionsToDelete((prevQuestionsToDelete) => [...prevQuestionsToDelete, id]);
+    setIsModalOpen(true);
+  };
+  const handleOk = async () => {
+    console.log(questionsToDelete);
+    const response = await axios.delete(`http://localhost:8000/api/questions/${questionsToDelete[0]}`);
+    console.log(response);
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const [isModalApproveOpen, setIsModalApproveOpen] = useState(false);
+  const showModalApprove = (id) => {
+    setQuestionsToDelete((prevQuestionsToDelete) => [...prevQuestionsToDelete, id]);
+    setIsModalApproveOpen(true);
+  };
+  const handleOkApprove = async () => {
+    console.log(questionsToDelete);
+    const response = await axios.put(`http://localhost:8000/api/questions/${questionsToDelete[0]}/status`, {
+      statusApproved: 1,
+    });
+    console.log(response);
+    setIsModalApproveOpen(false);
+  };
+  const handleCancelApprove = () => {
+    setIsModalApproveOpen(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const response = await axios.get(`http://localhost:8000/api/questions`);
         const response1 = await axios.get(`http://localhost:8000/api/users`);
         const response2 = await axios.get(`http://localhost:8000/api/category`);
+        setData(response.data);
         setUserData(response1.data);
         setCategoryData(response2.data);
       } catch (err) {
@@ -39,7 +73,6 @@ const Question = () => {
   console.log(data);
   console.log(userData);
   console.log(categoryData);
-  console.log(detailQuestion);
 
   const tag = ['c++', 'cpp check'];
 
@@ -72,26 +105,16 @@ const Question = () => {
     pageSize: 7,
   };
 
-  const handleToQuestionDetail = () => {
-    window.location.href = '/question';
-  };
-
   return (
     <div>
       <div className="question-container">
         <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
         {data.map((_data, _idx) => {
-          _data.statusApproved == 1 &&
+          _data.statusApproved == 0 &&
             questionData.push({
               key: _idx + 1,
               questions: (
-                <div
-                  className="question"
-                  onClick={() => {
-                    setDetailQuestion(_data);
-                    handleToQuestionDetail();
-                  }}
-                >
+                <div className="question">
                   <div className="question-info">
                     <div className="question-info-user">
                       <img src={IconLogo} />
@@ -125,13 +148,25 @@ const Question = () => {
                       </div>
                     </div>
                   </div>
+                  <CheckCircleFilled style={{ fontSize: '24px' }} onClick={() => showModalApprove(_data.id)} />
+                  <CloseCircleFilled style={{ fontSize: '24px' }} onClick={() => showModal(_data.id)} />
                 </div>
               ),
             });
         })}
       </div>
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Are you sure to delete this question?</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+      <Modal title="Basic Modal" open={isModalApproveOpen} onOk={handleOkApprove} onCancel={handleCancelApprove}>
+        <p>Are you sure to delete this question?</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </div>
   );
 };
 
-export { Question };
+export { QuestionManagement };

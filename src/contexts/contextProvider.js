@@ -4,7 +4,17 @@ import PropTypes from 'prop-types';
 const StateContext = createContext();
 
 export const ContextProvider = ({ children }) => {
-  return <StateContext.Provider>{children}</StateContext.Provider>;
+  const [detailQuestion, setDetailQuestion] = useState();
+  return (
+    <StateContext.Provider
+      value={{
+        detailQuestion,
+        setDetailQuestion,
+      }}
+    >
+      {children}
+    </StateContext.Provider>
+  );
 };
 
 ContextProvider.propTypes = {

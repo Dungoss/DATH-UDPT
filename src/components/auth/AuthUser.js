@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function AuthUser() {
-  const navigate = useNavigate();
-
   const getToken = () => {
     const tokenString = sessionStorage.getItem('token');
     const userToken = JSON.parse(tokenString);
@@ -26,12 +23,12 @@ export default function AuthUser() {
 
     setToken(token);
     setUser(user);
-    navigate('/');
+    window.location.href = '/';
   };
 
   const logout = () => {
     sessionStorage.clear();
-    navigate('/');
+    window.location.href = '/';
   };
 
   const http = axios.create({

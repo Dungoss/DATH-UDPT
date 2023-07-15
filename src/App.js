@@ -3,7 +3,18 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components';
-import { Home, Question, Topic, User, Signup, Login, Profile, DetailQuestion } from './pages';
+import {
+  Home,
+  Category,
+  QuestionManagement,
+  Question,
+  Topic,
+  User,
+  Signup,
+  Login,
+  Profile,
+  DetailQuestion,
+} from './pages';
 
 const App = () => {
   const dataSelectPage = useSelector((state) => state.page.activePane);
@@ -34,6 +45,8 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/question" element={<DetailQuestion />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/manage" element={<QuestionManagement />} />
         <Route path="/" element={<Layout propchild={displayPage.render} />} />
       </Routes>
     </BrowserRouter>

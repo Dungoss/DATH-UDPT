@@ -6,3 +6,5 @@ export * from './topic';
 export * from './user';
 export * from './profile';
 export * from './detail-question';
+export * from './category';
+export * from './question-management';
