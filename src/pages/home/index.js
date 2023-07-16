@@ -32,7 +32,7 @@ const Home = () => {
     postingTime: '1',
     totalVotes: '1',
     totalAnswer: '1',
-    statusApproved: null,
+    statusApproved: 0,
   });
 
   const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
@@ -63,7 +63,6 @@ const Home = () => {
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(question);
     data.postingTime = unixTimestamp;
-    console.log(question);
     const response = await axios.post('http://localhost:8000/api/questions', data);
     console.log(response);
     setIsModalOpen(false);

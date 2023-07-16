@@ -28,7 +28,7 @@ const UserMenu = () => {
   const handleGoToProfile = () => {
     window.location.href = '/profile';
   };
-  console.log(user);
+
   return (
     <div ref={menuRef} className="user-menu">
       <div className="header-user-small" onClick={() => setIsOpen(!isOpen)}>

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Table, Modal } from 'antd';
 import { EditOutlined, PlusSquareFilled } from '@ant-design/icons';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Category = () => {
-  const [categoryData, setCategoryData] = useState([]);
+  const categoryData = useSelector((state) => state.question.categoryData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategory, setNewCategory] = useState('');
   const showModal = () => {
@@ -36,17 +37,6 @@ const Category = () => {
     pageSize: 7,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/category`);
-        setCategoryData(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
   const onNewCategoryChange = (val) => {
     setNewCategory(val);
   };

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Table } from 'antd';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
@@ -11,21 +10,8 @@ import { useStateContext } from '../../contexts/contextProvider';
 const Question = () => {
   const { detailQuestion, setDetailQuestion } = useStateContext();
   const data = useSelector((state) => state.question.questionData);
-  const [userData, setUserData] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response1 = await axios.get(`http://localhost:8000/api/users`);
-        const response2 = await axios.get(`http://localhost:8000/api/category`);
-        setUserData(response1.data);
-        setCategoryData(response2.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
+  const userData = useSelector((state) => state.question.usersData);
+  const categoryData = useSelector((state) => state.question.categoryData);
 
   const findNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
@@ -36,8 +22,6 @@ const Question = () => {
     return null;
   };
 
-  console.log(data);
-  console.log(userData);
   console.log(categoryData);
   console.log(detailQuestion);
 

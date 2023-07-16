@@ -36,6 +36,14 @@ const App = () => {
       key: 'user',
       render: <User />,
     },
+    {
+      key: 'category',
+      render: <Category />,
+    },
+    {
+      key: 'manage',
+      render: <QuestionManagement />,
+    },
   ];
   const displayPage = tabPanes.find((_page) => _page.key === dataSelectPage);
   return (
@@ -45,8 +53,6 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/question" element={<DetailQuestion />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/manage" element={<QuestionManagement />} />
         <Route path="/" element={<Layout propchild={displayPage.render} />} />
       </Routes>
     </BrowserRouter>

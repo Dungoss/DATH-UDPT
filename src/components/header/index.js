@@ -17,8 +17,6 @@ const Header = () => {
     window.location.href = '/signup';
   };
 
-  console.log(token);
-
   return (
     <div className="header">
       <div className="header-logo">

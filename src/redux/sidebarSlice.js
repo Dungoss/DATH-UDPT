@@ -5,8 +5,8 @@ import {
   IconPopular,
   IconGame,
   IconSport,
-  // IconBusiness,
-  // IconCrypto,
+  IconBusiness,
+  IconCrypto,
   // IconTV,
   // IconCeleb,
 } from '../utils/constants/img';
@@ -36,18 +36,18 @@ const dataSidebar = [
     icon: IconSport,
     key: 'user',
   },
-  // {
-  //   id: 4,
-  //   name: 'Business',
-  //   icon: IconBusiness,
-  //   key: 'business',
-  // },
-  // {
-  //   id: 5,
-  //   name: 'Crypto',
-  //   icon: IconCrypto,
-  //   key: 'crypto',
-  // },
+  {
+    id: 4,
+    name: 'Category',
+    icon: IconBusiness,
+    key: 'category',
+  },
+  {
+    id: 5,
+    name: 'Manage',
+    icon: IconCrypto,
+    key: 'manage',
+  },
   // {
   //   id: 6,
   //   name: 'Television',

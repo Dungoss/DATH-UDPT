@@ -6,31 +6,19 @@ import './styles.css';
 import { Header, SidebarItem } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import { getQuestionData } from '../../utils/api/question-api';
-import { IconBusiness } from '../../utils/constants/img';
-import AuthUser from '../auth/AuthUser';
 
 function Layout({ propchild }) {
-  const { user } = AuthUser();
   const dispatch = useDispatch();
 
   useEffect(() => {
     getQuestionData(dispatch);
-  });
+  }, []);
 
   const [isActive, setIsActive] = useState(0);
 
   const handleActiveSidebar = (idx, pane, _idx) => {
     setIsActive(idx);
-    console.log(_idx);
     dispatch(pageActions.setActivePane(pane));
-  };
-
-  const moveToCategory = () => {
-    window.location.href = '/category';
-  };
-
-  const moveToQuestionManagement = () => {
-    window.location.href = '/manage';
   };
 
   const dataSidebar = useSelector((state) => state.sidebar);
@@ -50,16 +38,6 @@ function Layout({ propchild }) {
               />
             );
           })}
-          {user && user.role == 'admin' && (
-            <div className={`item__sidebar__menu`} onClick={moveToCategory}>
-              <img src={IconBusiness} alt={IconBusiness} />
-            </div>
-          )}
-          {user && user.role == 'admin' && (
-            <div className={`item__sidebar__menu`} onClick={moveToQuestionManagement}>
-              <img src={IconBusiness} alt={IconBusiness} />
-            </div>
-          )}
         </div>
         <div className="content-container">
           <div>{propchild}</div>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table, Modal } from 'antd';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 import './styles.css';
@@ -8,10 +9,10 @@ import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 import { SearchBox } from '../../components';
 
 const QuestionManagement = () => {
-  const [data, setData] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const data = useSelector((state) => state.question.questionData);
   const [questionsToDelete, setQuestionsToDelete] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
+  const userData = useSelector((state) => state.question.usersData);
+  const categoryData = useSelector((state) => state.question.categoryData);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (id) => {
@@ -19,7 +20,6 @@ const QuestionManagement = () => {
     setIsModalOpen(true);
   };
   const handleOk = async () => {
-    console.log(questionsToDelete);
     const response = await axios.delete(`http://localhost:8000/api/questions/${questionsToDelete[0]}`);
     console.log(response);
     setIsModalOpen(false);
@@ -34,7 +34,6 @@ const QuestionManagement = () => {
     setIsModalApproveOpen(true);
   };
   const handleOkApprove = async () => {
-    console.log(questionsToDelete);
     const response = await axios.put(`http://localhost:8000/api/questions/${questionsToDelete[0]}/status`, {
       statusApproved: 1,
     });
@@ -44,22 +43,6 @@ const QuestionManagement = () => {
   const handleCancelApprove = () => {
     setIsModalApproveOpen(false);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/questions`);
-        const response1 = await axios.get(`http://localhost:8000/api/users`);
-        const response2 = await axios.get(`http://localhost:8000/api/category`);
-        setData(response.data);
-        setUserData(response1.data);
-        setCategoryData(response2.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
 
   const findNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
@@ -161,7 +144,7 @@ const QuestionManagement = () => {
         <p>Some contents...</p>
       </Modal>
       <Modal title="Basic Modal" open={isModalApproveOpen} onOk={handleOkApprove} onCancel={handleCancelApprove}>
-        <p>Are you sure to delete this question?</p>
+        <p>Are you sure to approve this question?</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
       </Modal>
