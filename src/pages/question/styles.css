@@ -104,3 +104,38 @@
 .question-filter-hotnew:hover {
   cursor: pointer;
 }
+
+.question-detail {
+  display: flex;
+  padding: 24px;
+}
+
+.detail-ques {
+  width: 100%;
+}
+
+.detail-content {
+  width: 100%;
+  height: 70vh;
+  background-color: #ffffff;
+}
+
+.detail-answer {
+  width: 100%;
+  height: 70vh;
+  background-color: #ffffff;
+  margin-top: 24px;
+}
+
+.detail-trend {
+  width: calc(35% - 24px);
+  height: 600px;
+  margin-left: 24px;
+  background-color: rebeccapurple;
+}
+
+.answer {
+  width: 500px;
+  height: 200px;
+  background-color: rebeccapurple;
+}

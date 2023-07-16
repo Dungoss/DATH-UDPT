@@ -10,4 +10,7 @@ export const getQuestionData = async (dispatch) => {
 
   const response2 = await axios.get(`http://localhost:8000/api/category`);
   dispatch(questionActions.setCategory(response2.data));
+
+  const response3 = await axios.get(`http://localhost:8000/api/answers`);
+  dispatch(questionActions.setAnswers(response3.data));
 };

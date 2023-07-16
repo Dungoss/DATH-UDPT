@@ -4,6 +4,7 @@ const initialState = {
   questionData: [],
   categoryData: [],
   usersData: [],
+  answerData: [],
 };
 
 export const questionSlice = createSlice({
@@ -19,10 +20,13 @@ export const questionSlice = createSlice({
     setUsers: (state, action) => {
       state.usersData = action.payload;
     },
+    setAnswers: (state, action) => {
+      state.answerData = action.payload;
+    },
     resetState: () => initialState,
   },
 });
 
-export const { setQuestion, setCategory, setUsers, resetState } = questionSlice.actions;
+export const { setQuestion, setCategory, setUsers, setAnswers, resetState } = questionSlice.actions;
 const { reducer } = questionSlice;
 export default reducer;

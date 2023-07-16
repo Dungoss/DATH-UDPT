@@ -28,6 +28,7 @@ const Home = () => {
   const [question, setQuestion] = useState({
     userID: user && user.id,
     categoryID: '1',
+    questionTitle: '1',
     questionContent: '1',
     postingTime: '1',
     totalVotes: '1',
@@ -49,6 +50,9 @@ const Home = () => {
 
   const onQuestionChange = (val) => {
     setQuestion({ ...question, ['questionContent']: val });
+  };
+  const onTitleChange = (val) => {
+    setQuestion({ ...question, ['questionTitle']: val });
   };
 
   const showModal = () => {
@@ -80,6 +84,7 @@ const Home = () => {
         Ask Questions
       </Button>
       <Modal title="Enter your question" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Input onChange={(e) => onTitleChange(e.target.value)} />
         <TextArea rows={4} placeholder="maxLength is 6" onChange={(e) => onQuestionChange(e.target.value)} />
         <UploadButton
           uploader={uploader}
