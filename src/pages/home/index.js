@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Modal, Input } from 'antd';
-const { TextArea } = Input;
-import _ from 'lodash';
-
-import { Uploader } from 'uploader';
-import { UploadButton } from 'react-uploader';
 
 import axios from 'axios';
+import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { Uploader } from 'uploader';
+import { UploadButton } from 'react-uploader';
+import { Button, Modal, Input, Select } from 'antd';
+const { TextArea } = Input;
 
 import AuthUser from '../../components/auth/AuthUser';
+import * as questionActions from '../../redux/questionSlice';
 
 const uploader = Uploader({
   apiKey: 'free',
@@ -21,22 +22,29 @@ import { TextShpere } from '../../components';
 
 const Home = () => {
   const { user } = AuthUser();
+  const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImg, setUploadedImg] = useState([]);
-
   const [question, setQuestion] = useState({
     userID: user && user.id,
-    categoryID: '1',
-    questionTitle: '1',
-    questionContent: '1',
-    postingTime: '1',
-    totalVotes: '1',
-    totalAnswer: '1',
+    categoryID: '',
+    questionTitle: '',
+    questionContent: '',
+    postingTime: '',
+    totalVotes: 0,
+    totalAnswer: 0,
     statusApproved: 0,
+    tagID: 0,
+    spam: 0,
   });
-
   const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
+  const categoryData = useSelector((state) => state.question.categoryData);
+  const questionData = useSelector((state) => state.question.questionData);
+  const tagData = useSelector((state) => state.question.tagData);
+  let categoryOptions = [];
+  let tagOptions = [];
+
   const showModalWarning = () => {
     setIsModalWarningOpen(true);
   };
@@ -62,18 +70,32 @@ const Home = () => {
       showModalWarning();
     }
   };
-  const handleOk = async () => {
+  const handleAddQuestion = async () => {
     const currentTime = new Date();
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(question);
     data.postingTime = unixTimestamp;
+    let tempQ = _.cloneDeep(questionData);
+    tempQ.unshift(data);
     const response = await axios.post('http://localhost:8000/api/questions', data);
     console.log(response);
+    if (response.status == 201) {
+      dispatch(questionActions.setQuestion(tempQ));
+    }
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handleChangeCategory = (val) => {
+    setQuestion({ ...question, ['categoryID']: val });
+  };
+  const handleTagChange = (val) => {
+    setQuestion({ ...question, ['tagID']: JSON.stringify(val) });
+  };
+
+  console.log(question);
 
   return (
     <div className="home">
@@ -83,9 +105,33 @@ const Home = () => {
       <Button type="primary" onClick={showModal}>
         Ask Questions
       </Button>
-      <Modal title="Enter your question" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Input onChange={(e) => onTitleChange(e.target.value)} />
-        <TextArea rows={4} placeholder="maxLength is 6" onChange={(e) => onQuestionChange(e.target.value)} />
+      <Modal title="Enter your question" open={isModalOpen} onOk={handleAddQuestion} onCancel={handleCancel}>
+        <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
+        <TextArea rows={4} placeholder="Content" onChange={(e) => onQuestionChange(e.target.value)} />
+        {categoryData.map((_data) => {
+          categoryOptions.push({ value: _data.categoryID, label: _data.categoryName });
+        })}
+        {tagData.map((_data) => {
+          tagOptions.push({ value: _data.tagID, label: _data.tagName });
+        })}
+        <Select
+          style={{
+            width: 120,
+          }}
+          placeholder="Category"
+          onChange={handleChangeCategory}
+          options={categoryOptions}
+        />
+        <Select
+          mode="multiple"
+          allowClear
+          style={{
+            width: '100%',
+          }}
+          placeholder="Please select"
+          onChange={handleTagChange}
+          options={tagOptions}
+        />
         <UploadButton
           uploader={uploader}
           options={options}

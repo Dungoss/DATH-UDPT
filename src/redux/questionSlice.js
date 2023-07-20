@@ -5,6 +5,8 @@ const initialState = {
   categoryData: [],
   usersData: [],
   answerData: [],
+  tagData: [],
+  spamData: [],
 };
 
 export const questionSlice = createSlice({
@@ -23,10 +25,16 @@ export const questionSlice = createSlice({
     setAnswers: (state, action) => {
       state.answerData = action.payload;
     },
+    setTags: (state, action) => {
+      state.tagData = action.payload;
+    },
+    setSpams: (state, action) => {
+      state.spamData = action.payload;
+    },
     resetState: () => initialState,
   },
 });
 
-export const { setQuestion, setCategory, setUsers, setAnswers, resetState } = questionSlice.actions;
+export const { setQuestion, setCategory, setUsers, setAnswers, setTags, setSpams, resetState } = questionSlice.actions;
 const { reducer } = questionSlice;
 export default reducer;

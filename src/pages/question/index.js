@@ -17,7 +17,12 @@ const Question = () => {
   const userData = useSelector((state) => state.question.usersData);
   const categoryData = useSelector((state) => state.question.categoryData);
   const answerData = useSelector((state) => state.question.answerData);
+  const tagData = useSelector((state) => state.question.tagData);
+  const spamData = useSelector((state) => state.question.spamData);
+
   const [openDetail, setOpenDetail] = useState(false);
+  const [spam, setSpam] = useState(0);
+  const [notSpam, setNotSpam] = useState(0);
 
   const [answer, setAnswer] = useState({
     questionID: '',
@@ -48,7 +53,14 @@ const Question = () => {
   const detailQuestionAnswer = answerData.filter((data) => data.questionID === detailQuestion?.id) || [];
   console.log(detailQuestionAnswer);
 
-  const tag = ['c++', 'cpp check'];
+  const findTagNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].tagID === targetId) {
+        return data[i].tagName;
+      }
+    }
+    return null;
+  };
 
   let questionData = [];
   const columns = [
@@ -92,6 +104,18 @@ const Question = () => {
     console.log(response);
   };
 
+  const onSpamChange = () => {
+    setNotSpam(0);
+    setSpam(1);
+  };
+
+  const onNotSpamChange = () => {
+    setSpam(0);
+    setNotSpam(1);
+  };
+
+  console.log(spam, notSpam, spamData, detailQuestion);
+
   return (
     <div>
       {openDetail == true && (
@@ -102,6 +126,10 @@ const Question = () => {
                 <div>{findNameById(userData, detailQuestion.userID)} asked a question</div>
                 <span>{detailQuestion.questionTitle}</span>
                 <div>{detailQuestion.questionContent}</div>
+                <Button className={spamData.includes(detailQuestion.id) ? 'spam' : 'notspam'} onClick={onSpamChange}>
+                  SPAM
+                </Button>
+                <Button onClick={onNotSpamChange}>NOT SPAM</Button>
               </div>
               <div className="detail-answer">
                 {detailQuestionAnswer.map((data, idx) => {
@@ -128,13 +156,7 @@ const Question = () => {
               questionData.push({
                 key: _idx + 1,
                 questions: (
-                  <div
-                    className="question"
-                    onClick={() => {
-                      setDetailQuestion(_data);
-                      handleToQuestionDetail();
-                    }}
-                  >
+                  <div className="question">
                     <div className="question-info">
                       <div className="question-info-user">
                         <img src={IconLogo} />
@@ -144,7 +166,13 @@ const Question = () => {
                       <h5>0 answers</h5>
                     </div>
                     <div className="question-content">
-                      <div className="question-content-title">
+                      <div
+                        className="question-content-title"
+                        onClick={() => {
+                          setDetailQuestion(_data);
+                          handleToQuestionDetail();
+                        }}
+                      >
                         <h2>{_data.questionTitle}</h2>
                       </div>
                       <div className="question-content-content">
@@ -152,10 +180,10 @@ const Question = () => {
                       </div>
                       <div className="question-footer">
                         <div className="question-tag">
-                          {tag.map((_data, _idx) => {
+                          {JSON.parse(_data.tagID).map((_data, _idx) => {
                             return (
                               <div key={_idx} className="question-tag-item">
-                                {_data}
+                                {findTagNameById(tagData, _data)}
                               </div>
                             );
                           })}

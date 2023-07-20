@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
 import { Table, Modal } from 'antd';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import _ from 'lodash';
 
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 import { SearchBox } from '../../components';
+import * as questionActions from '../../redux/questionSlice';
 
 const QuestionManagement = () => {
+  const dispatch = useDispatch();
   const data = useSelector((state) => state.question.questionData);
   const [questionsToDelete, setQuestionsToDelete] = useState([]);
   const userData = useSelector((state) => state.question.usersData);
   const categoryData = useSelector((state) => state.question.categoryData);
+  const tagData = useSelector((state) => state.question.tagData);
+
+  let temp = _.cloneDeep(data);
+  let updatedData = [];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (id) => {
@@ -21,7 +28,11 @@ const QuestionManagement = () => {
   };
   const handleOk = async () => {
     const response = await axios.delete(`http://localhost:8000/api/questions/${questionsToDelete[0]}`);
-    console.log(response);
+    updatedData = temp.filter((item) => item.id !== questionsToDelete[0]);
+    if (response.status == 200) {
+      setQuestionsToDelete([]);
+      dispatch(questionActions.setQuestion(updatedData));
+    }
     setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -37,7 +48,17 @@ const QuestionManagement = () => {
     const response = await axios.put(`http://localhost:8000/api/questions/${questionsToDelete[0]}/status`, {
       statusApproved: 1,
     });
-    console.log(response);
+    updatedData = temp.map((item) => {
+      if (item.id === questionsToDelete[0]) {
+        return { ...item, statusApproved: 1 };
+      }
+      return item;
+    });
+    if (response.status == 200) {
+      setQuestionsToDelete([]);
+      dispatch(questionActions.setQuestion(updatedData));
+    }
+
     setIsModalApproveOpen(false);
   };
   const handleCancelApprove = () => {
@@ -53,11 +74,18 @@ const QuestionManagement = () => {
     return null;
   };
 
+  const findTagNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].tagID === targetId) {
+        return data[i].tagName;
+      }
+    }
+    return null;
+  };
+
   console.log(data);
   console.log(userData);
   console.log(categoryData);
-
-  const tag = ['c++', 'cpp check'];
 
   let questionData = [];
   const columns = [
@@ -115,10 +143,10 @@ const QuestionManagement = () => {
                     </div>
                     <div className="question-footer">
                       <div className="question-tag">
-                        {tag.map((_data, _idx) => {
+                        {JSON.parse(_data.tagID).map((_data, _idx) => {
                           return (
                             <div key={_idx} className="question-tag-item">
-                              {_data}
+                              {findTagNameById(tagData, _data)}
                             </div>
                           );
                         })}

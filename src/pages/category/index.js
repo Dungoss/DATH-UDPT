@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Table, Modal } from 'antd';
 import { EditOutlined, PlusSquareFilled } from '@ant-design/icons';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import * as questionActions from '../../redux/questionSlice';
 
 const Category = () => {
+  const dispatch = useDispatch();
   const categoryData = useSelector((state) => state.question.categoryData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCategory, setNewCategory] = useState('');
@@ -14,7 +17,11 @@ const Category = () => {
   const handleOk = async () => {
     let temp = { categoryName: newCategory };
     const response = await axios.post('http://localhost:8000/api/category', temp);
-    console.log(response);
+    let temp1 = _.cloneDeep(categoryData);
+    temp1.push(temp);
+    if (response.status == 201) {
+      dispatch(questionActions.setCategory(temp1));
+    }
     setIsModalOpen(false);
   };
   const handleCancel = () => {

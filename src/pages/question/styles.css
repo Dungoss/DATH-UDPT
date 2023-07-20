@@ -139,3 +139,11 @@
   height: 200px;
   background-color: rebeccapurple;
 }
+
+.spam {
+  border-color: red;
+}
+
+.notspam {
+  background-color: aquamarine;
+}

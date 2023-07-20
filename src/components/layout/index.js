@@ -16,10 +16,12 @@ function Layout({ propchild }) {
 
   const [isActive, setIsActive] = useState(0);
 
-  const handleActiveSidebar = (idx, pane, _idx) => {
+  const handleActiveSidebar = (idx, pane) => {
     setIsActive(idx);
     dispatch(pageActions.setActivePane(pane));
   };
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   const dataSidebar = useSelector((state) => state.sidebar);
   return (
@@ -28,16 +30,25 @@ function Layout({ propchild }) {
       <div className="below-header">
         <div className="sidebar-menu">
           <span>Feed</span>
-          {dataSidebar.map((_data, _idx) => {
-            return (
+          {dataSidebar.map((_data, _idx) =>
+            user && user.role === 'admin' ? (
               <SidebarItem
                 data={_data}
                 key={_idx}
                 onClick={() => handleActiveSidebar(_data.id, _data.key)}
                 isActive={isActive}
               />
-            );
-          })}
+            ) : (
+              _data.role === 'general' && (
+                <SidebarItem
+                  data={_data}
+                  key={_idx}
+                  onClick={() => handleActiveSidebar(_data.id, _data.key)}
+                  isActive={isActive}
+                />
+              )
+            ),
+          )}
         </div>
         <div className="content-container">
           <div>{propchild}</div>
