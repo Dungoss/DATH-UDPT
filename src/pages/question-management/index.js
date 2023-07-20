@@ -83,8 +83,8 @@ const QuestionManagement = () => {
     return null;
   };
 
-  console.log(data);
-  console.log(userData);
+  console.log(questionsToDelete);
+
   console.log(categoryData);
 
   let questionData = [];
@@ -159,7 +159,13 @@ const QuestionManagement = () => {
                       </div>
                     </div>
                   </div>
-                  <CheckCircleFilled style={{ fontSize: '24px' }} onClick={() => showModalApprove(_data.id)} />
+                  <CheckCircleFilled
+                    style={{ fontSize: '24px' }}
+                    onClick={() => {
+                      console.log(_data);
+                      showModalApprove(_data.id);
+                    }}
+                  />
                   <CloseCircleFilled style={{ fontSize: '24px' }} onClick={() => showModal(_data.id)} />
                 </div>
               ),

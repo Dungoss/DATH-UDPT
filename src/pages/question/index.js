@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Input, Button } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -9,9 +9,12 @@ import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 import { SearchBox } from '../../components';
 import { useStateContext } from '../../contexts/contextProvider';
 import AuthUser from '../../components/auth/AuthUser';
+import * as questionActions from '../../redux/questionSlice';
 
 const Question = () => {
   const { user } = AuthUser();
+  const dispatch = useDispatch();
+
   const { detailQuestion, setDetailQuestion } = useStateContext();
   const data = useSelector((state) => state.question.questionData);
   const userData = useSelector((state) => state.question.usersData);
@@ -21,8 +24,6 @@ const Question = () => {
   const spamData = useSelector((state) => state.question.spamData);
 
   const [openDetail, setOpenDetail] = useState(false);
-  const [spam, setSpam] = useState(0);
-  const [notSpam, setNotSpam] = useState(0);
 
   const [answer, setAnswer] = useState({
     questionID: '',
@@ -104,17 +105,37 @@ const Question = () => {
     console.log(response);
   };
 
-  const onSpamChange = () => {
-    setNotSpam(0);
-    setSpam(1);
+  const onSpamChange = async () => {
+    if (user && !spamData.includes(detailQuestion.id)) {
+      const response = await axios.post(`http://localhost:8000/api/questions/${detailQuestion.id}/spam`);
+      if (response.status == 200) {
+        let temp = _.cloneDeep(spamData);
+        temp.push(detailQuestion.id);
+        dispatch(questionActions.setSpams(temp));
+        const response1 = await axios.post(`http://localhost:8000/api/users/add-spam`, {
+          userID: user.id,
+          questionID: detailQuestion.id,
+        });
+        console.log(response1);
+      }
+    }
   };
 
-  const onNotSpamChange = () => {
-    setSpam(0);
-    setNotSpam(1);
+  const onNotSpamChange = async () => {
+    if (user && spamData.includes(detailQuestion.id)) {
+      const response = await axios.post(`http://localhost:8000/api/questions/${detailQuestion.id}/not-spam`);
+      if (response.status == 200) {
+        let temp = _.cloneDeep(spamData);
+        temp = temp.filter((item) => item !== detailQuestion.id);
+        dispatch(questionActions.setSpams(temp));
+        const response1 = await axios.post(`http://localhost:8000/api/users/delete-spam`, {
+          userID: user.id,
+          questionID: detailQuestion.id,
+        });
+        console.log(response1);
+      }
+    }
   };
-
-  console.log(spam, notSpam, spamData, detailQuestion);
 
   return (
     <div>
@@ -126,10 +147,15 @@ const Question = () => {
                 <div>{findNameById(userData, detailQuestion.userID)} asked a question</div>
                 <span>{detailQuestion.questionTitle}</span>
                 <div>{detailQuestion.questionContent}</div>
-                <Button className={spamData.includes(detailQuestion.id) ? 'spam' : 'notspam'} onClick={onSpamChange}>
+                <Button className={user && spamData.includes(detailQuestion.id) ? 'spam' : ''} onClick={onSpamChange}>
                   SPAM
                 </Button>
-                <Button onClick={onNotSpamChange}>NOT SPAM</Button>
+                <Button
+                  className={user && spamData.includes(detailQuestion.id) ? '' : 'notspam'}
+                  onClick={onNotSpamChange}
+                >
+                  NOT SPAM
+                </Button>
               </div>
               <div className="detail-answer">
                 {detailQuestionAnswer.map((data, idx) => {

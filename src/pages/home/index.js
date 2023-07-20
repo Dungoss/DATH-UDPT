@@ -95,8 +95,6 @@ const Home = () => {
     setQuestion({ ...question, ['tagID']: JSON.stringify(val) });
   };
 
-  console.log(question);
-
   return (
     <div className="home">
       <div className="word-cloud">
