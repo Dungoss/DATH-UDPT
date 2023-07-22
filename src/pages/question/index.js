@@ -34,7 +34,7 @@ const Question = () => {
     totalVotes: '1',
   });
 
-  console.log(answer);
+  console.log(detailQuestion);
 
   const findNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {

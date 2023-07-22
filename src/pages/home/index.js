@@ -80,6 +80,8 @@ const Home = () => {
     const response = await axios.post('http://localhost:8000/api/questions', data);
     console.log(response);
     if (response.status == 201) {
+      const response = await axios.put(`http://localhost:8000/api/users/${user.id}/increase-question-count`);
+      console.log(response.status);
       dispatch(questionActions.setQuestion(tempQ));
     }
     setIsModalOpen(false);

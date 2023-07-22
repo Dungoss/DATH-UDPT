@@ -1,5 +1,5 @@
 .user-rank {
-  width: 300px;
+  width: 400px;
   height: 100px;
   display: flex;
 }
@@ -7,4 +7,5 @@
 .user-rank img {
   width: 80px;
   height: 80px;
+  cursor: pointer;
 }

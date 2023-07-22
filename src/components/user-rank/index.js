@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 import './styles.css';
 
-const UserRank = ({ avatar, name, numans }) => {
+const UserRank = (props) => {
+  const { avatar, name, numquest, numans, action, ...userProps } = props;
   return (
-    <div className="user-rank">
-      <img src={avatar} alt="avatar" />
+    <div className="user-rank" {...userProps}>
+      <img src={avatar} alt="avatar" onClick={action} />
       <h2>{name}</h2>
-      <b>{numans}</b>
+      <b>{numquest} questions</b>
+      <b>{numans} answers</b>
     </div>
   );
 };
@@ -17,6 +19,8 @@ UserRank.propTypes = {
   avatar: PropTypes.any,
   name: PropTypes.any,
   numans: PropTypes.any,
+  numquest: PropTypes.any,
+  action: PropTypes.any,
 };
 
 export { UserRank };

@@ -20,14 +20,16 @@ export const getQuestionData = async (dispatch) => {
     const response4 = await axios.get(`http://localhost:8000/api/tag`);
     dispatch(questionActions.setTags(response4.data));
 
-    const response5 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-spam`);
-    dispatch(questionActions.setSpams(response5.data));
+    if (user) {
+      const response5 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-spam`);
+      dispatch(questionActions.setSpams(response5.data));
 
-    const response6 = await axios.get(`http://localhost:8000/api/users/${user.id}/questions`);
-    dispatch(questionActions.setQuestionUser(response6.data));
+      const response6 = await axios.get(`http://localhost:8000/api/users/${user.id}/questions`);
+      dispatch(questionActions.setQuestionUser(response6.data));
 
-    const response7 = await axios.get(`http://localhost:8000/api/users/${user.id}`);
-    dispatch(questionActions.setUserDetail(response7.data));
+      const response7 = await axios.get(`http://localhost:8000/api/users/${user.id}`);
+      dispatch(questionActions.setUserDetail(response7.data));
+    }
   } catch (error) {
     console.error('Error fetching data:', error);
   }

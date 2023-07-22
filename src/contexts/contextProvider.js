@@ -5,6 +5,8 @@ const StateContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [detailQuestion, setDetailQuestion] = useState();
+  const [detailProfile, setDetailProfile] = useState();
+
   const [isActive, setIsActive] = useState(0);
   return (
     <StateContext.Provider
@@ -13,6 +15,8 @@ export const ContextProvider = ({ children }) => {
         setDetailQuestion,
         isActive,
         setIsActive,
+        detailProfile,
+        setDetailProfile,
       }}
     >
       {children}

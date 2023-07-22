@@ -66,7 +66,7 @@ function Layout({ propchild }) {
               )}
             </div>
             <div className="content-container">
-              <div>{propchild}</div>
+              <div className="cont">{propchild}</div>
             </div>
           </div>
         </div>

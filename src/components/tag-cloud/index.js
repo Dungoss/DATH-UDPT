@@ -35,7 +35,7 @@ const TextShpere = () => {
         };
       }
     };
-  }, [tagData]);
+  }, []);
   function handleTagClick(event) {
     const selectedTag = event.target.innerText;
     console.log('Clicked tag:', selectedTag);
