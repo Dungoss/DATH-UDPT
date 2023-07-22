@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import './styles.css';
 
@@ -7,24 +8,15 @@ import TagCloud from 'TagCloud';
 
 const TextShpere = () => {
   // Animation settings for Text Cloud
+  const tagData = useSelector((state) => state.question.tagData);
+  let tag = [];
+  console.log(tag);
   useEffect(() => {
     return () => {
       const container = '.tagcloud';
-      const texts = [
-        'HTML',
-        'CSS',
-        'SASS',
-        'JavaScript',
-        'React',
-        'Vue',
-        'Nuxt',
-        'NodeJS',
-        'Babel',
-        'Jquery',
-        'ES6',
-        'GIT',
-        'GITHUB',
-      ];
+      tagData.map((data, idx) => {
+        if (idx < 25) tag.push(data.tagName);
+      });
 
       const options = {
         radius: 300,
@@ -33,7 +25,7 @@ const TextShpere = () => {
         keep: true,
       };
 
-      TagCloud(container, texts, options);
+      tag.length > 0 && TagCloud(container, tag, options);
       const tagcloudElement = document.querySelector(container);
       if (tagcloudElement !== null) {
         tagcloudElement.addEventListener('click', handleTagClick);
@@ -43,7 +35,7 @@ const TextShpere = () => {
         };
       }
     };
-  }, []);
+  }, [tagData]);
   function handleTagClick(event) {
     const selectedTag = event.target.innerText;
     console.log('Clicked tag:', selectedTag);
@@ -52,7 +44,6 @@ const TextShpere = () => {
   return (
     <>
       <div className="text-shpere">
-        {/* span tag className must be "tagcloud"  */}
         <span className="tagcloud"></span>
       </div>
     </>

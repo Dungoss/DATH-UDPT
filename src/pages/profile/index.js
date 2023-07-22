@@ -1,71 +1,58 @@
 import React from 'react';
 import { Tabs, Table } from 'antd';
-// import { useState } from 'react';
+import { Uploader } from 'uploader';
+import { UploadButton } from 'react-uploader';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 
 import { SearchBox } from '../../components';
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
-// import { WallPaper } from '../../utils/constants/img';
+import AuthUser from '../../components/auth/AuthUser';
+import * as questionActions from '../../redux/questionSlice';
+
+const uploader = Uploader({
+  apiKey: 'free',
+});
+
+const options = { multi: false };
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const { user } = AuthUser();
+
+  const userData = useSelector((state) => state.question.userDetail);
+  const questData = useSelector((state) => state.question.questionUserData);
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
 
-  const dataFetch = [
-    {
-      userName: '@dungduyle2001cvcfsa',
-      title:
-        'Test titleeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeeee eeeeeeeeeeeee eeeeeeeeee',
-      content:
-        'test contenteeeeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeee eeeeeeeeee eeeeeeeeeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeee eeeeeeeeeeee',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-    {
-      userName: '@dung',
-      title: 'Test title',
-      content: 'test content',
-    },
-  ];
-
   const tag = ['c++', 'cpp check'];
+
+  console.log(user);
+
+  const handleUploadAvatar = async (imgUrl) => {
+    const response = await axios.post(`http://localhost:8000/api/users/${user.id}/update-avatar`, {
+      avatar: imgUrl,
+      userId: user.id,
+    });
+    if (response.status == 200) {
+      let temp = _.cloneDeep(userData);
+      temp.avatar = imgUrl;
+      dispatch(questionActions.setUserDetail(temp));
+    }
+  };
+
+  const handleUploadWallpaper = async (imgUrl) => {
+    const response = await axios.post(`http://localhost:8000/api/users/${user.id}/update-wallpaper`, {
+      wallpaper: imgUrl,
+      userId: user.id,
+    });
+    if (response.status == 200) {
+      let temp = _.cloneDeep(userData);
+      temp.wallpaper = imgUrl;
+      dispatch(questionActions.setUserDetail(temp));
+    }
+  };
 
   let questionData = [];
   const columns = [
@@ -96,13 +83,33 @@ const Profile = () => {
     pageSize: 7,
   };
 
+  console.log(questData);
+
   return (
     <div className="profile-container">
-      <div className="wall-paper">{/* <img src={WallPaper} /> */}</div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <div className="avatar"></div>
-        <span>Nguyễn Lê Nguyên</span>
+      <div className="wall-paper">
+        <img src={userData.wallpaper} className="resized-image" />
       </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <div className="avatar">
+          <img src={userData && userData.avatar} />
+        </div>
+        <span>{userData && userData.name}</span>
+      </div>
+      <UploadButton
+        uploader={uploader}
+        options={options}
+        onComplete={(files) => files.map((x) => handleUploadAvatar(x.fileUrl))}
+      >
+        {({ onClick }) => <button onClick={onClick}>Change Avatar</button>}
+      </UploadButton>
+      <UploadButton
+        uploader={uploader}
+        options={options}
+        onComplete={(files) => files.map((x) => handleUploadWallpaper(x.fileUrl))}
+      >
+        {({ onClick }) => <button onClick={onClick}>Change Wallpaper</button>}
+      </UploadButton>
       <div className="edit-profile">EDIT PROFILE</div>
       <div className="profile-content">
         <div>
@@ -117,58 +124,58 @@ const Profile = () => {
               return {
                 label: `${_.name}`,
                 key: id,
-                // disabled: i === 28,
                 children: (
                   <div>
                     {id === '0' ? (
                       <div className="profile-question">
                         <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
-                        {dataFetch.map((_data, _idx) => {
-                          questionData.push({
-                            key: _idx + 1,
-                            questions: (
-                              <div className="question">
-                                <div className="question-info">
-                                  <div className="question-info-user">
-                                    <img src={IconLogo} />
-                                    <b>{_data.userName}</b>
-                                  </div>
-                                  <h5>0 votes</h5>
-                                  <h5>0 answers</h5>
-                                </div>
-                                <div className="question-content">
-                                  <div className="question-content-title">
-                                    <h2>{_data.title}</h2>
-                                  </div>
-                                  <div className="question-content-content">
-                                    <span>{_data.content}</span>
-                                  </div>
-                                  <div className="question-footer">
-                                    <div className="question-tag">
-                                      {tag.map((_data, _idx) => {
-                                        return (
-                                          <div key={_idx} className="question-tag-item">
-                                            {_data}
-                                          </div>
-                                        );
-                                      })}
-                                    </div>
-                                    <div className="question-time">
+                        {questData &&
+                          questData.map((_data, _idx) => {
+                            questionData.push({
+                              key: _idx + 1,
+                              questions: (
+                                <div className="question">
+                                  <div className="question-info">
+                                    <div className="question-info-user">
                                       <img src={IconLogo} />
-                                      <span>Nguyen Ngu</span>
-                                      <b>1</b>
-                                      <span>asked 44 sec ago </span>
+                                      <b>{_data.userName}</b>
+                                    </div>
+                                    <h5>0 votes</h5>
+                                    <h5>0 answers</h5>
+                                  </div>
+                                  <div className="question-content">
+                                    <div className="question-content-title">
+                                      <h2>{_data.questionTitle}</h2>
+                                    </div>
+                                    <div className="question-content-content">
+                                      <span>{_data.questionContent}</span>
+                                    </div>
+                                    <div className="question-footer">
+                                      <div className="question-tag">
+                                        {tag.map((_data, _idx) => {
+                                          return (
+                                            <div key={_idx} className="question-tag-item">
+                                              {_data}
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                      <div className="question-time">
+                                        <img src={IconLogo} />
+                                        <span>Nguyen Ngu</span>
+                                        <b>1</b>
+                                        <span>asked 44 sec ago </span>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            ),
-                          });
-                        })}
+                              ),
+                            });
+                          })}
                       </div>
                     ) : (
                       <div className="profile-question"></div>
-                    )}{' '}
+                    )}
                   </div>
                 ),
               };

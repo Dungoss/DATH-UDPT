@@ -45,6 +45,13 @@ const dataSidebar = [
     key: 'manage',
     role: 'admin',
   },
+  {
+    id: 6,
+    name: 'Profile',
+    icon: IconCrypto,
+    key: 'profile',
+    role: 'general',
+  },
 ];
 
 const sidebarReducer = createSlice({

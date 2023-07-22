@@ -33,6 +33,10 @@ const App = () => {
       key: 'manage',
       render: <QuestionManagement />,
     },
+    {
+      key: 'profile',
+      render: <Profile />,
+    },
   ];
   const displayPage = tabPanes.find((_page) => _page.key === dataSelectPage);
   return (

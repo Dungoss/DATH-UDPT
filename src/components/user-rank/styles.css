@@ -1,0 +1,10 @@
+.user-rank {
+  width: 300px;
+  height: 100px;
+  display: flex;
+}
+
+.user-rank img {
+  width: 80px;
+  height: 80px;
+}
