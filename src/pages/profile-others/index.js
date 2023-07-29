@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Table } from 'antd';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { SearchBox } from '../../components';
@@ -10,6 +11,7 @@ const ProfileOther = () => {
   const userData = JSON.parse(localStorage.getItem('profile'));
 
   const [questData, setQuestData] = useState([]);
+  const tagData = useSelector((state) => state.question.tagData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +27,14 @@ const ProfileOther = () => {
 
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
 
-  const tag = ['c++', 'cpp check'];
+  const findTagNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].tagID === targetId) {
+        return data[i].tagName;
+      }
+    }
+    return null;
+  };
 
   let questionData = [];
   const columns = [
@@ -111,10 +120,10 @@ const ProfileOther = () => {
                                     </div>
                                     <div className="question-footer">
                                       <div className="question-tag">
-                                        {tag.map((_data, _idx) => {
+                                        {JSON.parse(_data.tagID).map((_data, _idx) => {
                                           return (
                                             <div key={_idx} className="question-tag-item">
-                                              {_data}
+                                              {findTagNameById(tagData, _data)}
                                             </div>
                                           );
                                         })}

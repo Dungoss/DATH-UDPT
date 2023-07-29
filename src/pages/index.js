@@ -8,3 +8,4 @@ export * from './profile';
 export * from './profile-others';
 export * from './category';
 export * from './question-management';
+export * from './ranking';

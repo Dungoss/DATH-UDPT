@@ -218,7 +218,21 @@ const Question = () => {
                           <img src={IconLogo} />
                           <span>{findNameById(userData, _data.userID)}</span>
                           <b>1</b>
-                          <span>asked 44 sec ago </span>
+                          <span>
+                            {_data.postingTime &&
+                              (() => {
+                                const unixTimestamp = _data.postingTime;
+                                const date = new Date(unixTimestamp * 1000);
+                                const year = date.getFullYear();
+                                const month = date.getMonth() + 1;
+                                const day = date.getDate();
+                                const hours = date.getHours();
+                                const minutes = date.getMinutes();
+                                const seconds = date.getSeconds();
+                                const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                return humanReadableTime;
+                              })()}
+                          </span>
                         </div>
                       </div>
                     </div>

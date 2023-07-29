@@ -9,6 +9,8 @@ const initialState = {
   spamData: [],
   questionUserData: [],
   userDetail: [],
+  monthlyQuestionRanking: [],
+  monthlyAnswerRanking: [],
   loading: false,
 };
 
@@ -40,6 +42,12 @@ export const questionSlice = createSlice({
     setUserDetail: (state, action) => {
       state.userDetail = action.payload;
     },
+    setQuestionRank: (state, action) => {
+      state.monthlyQuestionRanking = action.payload;
+    },
+    setAnswerRank: (state, action) => {
+      state.monthlyAnswerRanking = action.payload;
+    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -57,6 +65,8 @@ export const {
   setTags,
   setSpams,
   resetState,
+  setAnswerRank,
+  setQuestionRank,
   setLoading,
 } = questionSlice.actions;
 const { reducer } = questionSlice;

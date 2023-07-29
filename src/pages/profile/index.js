@@ -13,7 +13,7 @@ import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 
 const uploader = Uploader({
-  apiKey: 'free',
+  apiKey: 'public_W142i7RAL2pkmDJyvXnMSF7utfyN',
 });
 
 const options = { multi: false };
@@ -24,9 +24,17 @@ const Profile = () => {
 
   const userData = useSelector((state) => state.question.userDetail);
   const questData = useSelector((state) => state.question.questionUserData);
+  const tagData = useSelector((state) => state.question.tagData);
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
 
-  const tag = ['c++', 'cpp check'];
+  const findTagNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].tagID === targetId) {
+        return data[i].tagName;
+      }
+    }
+    return null;
+  };
 
   console.log(user);
 
@@ -95,6 +103,29 @@ const Profile = () => {
           <img src={userData && userData.avatar} />
         </div>
         <span>{userData && userData.name}</span>
+        <span>
+          {userData &&
+            userData.question_count &&
+            userData.answer_count &&
+            (() => {
+              const { question_count, answer_count } = userData;
+              let level;
+
+              if (question_count > 40 && answer_count > 20) {
+                level = 'Level 5';
+              } else if (question_count > 30 && answer_count > 15) {
+                level = 'Level 4';
+              } else if (question_count > 20 && answer_count > 10) {
+                level = 'Level 3';
+              } else if (question_count > 10 && answer_count > 5) {
+                level = 'Level 2';
+              } else {
+                level = 'Level 1';
+              }
+
+              return level;
+            })()}
+        </span>
       </div>
       <UploadButton
         uploader={uploader}
@@ -152,10 +183,10 @@ const Profile = () => {
                                     </div>
                                     <div className="question-footer">
                                       <div className="question-tag">
-                                        {tag.map((_data, _idx) => {
+                                        {JSON.parse(_data.tagID).map((_data, _idx) => {
                                           return (
                                             <div key={_idx} className="question-tag-item">
-                                              {_data}
+                                              {findTagNameById(tagData, _data)}
                                             </div>
                                           );
                                         })}

@@ -4,9 +4,15 @@ import * as questionActions from '../../redux/questionSlice';
 const user = JSON.parse(sessionStorage.getItem('user'));
 
 export const getQuestionData = async (dispatch) => {
+  dispatch(questionActions.setLoading(true));
   try {
     const response = await axios.get('http://localhost:8000/api/questions');
     dispatch(questionActions.setQuestion(response.data));
+
+    const response4 = await axios.get(`http://localhost:8000/api/tag`);
+    dispatch(questionActions.setTags(response4.data));
+
+    dispatch(questionActions.setLoading(false));
 
     const response1 = await axios.get(`http://localhost:8000/api/users`);
     dispatch(questionActions.setUsers(response1.data));
@@ -17,8 +23,11 @@ export const getQuestionData = async (dispatch) => {
     const response3 = await axios.get(`http://localhost:8000/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));
 
-    const response4 = await axios.get(`http://localhost:8000/api/tag`);
-    dispatch(questionActions.setTags(response4.data));
+    const response8 = await axios.get(`http://localhost:8000/api/answers/monthly-ranking`);
+    dispatch(questionActions.setAnswerRank(response8.data));
+
+    const response9 = await axios.get(`http://localhost:8000/api/questions/monthly-ranking`);
+    dispatch(questionActions.setQuestionRank(response9.data));
 
     if (user) {
       const response5 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-spam`);

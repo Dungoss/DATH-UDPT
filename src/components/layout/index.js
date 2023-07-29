@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import { Header, SidebarItem, Loading } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
-import * as questionActions from '../../redux/questionSlice';
+// import * as questionActions from '../../redux/questionSlice';
 import { getQuestionData } from '../../utils/api/question-api';
 import { useStateContext } from '../../contexts/contextProvider';
 
@@ -14,15 +14,7 @@ function Layout({ propchild }) {
   const loading = useSelector((state) => state.question.loading);
 
   useEffect(() => {
-    dispatch(questionActions.setLoading(true));
-    getQuestionData(dispatch)
-      .then(() => {
-        dispatch(questionActions.setLoading(false));
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        dispatch(questionActions.setLoading(false));
-      });
+    getQuestionData(dispatch);
   }, [dispatch]);
 
   const { isActive, setIsActive } = useStateContext();
