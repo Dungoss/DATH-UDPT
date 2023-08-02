@@ -27,7 +27,7 @@ const QuestionManagement = () => {
     setIsModalOpen(true);
   };
   const handleOk = async () => {
-    const response = await axios.delete(`http://localhost:8000/api/questions/${questionsToDelete[0]}`);
+    const response = await axios.delete(`http://localhost:8001/api/questions/${questionsToDelete[0]}`);
     updatedData = temp.filter((item) => item.id !== questionsToDelete[0]);
     if (response.status == 200) {
       setQuestionsToDelete([]);
@@ -45,7 +45,7 @@ const QuestionManagement = () => {
     setIsModalApproveOpen(true);
   };
   const handleOkApprove = async () => {
-    const response = await axios.put(`http://localhost:8000/api/questions/${questionsToDelete[0]}/status`, {
+    const response = await axios.put(`http://localhost:8001/api/questions/${questionsToDelete[0]}/status`, {
       statusApproved: 1,
     });
     updatedData = temp.map((item) => {
@@ -63,6 +63,22 @@ const QuestionManagement = () => {
   };
   const handleCancelApprove = () => {
     setIsModalApproveOpen(false);
+  };
+
+  const [isModalAutoApproveOpen, setIsModalAutoApproveOpen] = useState(false);
+  const showModalAutoApprove = () => {
+    setIsModalAutoApproveOpen(true);
+  };
+  const handleOkAutoApprove = async () => {
+    const response = await axios.put(`http://localhost:8001/api/questions/auto-approve`);
+    if (response.status == 200) {
+      const response = await axios.get('http://localhost:8001/api/questions');
+      dispatch(questionActions.setQuestion(response.data));
+    }
+    setIsModalAutoApproveOpen(false);
+  };
+  const handleCancelAutoApprove = () => {
+    setIsModalAutoApproveOpen(false);
   };
 
   const findNameById = (data, targetId) => {
@@ -97,8 +113,6 @@ const QuestionManagement = () => {
     console.log(response);
   };
 
-  console.log(userDetail);
-
   let questionData = [];
   const columns = [
     {
@@ -119,6 +133,7 @@ const QuestionManagement = () => {
             </div>
             <SearchBox width={200} />
             <SearchBox width={200} />
+            <Button onClick={showModalAutoApprove}>Auto Approve</Button>
           </div>
         </div>
       ),
@@ -176,7 +191,6 @@ const QuestionManagement = () => {
                   <CheckCircleFilled
                     style={{ fontSize: '24px' }}
                     onClick={() => {
-                      console.log(_data);
                       showModalApprove(_data.id);
                     }}
                   />
@@ -193,6 +207,16 @@ const QuestionManagement = () => {
       </Modal>
       <Modal title="Basic Modal" open={isModalApproveOpen} onOk={handleOkApprove} onCancel={handleCancelApprove}>
         <p>Are you sure to approve this question?</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+      <Modal
+        title="Basic Modal"
+        open={isModalAutoApproveOpen}
+        onOk={handleOkAutoApprove}
+        onCancel={handleCancelAutoApprove}
+      >
+        <p>Are you sure to enable auto approve?</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
       </Modal>

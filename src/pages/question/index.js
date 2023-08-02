@@ -19,7 +19,6 @@ const Question = () => {
   const { detailQuestion, setDetailQuestion } = useStateContext();
   const data = useSelector((state) => state.question.questionData);
   const userData = useSelector((state) => state.question.usersData);
-  const categoryData = useSelector((state) => state.question.categoryData);
   const answerData = useSelector((state) => state.question.answerData);
   const tagData = useSelector((state) => state.question.tagData);
   const spamData = useSelector((state) => state.question.spamData);
@@ -48,9 +47,6 @@ const Question = () => {
   const onAnswerChange = (val) => {
     setAnswer({ ...answer, ['fullContent']: val, ['questionID']: detailQuestion.id });
   };
-
-  console.log(categoryData);
-
   const detailQuestionAnswer = answerData.filter((data) => data.questionID === detailQuestion?.id) || [];
 
   const findTagNameById = (data, targetId) => {
@@ -63,12 +59,12 @@ const Question = () => {
   };
 
   const onSearch = async (value) => {
-    const response = await axios.get(`http://localhost:8000/api/questions/search-keyword?keyword=${value}`);
+    const response = await axios.get(`http://localhost:8001/api/questions/search-keyword?keyword=${value}`);
     dispatch(questionActions.setQuestion(response.data));
   };
 
   const handleFilterByTag = async (value) => {
-    const response = await axios.get(`http://localhost:8000/api/questions/search-tag?tagID="${value}"`);
+    const response = await axios.get(`http://localhost:8001/api/questions/search-tag?tagID="${value}"`);
     dispatch(questionActions.setQuestion(response.data));
   };
 
@@ -129,13 +125,13 @@ const Question = () => {
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(answer);
     data.postingTime = unixTimestamp;
-    const response = await axios.post('http://localhost:8000/api/answers', data);
+    const response = await axios.post('http://localhost:8002/api/answers', data);
     console.log(response);
   };
 
   const onSpamChange = async () => {
     if (user && !spamData.includes(detailQuestion.id)) {
-      const response = await axios.post(`http://localhost:8000/api/questions/${detailQuestion.id}/spam`);
+      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/spam`);
       if (response.status == 200) {
         let temp = _.cloneDeep(spamData);
         temp.push(detailQuestion.id);
@@ -151,7 +147,7 @@ const Question = () => {
 
   const onNotSpamChange = async () => {
     if (user && spamData.includes(detailQuestion.id)) {
-      const response = await axios.post(`http://localhost:8000/api/questions/${detailQuestion.id}/not-spam`);
+      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/not-spam`);
       if (response.status == 200) {
         let temp = _.cloneDeep(spamData);
         temp = temp.filter((item) => item !== detailQuestion.id);

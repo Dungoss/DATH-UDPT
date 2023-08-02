@@ -102,7 +102,7 @@ const Home = () => {
     data.postingTime = unixTimestamp;
     let tempQ = _.cloneDeep(questionData);
     tempQ.unshift(data);
-    const response = await axios.post('http://localhost:8000/api/questions', data);
+    const response = await axios.post('http://localhost:8001/api/questions', data);
     console.log(response);
     if (response.status == 201) {
       const response = await axios.put(`http://localhost:8000/api/users/${user.id}/increase-question-count`);

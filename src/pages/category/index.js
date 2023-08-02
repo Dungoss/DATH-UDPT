@@ -16,7 +16,7 @@ const Category = () => {
   };
   const handleOk = async () => {
     let temp = { categoryName: newCategory };
-    const response = await axios.post('http://localhost:8000/api/category', temp);
+    const response = await axios.post('http://localhost:8002/api/category', temp);
     let temp1 = _.cloneDeep(categoryData);
     temp1.push(temp);
     if (response.status == 201) {

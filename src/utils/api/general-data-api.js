@@ -6,10 +6,10 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 export const getQuestionData = async (dispatch) => {
   dispatch(questionActions.setLoading(true));
   try {
-    const response = await axios.get('http://localhost:8000/api/questions');
+    const response = await axios.get('http://localhost:8001/api/questions');
     dispatch(questionActions.setQuestion(response.data));
 
-    const response4 = await axios.get(`http://localhost:8000/api/tag`);
+    const response4 = await axios.get(`http://localhost:8002/api/tag`);
     dispatch(questionActions.setTags(response4.data));
 
     dispatch(questionActions.setLoading(false));
@@ -17,16 +17,16 @@ export const getQuestionData = async (dispatch) => {
     const response1 = await axios.get(`http://localhost:8000/api/users`);
     dispatch(questionActions.setUsers(response1.data));
 
-    const response2 = await axios.get(`http://localhost:8000/api/category`);
+    const response2 = await axios.get(`http://localhost:8002/api/category`);
     dispatch(questionActions.setCategory(response2.data));
 
-    const response3 = await axios.get(`http://localhost:8000/api/answers`);
+    const response3 = await axios.get(`http://localhost:8002/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));
 
-    const response8 = await axios.get(`http://localhost:8000/api/answers/monthly-ranking`);
+    const response8 = await axios.get(`http://localhost:8002/api/answers/monthly-ranking`);
     dispatch(questionActions.setAnswerRank(response8.data));
 
-    const response9 = await axios.get(`http://localhost:8000/api/questions/monthly-ranking`);
+    const response9 = await axios.get(`http://localhost:8001/api/questions/monthly-ranking`);
     dispatch(questionActions.setQuestionRank(response9.data));
 
     if (user) {
