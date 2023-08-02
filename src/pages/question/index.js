@@ -23,6 +23,7 @@ const Question = () => {
   const tagData = useSelector((state) => state.question.tagData);
   const spamData = useSelector((state) => state.question.spamData);
   const voteData = useSelector((state) => state.question.voteData);
+  const commentData = useSelector((state) => state.question.commentData);
 
   const [openDetail, setOpenDetail] = useState(false);
 
@@ -30,9 +31,17 @@ const Question = () => {
     questionID: '',
     userID: user && user.id,
     summaryContent: '1',
-    fullContent: '1',
-    postingTime: '1',
-    totalVotes: '1',
+    fullContent: '',
+    postingTime: '',
+    totalVotes: '0',
+  });
+
+  const [comment, setComment] = useState({
+    answerID: '',
+    userID: user && user.id,
+    mentionedID: '1',
+    commentContent: '',
+    postingTime: '',
   });
 
   const findNameById = (data, targetId) => {
@@ -46,6 +55,9 @@ const Question = () => {
 
   const onAnswerChange = (val) => {
     setAnswer({ ...answer, ['fullContent']: val, ['questionID']: detailQuestion.id });
+  };
+  const onCommentChange = (val, answerID) => {
+    setComment({ ...comment, ['commentContent']: val, ['answerID']: answerID });
   };
   const detailQuestionAnswer = answerData.filter((data) => data.questionID === detailQuestion?.id) || [];
 
@@ -69,6 +81,81 @@ const Question = () => {
   };
 
   let questionData = [];
+  const handleToQuestionDetail = () => {
+    setOpenDetail(true);
+  };
+  const handleCloseQuestionDetail = () => {
+    setOpenDetail(false);
+  };
+
+  const handleAnswer = async () => {
+    const currentTime = new Date();
+    const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
+    let data = _.cloneDeep(answer);
+    data.postingTime = unixTimestamp;
+    const response = await axios.post('http://localhost:8002/api/answers', data);
+    console.log(response);
+    const response1 = await axios.put(`http://localhost:8000/api/users/${user.id}/increase-answer-count`);
+    console.log(response1);
+    const response3 = await axios.get(`http://localhost:8002/api/answers`);
+    dispatch(questionActions.setAnswers(response3.data));
+  };
+
+  const handleComment = async () => {
+    const currentTime = new Date();
+    const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
+    let data = _.cloneDeep(comment);
+    data.postingTime = unixTimestamp;
+    console.log(data);
+    const response = await axios.post('http://localhost:8002/api/comments', data);
+    console.log(response);
+    const response1 = await axios.get(`http://localhost:8002/api/comments`);
+    dispatch(questionActions.setComments(response1.data));
+  };
+
+  const onSpamChange = async () => {
+    if (user && !spamData.includes(detailQuestion.id)) {
+      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/spam`);
+      if (response.status == 200) {
+        let temp = _.cloneDeep(spamData);
+        temp.push(detailQuestion.id);
+        dispatch(questionActions.setSpams(temp));
+        const response1 = await axios.post(`http://localhost:8000/api/users/add-spam`, {
+          userID: user.id,
+          questionID: detailQuestion.id,
+        });
+        console.log(response1);
+      }
+    }
+  };
+
+  const onNotSpamChange = async () => {
+    if (user && spamData.includes(detailQuestion.id)) {
+      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/not-spam`);
+      if (response.status == 200) {
+        let temp = _.cloneDeep(spamData);
+        temp = temp.filter((item) => item !== detailQuestion.id);
+        dispatch(questionActions.setSpams(temp));
+        const response1 = await axios.post(`http://localhost:8000/api/users/delete-spam`, {
+          userID: user.id,
+          questionID: detailQuestion.id,
+        });
+        console.log(response1);
+      }
+    }
+  };
+
+  const onStarVote = async (value) => {
+    const response = await axios.post(`http://localhost:8000/api/users/add-star`, {
+      userID: user.id,
+      questionID: detailQuestion.id,
+      star: value,
+    });
+    console.log(response);
+    const response10 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-star`);
+    dispatch(questionActions.setVote(response10.data));
+  };
+
   const columns = [
     {
       title: (
@@ -113,63 +200,6 @@ const Question = () => {
     pageSize: 7,
   };
 
-  const handleToQuestionDetail = () => {
-    setOpenDetail(true);
-  };
-  const handleCloseQuestionDetail = () => {
-    setOpenDetail(false);
-  };
-
-  const handleAnswer = async () => {
-    const currentTime = new Date();
-    const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
-    let data = _.cloneDeep(answer);
-    data.postingTime = unixTimestamp;
-    const response = await axios.post('http://localhost:8002/api/answers', data);
-    console.log(response);
-  };
-
-  const onSpamChange = async () => {
-    if (user && !spamData.includes(detailQuestion.id)) {
-      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/spam`);
-      if (response.status == 200) {
-        let temp = _.cloneDeep(spamData);
-        temp.push(detailQuestion.id);
-        dispatch(questionActions.setSpams(temp));
-        const response1 = await axios.post(`http://localhost:8000/api/users/add-spam`, {
-          userID: user.id,
-          questionID: detailQuestion.id,
-        });
-        console.log(response1);
-      }
-    }
-  };
-
-  const onNotSpamChange = async () => {
-    if (user && spamData.includes(detailQuestion.id)) {
-      const response = await axios.post(`http://localhost:8001/api/questions/${detailQuestion.id}/not-spam`);
-      if (response.status == 200) {
-        let temp = _.cloneDeep(spamData);
-        temp = temp.filter((item) => item !== detailQuestion.id);
-        dispatch(questionActions.setSpams(temp));
-        const response1 = await axios.post(`http://localhost:8000/api/users/delete-spam`, {
-          userID: user.id,
-          questionID: detailQuestion.id,
-        });
-        console.log(response1);
-      }
-    }
-  };
-
-  const onStarVote = async (value) => {
-    const response = await axios.post(`http://localhost:8000/api/users/add-star`, {
-      userID: user.id,
-      questionID: detailQuestion.id,
-      star: value,
-    });
-    console.log(response);
-  };
-
   return (
     <div>
       {openDetail == true && (
@@ -193,14 +223,22 @@ const Question = () => {
                 </Button>
               </div>
               <div className="detail-answer">
-                {detailQuestionAnswer.map((data, idx) => {
-                  return (
-                    <div key={idx} className="answer">
-                      <span>{findNameById(userData, data.userID)}</span>
-                      {data.fullContent}
-                    </div>
-                  );
-                })}
+                {detailQuestionAnswer.map((data, idx) => (
+                  <div key={idx} className="answer">
+                    <span>{findNameById(userData, data.userID)}</span>
+                    {data.fullContent}
+                    {commentData.map(
+                      (_data, commentIdx) =>
+                        _data.answerID === data.answerID && (
+                          <div key={commentIdx} className="comment">
+                            <span>{_data.commentContent}</span>
+                          </div>
+                        ),
+                    )}
+                    <Input onChange={(e) => onCommentChange(e.target.value, parseInt(data.answerID))} />
+                    <Button onClick={handleComment}>Send Comment</Button>
+                  </div>
+                ))}
                 <Input onChange={(e) => onAnswerChange(e.target.value)} />
                 <Button onClick={handleAnswer}>Send Answer</Button>
               </div>

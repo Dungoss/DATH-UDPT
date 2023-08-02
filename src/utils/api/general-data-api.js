@@ -23,6 +23,9 @@ export const getQuestionData = async (dispatch) => {
     const response3 = await axios.get(`http://localhost:8002/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));
 
+    const response12 = await axios.get(`http://localhost:8002/api/comments`);
+    dispatch(questionActions.setComments(response12.data));
+
     const response8 = await axios.get(`http://localhost:8002/api/answers/monthly-ranking`);
     dispatch(questionActions.setAnswerRank(response8.data));
 

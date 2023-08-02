@@ -5,6 +5,7 @@ const initialState = {
   categoryData: [],
   usersData: [],
   answerData: [],
+  commentData: [],
   tagData: [],
   spamData: [],
   voteData: [],
@@ -31,6 +32,9 @@ export const questionSlice = createSlice({
     },
     setAnswers: (state, action) => {
       state.answerData = action.payload;
+    },
+    setComments: (state, action) => {
+      state.commentData = action.payload;
     },
     setTags: (state, action) => {
       state.tagData = action.payload;
@@ -70,6 +74,7 @@ export const {
   setUsers,
   setQuestionUser,
   setAnswers,
+  setComments,
   setTags,
   setSpams,
   setVote,

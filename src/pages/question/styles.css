@@ -138,6 +138,7 @@
   width: 500px;
   height: 200px;
   background-color: rebeccapurple;
+  margin-top: 12px;
 }
 
 .spam {
@@ -146,4 +147,11 @@
 
 .notspam {
   background-color: aquamarine;
+}
+
+.comment {
+  width: 400px;
+  height: 50px;
+  background-color: antiquewhite;
+  margin-top: 12px;
 }
