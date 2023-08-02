@@ -33,11 +33,17 @@ export const getQuestionData = async (dispatch) => {
       const response5 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-spam`);
       dispatch(questionActions.setSpams(response5.data));
 
+      const response10 = await axios.get(`http://localhost:8000/api/users/${user.id}/question-star`);
+      dispatch(questionActions.setVote(response10.data));
+
       const response6 = await axios.get(`http://localhost:8000/api/users/${user.id}/questions`);
       dispatch(questionActions.setQuestionUser(response6.data));
 
       const response7 = await axios.get(`http://localhost:8000/api/users/${user.id}`);
       dispatch(questionActions.setUserDetail(response7.data));
+
+      const response11 = await axios.get(`http://localhost:8000/api/users/admin-email`);
+      dispatch(questionActions.setAdminAccept(response11.data));
     }
   } catch (error) {
     console.error('Error fetching data:', error);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Modal } from 'antd';
+import { Table, Modal, Button } from 'antd';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
@@ -15,8 +15,8 @@ const QuestionManagement = () => {
   const data = useSelector((state) => state.question.questionData);
   const [questionsToDelete, setQuestionsToDelete] = useState([]);
   const userData = useSelector((state) => state.question.usersData);
-  const categoryData = useSelector((state) => state.question.categoryData);
   const tagData = useSelector((state) => state.question.tagData);
+  const userDetail = useSelector((state) => state.question.userDetail);
 
   let temp = _.cloneDeep(data);
   let updatedData = [];
@@ -83,9 +83,21 @@ const QuestionManagement = () => {
     return null;
   };
 
-  console.log(questionsToDelete);
+  const emailNotiSubscribe = async () => {
+    const response = await axios.put(`http://localhost:8000/api/users/${userDetail.id}/accept-noti`, {
+      accept_noti: 1,
+    });
+    console.log(response);
+  };
 
-  console.log(categoryData);
+  const emailNotiUnsubscribe = async () => {
+    const response = await axios.put(`http://localhost:8000/api/users/${userDetail.id}/accept-noti`, {
+      accept_noti: 0,
+    });
+    console.log(response);
+  };
+
+  console.log(userDetail);
 
   let questionData = [];
   const columns = [
@@ -97,6 +109,8 @@ const QuestionManagement = () => {
             <div className="question-filter-popular">
               <img src={IconPop} /> Popular
             </div>
+            <Button onClick={emailNotiSubscribe}>Subscribe for Email Noti</Button>
+            <Button onClick={emailNotiUnsubscribe}>Unsubscribe for Email Noti</Button>
             <div className="question-filter-hotnew">
               <img src={IconNew} /> New
             </div>

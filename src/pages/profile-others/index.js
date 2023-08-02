@@ -65,8 +65,6 @@ const ProfileOther = () => {
     pageSize: 7,
   };
 
-  console.log(questData);
-
   return (
     <div className="profile-container">
       <div className="wall-paper">

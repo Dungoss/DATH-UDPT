@@ -41,7 +41,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const { http } = AuthUser();
   const onFinish = (values) => {
-    // console.log('Received values of form: ', values);
     http.post('/register', { email: values.email, password: values.password, name: values.username }).then((res) => {
       console.log(res);
       navigate('/login');

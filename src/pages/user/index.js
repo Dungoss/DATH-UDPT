@@ -11,12 +11,10 @@ const User = () => {
   const [showProfile, setShowProfile] = useState(false);
 
   const setShow = (data) => {
-    console.log(data); // Log the data parameter to the console
-    localStorage.setItem('profile', JSON.stringify(data)); // Save the data as a JSON string in localStorage with the key 'profile'
-    setShowProfile(true); // Set the state of showProfile to true
+    localStorage.setItem('profile', JSON.stringify(data));
+    setShowProfile(true);
   };
 
-  console.log(userData);
   return (
     <>
       {!showProfile ? (

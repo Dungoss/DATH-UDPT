@@ -6,7 +6,7 @@ import './styles.css';
 import { Header, SidebarItem, Loading } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 // import * as questionActions from '../../redux/questionSlice';
-import { getQuestionData } from '../../utils/api/question-api';
+import { getQuestionData } from '../../utils/api/general-data-api';
 import { useStateContext } from '../../contexts/contextProvider';
 
 function Layout({ propchild }) {

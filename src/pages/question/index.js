@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { Table, Input, Button } from 'antd';
+import { Table, Input, Button, Select, Rate } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import axios from 'axios';
 
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
-import { SearchBox } from '../../components';
 import { useStateContext } from '../../contexts/contextProvider';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 
+const { Search } = Input;
 const Question = () => {
   const { user } = AuthUser();
   const dispatch = useDispatch();
+  let tagOptions = [];
 
   const { detailQuestion, setDetailQuestion } = useStateContext();
   const data = useSelector((state) => state.question.questionData);
@@ -22,6 +23,7 @@ const Question = () => {
   const answerData = useSelector((state) => state.question.answerData);
   const tagData = useSelector((state) => state.question.tagData);
   const spamData = useSelector((state) => state.question.spamData);
+  const voteData = useSelector((state) => state.question.voteData);
 
   const [openDetail, setOpenDetail] = useState(false);
 
@@ -33,8 +35,6 @@ const Question = () => {
     postingTime: '1',
     totalVotes: '1',
   });
-
-  console.log(detailQuestion);
 
   const findNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
@@ -52,7 +52,6 @@ const Question = () => {
   console.log(categoryData);
 
   const detailQuestionAnswer = answerData.filter((data) => data.questionID === detailQuestion?.id) || [];
-  console.log(detailQuestionAnswer);
 
   const findTagNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
@@ -61,6 +60,16 @@ const Question = () => {
       }
     }
     return null;
+  };
+
+  const onSearch = async (value) => {
+    const response = await axios.get(`http://localhost:8000/api/questions/search-keyword?keyword=${value}`);
+    dispatch(questionActions.setQuestion(response.data));
+  };
+
+  const handleFilterByTag = async (value) => {
+    const response = await axios.get(`http://localhost:8000/api/questions/search-tag?tagID="${value}"`);
+    dispatch(questionActions.setQuestion(response.data));
   };
 
   let questionData = [];
@@ -79,8 +88,24 @@ const Question = () => {
             <div className="question-filter-hotnew">
               <img src={IconHot} /> Hot
             </div>
-            <SearchBox width={200} />
-            <SearchBox width={200} />
+            {tagData.map((_data) => {
+              tagOptions.push({ value: _data.tagID, label: _data.tagName });
+            })}
+            <Select
+              style={{
+                width: 120,
+              }}
+              placeholder="Filter By Tags"
+              onChange={handleFilterByTag}
+              options={tagOptions}
+            />
+            <Search
+              placeholder="input search text"
+              onSearch={onSearch}
+              style={{
+                width: 200,
+              }}
+            />
           </div>
         </div>
       ),
@@ -94,6 +119,9 @@ const Question = () => {
 
   const handleToQuestionDetail = () => {
     setOpenDetail(true);
+  };
+  const handleCloseQuestionDetail = () => {
+    setOpenDetail(false);
   };
 
   const handleAnswer = async () => {
@@ -137,6 +165,15 @@ const Question = () => {
     }
   };
 
+  const onStarVote = async (value) => {
+    const response = await axios.post(`http://localhost:8000/api/users/add-star`, {
+      userID: user.id,
+      questionID: detailQuestion.id,
+      star: value,
+    });
+    console.log(response);
+  };
+
   return (
     <div>
       {openDetail == true && (
@@ -144,9 +181,11 @@ const Question = () => {
           <div className="question-detail">
             <div className="detail-ques">
               <div className="detail-content">
+                <b onClick={handleCloseQuestionDetail}>Back</b>
                 <div>{findNameById(userData, detailQuestion.userID)} asked a question</div>
                 <span>{detailQuestion.questionTitle}</span>
                 <div>{detailQuestion.questionContent}</div>
+                <Rate defaultValue={voteData && voteData[detailQuestion.id]} onChange={onStarVote} />
                 <Button className={user && spamData.includes(detailQuestion.id) ? 'spam' : ''} onClick={onSpamChange}>
                   SPAM
                 </Button>

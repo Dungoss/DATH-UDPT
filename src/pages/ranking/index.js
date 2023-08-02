@@ -7,7 +7,6 @@ import { UserRank } from '../../components';
 const Ranking = () => {
   const answerRanking = useSelector((state) => state.question.monthlyAnswerRanking);
   const questionRanking = useSelector((state) => state.question.monthlyQuestionRanking);
-  console.log(questionRanking, answerRanking);
   return (
     <div>
       <Tabs

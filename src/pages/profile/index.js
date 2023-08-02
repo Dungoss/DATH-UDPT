@@ -36,8 +36,6 @@ const Profile = () => {
     return null;
   };
 
-  console.log(user);
-
   const handleUploadAvatar = async (imgUrl) => {
     const response = await axios.post(`http://localhost:8000/api/users/${user.id}/update-avatar`, {
       avatar: imgUrl,
@@ -90,8 +88,6 @@ const Profile = () => {
   const paginationConfig = {
     pageSize: 7,
   };
-
-  console.log(questData);
 
   return (
     <div className="profile-container">

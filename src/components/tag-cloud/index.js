@@ -10,7 +10,6 @@ const TextShpere = () => {
   // Animation settings for Text Cloud
   const tagData = useSelector((state) => state.question.tagData);
   let tag = [];
-  console.log(tag);
   useEffect(() => {
     return () => {
       const container = '.tagcloud';
@@ -39,7 +38,6 @@ const TextShpere = () => {
   function handleTagClick(event) {
     const selectedTag = event.target.innerText;
     console.log('Clicked tag:', selectedTag);
-    // Do something with the selected tag value
   }
   return (
     <>

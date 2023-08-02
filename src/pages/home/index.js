@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Uploader } from 'uploader';
 import { UploadButton } from 'react-uploader';
 import { Button, Modal, Input, Select } from 'antd';
+import emailjs from '@emailjs/browser';
 const { TextArea } = Input;
 
 import AuthUser from '../../components/auth/AuthUser';
@@ -42,8 +42,33 @@ const Home = () => {
   const categoryData = useSelector((state) => state.question.categoryData);
   const questionData = useSelector((state) => state.question.questionData);
   const tagData = useSelector((state) => state.question.tagData);
+  const emailData = useSelector((state) => state.question.adminAcceptEmail);
+
   let categoryOptions = [];
   let tagOptions = [];
+
+  const sendEmail = (email) => {
+    const dataToSend = {
+      user_name: 'Duy Dung',
+      user_email: email,
+      message: 'There are new questions waiting for you to accept!',
+    };
+
+    emailjs.send('service_t0to73p', 'template_vlsexei', dataToSend, 'SUJ_rRp7ISNul0atA').then(
+      (result) => {
+        console.log(result.text);
+      },
+      (error) => {
+        console.log(error.text);
+      },
+    );
+  };
+
+  const sendAllEmails = () => {
+    emailData.forEach((data) => {
+      sendEmail(data);
+    });
+  };
 
   const showModalWarning = () => {
     setIsModalWarningOpen(true);
@@ -84,6 +109,7 @@ const Home = () => {
       console.log(response.status);
       dispatch(questionActions.setQuestion(tempQ));
     }
+    sendAllEmails();
     setIsModalOpen(false);
   };
   const handleCancel = () => {
