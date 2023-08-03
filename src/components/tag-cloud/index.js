@@ -1,20 +1,30 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
+import { useStateContext } from '../../contexts/contextProvider';
 import './styles.css';
 
-// Importing TagCloud package
 import TagCloud from 'TagCloud';
+import { toLower } from 'lodash';
 
 const TextShpere = () => {
-  // Animation settings for Text Cloud
+  const dispatch = useDispatch();
   const tagData = useSelector((state) => state.question.tagData);
+  const { setIsActive, setData } = useStateContext();
   let tag = [];
+
+  const handleFilterByTag = async (value) => {
+    const response = await axios.get(`http://localhost:8001/api/questions/search-tag?tagID="${value}"`);
+    setData(response.data);
+  };
+
   useEffect(() => {
     return () => {
       const container = '.tagcloud';
-      tagData.map((data, idx) => {
-        if (idx < 25) tag.push(data.tagName);
+      tagData.map((data) => {
+        tag.push(data.tagName);
       });
 
       const options = {
@@ -37,7 +47,15 @@ const TextShpere = () => {
   }, []);
   function handleTagClick(event) {
     const selectedTag = event.target.innerText;
-    console.log('Clicked tag:', selectedTag);
+    let a;
+    tagData.map((data) => {
+      if (data.tagName == toLower(selectedTag)) {
+        a = data.tagID;
+      }
+    });
+    handleFilterByTag(a);
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
   }
   return (
     <>

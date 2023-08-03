@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Rate } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import axios from 'axios';
 
 import './styles.css';
-import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
+import { IconLogo, IconPop, IconHot } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
@@ -16,14 +16,18 @@ const Question = () => {
   const dispatch = useDispatch();
   let tagOptions = [];
 
-  const { detailQuestion, setDetailQuestion } = useStateContext();
-  const data = useSelector((state) => state.question.questionData);
+  const { detailQuestion, setDetailQuestion, data, setData } = useStateContext();
   const userData = useSelector((state) => state.question.usersData);
   const answerData = useSelector((state) => state.question.answerData);
   const tagData = useSelector((state) => state.question.tagData);
   const spamData = useSelector((state) => state.question.spamData);
   const voteData = useSelector((state) => state.question.voteData);
   const commentData = useSelector((state) => state.question.commentData);
+  const questData = useSelector((state) => state.question.questionData);
+
+  useEffect(() => {
+    setData(questData);
+  }, []);
 
   const [openDetail, setOpenDetail] = useState(false);
 
@@ -53,6 +57,15 @@ const Question = () => {
     return null;
   };
 
+  const findAvatarById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].avatar;
+      }
+    }
+    return null;
+  };
+
   const onAnswerChange = (val) => {
     setAnswer({ ...answer, ['fullContent']: val, ['questionID']: detailQuestion.id });
   };
@@ -72,12 +85,12 @@ const Question = () => {
 
   const onSearch = async (value) => {
     const response = await axios.get(`http://localhost:8001/api/questions/search-keyword?keyword=${value}`);
-    dispatch(questionActions.setQuestion(response.data));
+    setData(response.data);
   };
 
   const handleFilterByTag = async (value) => {
     const response = await axios.get(`http://localhost:8001/api/questions/search-tag?tagID="${value}"`);
-    dispatch(questionActions.setQuestion(response.data));
+    setData(response.data);
   };
 
   let questionData = [];
@@ -166,9 +179,6 @@ const Question = () => {
               <img src={IconPop} /> Popular
             </div>
             <div className="question-filter-hotnew">
-              <img src={IconNew} /> New
-            </div>
-            <div className="question-filter-hotnew">
               <img src={IconHot} /> Hot
             </div>
             {tagData.map((_data) => {
@@ -250,69 +260,70 @@ const Question = () => {
       {openDetail == false && (
         <div className="question-container">
           <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
-          {data.map((_data, _idx) => {
-            _data.statusApproved == 1 &&
-              questionData.push({
-                key: _idx + 1,
-                questions: (
-                  <div className="question">
-                    <div className="question-info">
-                      <div className="question-info-user">
-                        <img src={IconLogo} />
-                        <b>{findNameById(userData, _data.userID)}</b>
-                      </div>
-                      <h5>0 votes</h5>
-                      <h5>0 answers</h5>
-                    </div>
-                    <div className="question-content">
-                      <div
-                        className="question-content-title"
-                        onClick={() => {
-                          setDetailQuestion(_data);
-                          handleToQuestionDetail();
-                        }}
-                      >
-                        <h2>{_data.questionTitle}</h2>
-                      </div>
-                      <div className="question-content-content">
-                        <span>{_data.questionContent}</span>
-                      </div>
-                      <div className="question-footer">
-                        <div className="question-tag">
-                          {JSON.parse(_data.tagID).map((_data, _idx) => {
-                            return (
-                              <div key={_idx} className="question-tag-item">
-                                {findTagNameById(tagData, _data)}
-                              </div>
-                            );
-                          })}
+          {data &&
+            data.map((_data, _idx) => {
+              _data.statusApproved == 1 &&
+                questionData.push({
+                  key: _idx + 1,
+                  questions: (
+                    <div className="question">
+                      <div className="question-info">
+                        <div className="question-info-user">
+                          <img src={findAvatarById(userData, _data.userID)} />
+                          <b>{findNameById(userData, _data.userID)}</b>
                         </div>
-                        <div className="question-time">
-                          <img src={IconLogo} />
-                          <span>{findNameById(userData, _data.userID)}</span>
-                          <b>1</b>
-                          <span>
-                            {_data.postingTime &&
-                              (() => {
-                                const unixTimestamp = _data.postingTime;
-                                const date = new Date(unixTimestamp * 1000);
-                                const year = date.getFullYear();
-                                const month = date.getMonth() + 1;
-                                const day = date.getDate();
-                                const hours = date.getHours();
-                                const minutes = date.getMinutes();
-                                const seconds = date.getSeconds();
-                                const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                                return humanReadableTime;
-                              })()}
-                          </span>
+                        <h5>{_data.totalVotes} votes</h5>
+                        <h5>{_data.totalAnswer} answers</h5>
+                      </div>
+                      <div className="question-content">
+                        <div
+                          className="question-content-title"
+                          onClick={() => {
+                            setDetailQuestion(_data);
+                            handleToQuestionDetail();
+                          }}
+                        >
+                          <h2>{_data.questionTitle}</h2>
+                        </div>
+                        <div className="question-content-content">
+                          <span>{_data.questionContent}</span>
+                        </div>
+                        <div className="question-footer">
+                          <div className="question-tag">
+                            {JSON.parse(_data.tagID).map((_data, _idx) => {
+                              return (
+                                <div key={_idx} className="question-tag-item">
+                                  {findTagNameById(tagData, _data)}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="question-time">
+                            <img src={IconLogo} />
+                            <span>{findNameById(userData, _data.userID)}</span>
+                            <b>1</b>
+                            <span>
+                              {_data.postingTime &&
+                                (() => {
+                                  const unixTimestamp = _data.postingTime;
+                                  const date = new Date(unixTimestamp * 1000);
+                                  const year = date.getFullYear();
+                                  const month = date.getMonth() + 1;
+                                  const day = date.getDate();
+                                  const hours = date.getHours();
+                                  const minutes = date.getMinutes();
+                                  const seconds = date.getSeconds();
+                                  const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                  return humanReadableTime;
+                                })()}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ),
-              });
-          })}
+                  ),
+                });
+            })}
         </div>
       )}
     </div>

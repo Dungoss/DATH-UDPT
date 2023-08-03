@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './styles.css';
-import { IconLogo, IconNoti } from '../../utils/constants/img';
+import { IconLogo } from '../../utils/constants/img';
 import { SearchBox } from '../search-box';
 import { UserMenu } from '../user-menu';
 import AuthUser from '../../components/auth/AuthUser';
@@ -38,7 +38,6 @@ const Header = () => {
       )}
       {token && (
         <div className="header-avatar">
-          <img src={IconNoti} />
           <UserMenu />
         </div>
       )}

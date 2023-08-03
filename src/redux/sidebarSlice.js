@@ -57,7 +57,7 @@ const dataSidebar = [
     name: 'Profile',
     icon: IconCrypto,
     key: 'profile',
-    role: 'general',
+    role: 'user',
   },
 ];
 

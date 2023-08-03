@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 import './styles.css';
 import AuthUser from '../../components/auth/AuthUser';
@@ -6,6 +7,8 @@ import AuthUser from '../../components/auth/AuthUser';
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+
+  const userData = useSelector((state) => state.question.userDetail);
 
   function handleOutsideClick(e) {
     if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -32,7 +35,10 @@ const UserMenu = () => {
   return (
     <div ref={menuRef} className="user-menu">
       <div className="header-user-small" onClick={() => setIsOpen(!isOpen)}>
-        {user.name.charAt(0).toUpperCase()}
+        <img
+          style={{ width: '40px', height: '40px', borderRadius: '100%', marginLeft: '12px' }}
+          src={userData.avatar}
+        />
       </div>
       {isOpen && (
         <div className="user-menu-content">

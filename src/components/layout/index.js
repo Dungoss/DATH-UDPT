@@ -45,8 +45,15 @@ function Layout({ propchild }) {
                     onClick={() => handleActiveSidebar(_data.id, _data.key)}
                     isActive={isActive}
                   />
+                ) : _data.role === 'general' ? (
+                  <SidebarItem
+                    data={_data}
+                    key={_idx}
+                    onClick={() => handleActiveSidebar(_data.id, _data.key)}
+                    isActive={isActive}
+                  />
                 ) : (
-                  _data.role === 'general' && (
+                  _data.role === 'user' && (
                     <SidebarItem
                       data={_data}
                       key={_idx}
