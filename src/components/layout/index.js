@@ -36,7 +36,6 @@ function Layout({ propchild }) {
           <Header />
           <div className="below-header">
             <div className="sidebar-menu">
-              <span>Feed</span>
               {dataSidebar.map((_data, _idx) =>
                 user && user.role === 'admin' ? (
                   <SidebarItem

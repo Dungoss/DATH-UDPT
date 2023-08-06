@@ -9,7 +9,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #1e1e1e;
+  background: rgba(27, 31, 34, 0.85);
+  border-radius: 16px;
 }
 
 .tagcloud {
@@ -19,12 +20,12 @@
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   letter-spacing: 0.0625em;
-  font-size: 1.3em;
+  font-size: 1.15em;
 }
 
 /* Change color of each text in sphere on hover   */
 .tagcloud--item {
-  color: #00ffffff;
+  color: #fff;
   text-transform: uppercase;
 }
 

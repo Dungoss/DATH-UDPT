@@ -12,13 +12,13 @@ export const getQuestionData = async (dispatch) => {
     const response4 = await axios.get(`http://localhost:8002/api/tag`);
     dispatch(questionActions.setTags(response4.data));
 
+    const response2 = await axios.get(`http://localhost:8002/api/category`);
+    dispatch(questionActions.setCategory(response2.data));
+
     dispatch(questionActions.setLoading(false));
 
     const response1 = await axios.get(`http://localhost:8000/api/users`);
     dispatch(questionActions.setUsers(response1.data));
-
-    const response2 = await axios.get(`http://localhost:8002/api/category`);
-    dispatch(questionActions.setCategory(response2.data));
 
     const response3 = await axios.get(`http://localhost:8002/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));

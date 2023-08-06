@@ -16,9 +16,7 @@ body {
   background-color: #ffffff;
   padding: 24px 0 0 16px;
   position: sticky;
-}
-
-.sidebar-menu span {
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .content-container {

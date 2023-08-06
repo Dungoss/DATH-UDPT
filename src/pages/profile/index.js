@@ -23,6 +23,7 @@ const Profile = () => {
   const { user } = AuthUser();
 
   const userData = useSelector((state) => state.question.userDetail);
+  const categoryData = useSelector((state) => state.question.categoryData);
   const questData = useSelector((state) => state.question.questionUserData);
   const tagData = useSelector((state) => state.question.tagData);
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
@@ -58,6 +59,15 @@ const Profile = () => {
       temp.wallpaper = imgUrl;
       dispatch(questionActions.setUserDetail(temp));
     }
+  };
+
+  const findCategoryById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].categoryID === targetId) {
+        return data[i].categoryName;
+      }
+    }
+    return null;
   };
 
   let questionData = [];
@@ -164,7 +174,7 @@ const Profile = () => {
                                 <div className="question">
                                   <div className="question-info">
                                     <div className="question-info-user">
-                                      <img src={IconLogo} />
+                                      <img src={userData.avatar} />
                                       <b>{_data.userName}</b>
                                     </div>
                                     <h5>0 votes</h5>
@@ -173,6 +183,9 @@ const Profile = () => {
                                   <div className="question-content">
                                     <div className="question-content-title">
                                       <h2>{_data.questionTitle}</h2>
+                                      <div className="question-category">
+                                        {findCategoryById(categoryData, _data.categoryID)}
+                                      </div>
                                     </div>
                                     <div className="question-content-content">
                                       <span>{_data.questionContent}</span>
@@ -189,9 +202,23 @@ const Profile = () => {
                                       </div>
                                       <div className="question-time">
                                         <img src={IconLogo} />
-                                        <span>Nguyen Ngu</span>
+                                        <span>{userData.name}</span>
                                         <b>1</b>
-                                        <span>asked 44 sec ago </span>
+                                        <span>
+                                          {_data.postingTime &&
+                                            (() => {
+                                              const unixTimestamp = _data.postingTime;
+                                              const date = new Date(unixTimestamp * 1000);
+                                              const year = date.getFullYear();
+                                              const month = date.getMonth() + 1;
+                                              const day = date.getDate();
+                                              const hours = date.getHours();
+                                              const minutes = date.getMinutes();
+                                              const seconds = date.getSeconds();
+                                              const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                              return humanReadableTime;
+                                            })()}
+                                        </span>
                                       </div>
                                     </div>
                                   </div>

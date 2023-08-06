@@ -6,6 +6,7 @@ import { Uploader } from 'uploader';
 import { UploadButton } from 'react-uploader';
 import { Button, Modal, Input, Select } from 'antd';
 import emailjs from '@emailjs/browser';
+import { Table } from 'antd';
 const { TextArea } = Input;
 
 import AuthUser from '../../components/auth/AuthUser';
@@ -41,6 +42,7 @@ const Home = () => {
   const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
   const categoryData = useSelector((state) => state.question.categoryData);
   const questionData = useSelector((state) => state.question.questionData);
+  const userData = useSelector((state) => state.question.usersData);
   const tagData = useSelector((state) => state.question.tagData);
   const emailData = useSelector((state) => state.question.adminAcceptEmail);
 
@@ -62,6 +64,42 @@ const Home = () => {
         console.log(error.text);
       },
     );
+  };
+
+  const findTagNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].tagID === targetId) {
+        return data[i].tagName;
+      }
+    }
+    return null;
+  };
+
+  const findNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].name;
+      }
+    }
+    return null;
+  };
+
+  const findCategoryById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].categoryID === targetId) {
+        return data[i].categoryName;
+      }
+    }
+    return null;
+  };
+
+  const findAvatarById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].avatar;
+      }
+    }
+    return null;
   };
 
   const sendAllEmails = () => {
@@ -123,12 +161,51 @@ const Home = () => {
     setQuestion({ ...question, ['tagID']: JSON.stringify(val) });
   };
 
+  let questionDataa = [];
+  const columns = [
+    {
+      title: (
+        <div>
+          <h1>Trending Questions</h1>
+        </div>
+      ),
+      dataIndex: 'questions',
+      key: 'questions',
+    },
+  ];
+  const paginationConfig = {
+    pageSize: 7,
+  };
+  const buttonStyle = {
+    backgroundColor: '#3498db',
+    height: '50px',
+    width: '50%',
+    marginLeft: '400px',
+    marginTop: '24px',
+    marginBottom: '24px',
+    color: 'white',
+    border: 'none',
+    fontSize: '16px',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
   return (
     <div className="home">
-      <div className="word-cloud">
+      <div className="trending">
         <TextShpere />
+        <div className="trending-category">
+          {categoryData &&
+            categoryData.map((data, idx) => {
+              return (
+                <div key={idx} className="category-trend">
+                  {data.categoryName}
+                </div>
+              );
+            })}
+        </div>
       </div>
-      <Button type="primary" onClick={showModal}>
+      <Button style={buttonStyle} type="primary" onClick={showModal}>
         Ask Questions
       </Button>
       <Modal title="Enter your question" open={isModalOpen} onOk={handleAddQuestion} onCancel={handleCancel}>
@@ -166,19 +243,65 @@ const Home = () => {
           {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
         </UploadButton>
       </Modal>
-      <span>Popular Topic</span>
       <div className="popular-topic">
-        <div className="topic"></div>
-        <div className="topic"></div>
-        <div className="topic"></div>
-        <div className="topic"></div>
-      </div>
-      <span>Topic</span>
-      <div className="popular-topic">
-        <div className="topic"></div>
-        <div className="topic"></div>
-        <div className="topic"></div>
-        <div className="topic"></div>
+        <div className="profile-question">
+          <Table dataSource={questionDataa} columns={columns} pagination={paginationConfig} />
+          {questionData &&
+            questionData.map((_data, _idx) => {
+              questionDataa.push({
+                key: _idx + 1,
+                questions: (
+                  <div className="question">
+                    <div className="question-info">
+                      <h5>{_data.totalVotes} votes</h5>
+                      <h5>{_data.totalAnswer} answers</h5>
+                    </div>
+                    <div className="question-content">
+                      <div className="question-content-title">
+                        <h2>{_data.questionTitle}</h2>
+                        <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
+                      </div>
+
+                      <div className="question-content-content">
+                        <span>{_data.questionContent}</span>
+                      </div>
+                      <div className="question-footer">
+                        <div className="question-tag">
+                          {JSON.parse(_data.tagID).map((_data, _idx) => {
+                            return (
+                              <div key={_idx} className="question-tag-item">
+                                {findTagNameById(tagData, _data)}
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="question-time">
+                          <img src={findAvatarById(userData, _data.userID)} />
+                          <span>{findNameById(userData, _data.userID)}</span>
+                          <b>1</b>
+                          <span>
+                            {_data.postingTime &&
+                              (() => {
+                                const unixTimestamp = _data.postingTime;
+                                const date = new Date(unixTimestamp * 1000);
+                                const year = date.getFullYear();
+                                const month = date.getMonth() + 1;
+                                const day = date.getDate();
+                                const hours = date.getHours();
+                                const minutes = date.getMinutes();
+                                const seconds = date.getSeconds();
+                                const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                return humanReadableTime;
+                              })()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ),
+              });
+            })}
+        </div>
       </div>
       <Modal title="Basic Modal" open={isModalWarningOpen} onOk={handleOkWarning} onCancel={handleCancelWarning}>
         <p>Login first you bitch...</p>

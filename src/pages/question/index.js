@@ -5,7 +5,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import './styles.css';
-import { IconLogo, IconPop, IconHot } from '../../utils/constants/img';
+import { IconPop, IconHot } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
@@ -18,6 +18,7 @@ const Question = () => {
 
   const { detailQuestion, setDetailQuestion, data, setData } = useStateContext();
   const userData = useSelector((state) => state.question.usersData);
+  const categoryData = useSelector((state) => state.question.categoryData);
   const answerData = useSelector((state) => state.question.answerData);
   const tagData = useSelector((state) => state.question.tagData);
   const spamData = useSelector((state) => state.question.spamData);
@@ -61,6 +62,15 @@ const Question = () => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id === targetId) {
         return data[i].avatar;
+      }
+    }
+    return null;
+  };
+
+  const findCategoryById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].categoryID === targetId) {
+        return data[i].categoryName;
       }
     }
     return null;
@@ -268,10 +278,6 @@ const Question = () => {
                   questions: (
                     <div className="question">
                       <div className="question-info">
-                        <div className="question-info-user">
-                          <img src={findAvatarById(userData, _data.userID)} />
-                          <b>{findNameById(userData, _data.userID)}</b>
-                        </div>
                         <h5>{_data.totalVotes} votes</h5>
                         <h5>{_data.totalAnswer} answers</h5>
                       </div>
@@ -284,6 +290,7 @@ const Question = () => {
                           }}
                         >
                           <h2>{_data.questionTitle}</h2>
+                          <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
                         </div>
                         <div className="question-content-content">
                           <span>{_data.questionContent}</span>
@@ -299,7 +306,7 @@ const Question = () => {
                             })}
                           </div>
                           <div className="question-time">
-                            <img src={IconLogo} />
+                            <img src={findAvatarById(userData, _data.userID)} />
                             <span>{findNameById(userData, _data.userID)}</span>
                             <b>1</b>
                             <span>

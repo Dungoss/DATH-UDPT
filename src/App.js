@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components';
-import { Home, Category, QuestionManagement, Question, Topic, User, Ranking, Signup, Login, Profile } from './pages';
+import { Home, Category, QuestionManagement, Question, User, Ranking, Signup, Login, Profile } from './pages';
 
 const App = () => {
   const dataSelectPage = useSelector((state) => state.page.activePane);
@@ -16,11 +16,6 @@ const App = () => {
       key: 'question',
       render: <Question />,
     },
-    {
-      key: 'topic',
-      render: <Topic />,
-    },
-
     {
       key: 'user',
       render: <User />,
