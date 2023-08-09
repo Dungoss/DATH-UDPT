@@ -3,6 +3,10 @@
   display: flex;
 }
 
+.question-container {
+  padding: 24px;
+}
+
 .ant-table-row {
   background-color: #f6f8f9;
   cursor: pointer;
@@ -115,43 +119,144 @@
 }
 
 .detail-content {
-  width: 100%;
-  height: 70vh;
+  width: calc(100% - 48px);
   background-color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.detail-user img {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+.detail-user {
+  display: flex;
+  align-items: center;
+}
+
+.detail-title {
+  padding: 24px;
+}
+
+.detail-conten {
+  padding: 24px;
+}
+
+.detail-spam {
+  width: 264px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-actions {
+  display: flex;
+  justify-content: space-between;
 }
 
 .detail-answer {
   width: 100%;
-  height: 70vh;
-  background-color: #ffffff;
-  margin-top: 24px;
-}
-
-.detail-trend {
-  width: calc(35% - 24px);
-  height: 600px;
-  margin-left: 24px;
-  background-color: rebeccapurple;
 }
 
 .answer {
-  width: 500px;
-  height: 200px;
-  background-color: rebeccapurple;
-  margin-top: 12px;
+  width: calc(100% - 88px);
+  padding: 24px;
+  margin-left: 40px;
+  border-radius: 8px;
 }
 
-.spam {
-  border-color: red;
+.btn-spam {
+  height: 40px;
+  width: 120px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.notspam {
+.btn-spamspam {
+  height: 40px;
+  background-color: red;
+  width: 120px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-spamnotspam {
+  height: 40px;
   background-color: aquamarine;
+  width: 120px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .comment {
-  width: 400px;
-  height: 50px;
-  background-color: antiquewhite;
+  width: calc(100% - 64px);
+  background-color: #ffffff;
+  padding: 0 0 0 24px;
   margin-top: 12px;
+  margin-left: 40px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.comment span {
+  display: inline-flex;
+  width: calc(100% - 64px);
+}
+
+.answer-input {
+  margin-top: 24px;
+  display: flex;
+  width: calc(100% - 24px);
+}
+
+.comment-input {
+  display: flex;
+  margin: 24px 0 0 40px;
+}
+
+.answer-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 24px 0 0 24px;
+}
+
+.btn-type1 {
+  width: 150px;
+  margin-left: 24px;
+}
+
+.detail-trend {
+  padding: 24px;
+  width: calc(35% - 24px);
+  height: 400px;
+  margin-left: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.trend-title {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trend-item {
+  width: 100%;
+  height: 50px;
+  color: #316cc8;
+  font-size: 16px;
+  border-bottom: 1px solid rgb(206, 200, 200);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.trend-item:hover {
+  color: blue;
 }

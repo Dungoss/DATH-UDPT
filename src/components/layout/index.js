@@ -52,6 +52,7 @@ function Layout({ propchild }) {
                     isActive={isActive}
                   />
                 ) : (
+                  user &&
                   _data.role === 'user' && (
                     <SidebarItem
                       data={_data}

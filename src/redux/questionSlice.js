@@ -14,6 +14,7 @@ const initialState = {
   monthlyQuestionRanking: [],
   monthlyAnswerRanking: [],
   adminAcceptEmail: [],
+  trendingCat: [],
   loading: false,
 };
 
@@ -60,6 +61,9 @@ export const questionSlice = createSlice({
     setAdminAccept: (state, action) => {
       state.adminAcceptEmail = action.payload;
     },
+    setTrendingCate: (state, action) => {
+      state.trendingCat = action.payload;
+    },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
@@ -68,6 +72,7 @@ export const questionSlice = createSlice({
 });
 
 export const {
+  setTrendingCate,
   setQuestion,
   setCategory,
   setUserDetail,

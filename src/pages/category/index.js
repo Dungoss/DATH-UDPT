@@ -4,6 +4,9 @@ import { EditOutlined, PlusSquareFilled } from '@ant-design/icons';
 import axios from 'axios';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+
+import configs from '../../config/config.cfg';
+import './styles.css';
 import * as questionActions from '../../redux/questionSlice';
 
 const Category = () => {
@@ -16,7 +19,7 @@ const Category = () => {
   };
   const handleOk = async () => {
     let temp = { categoryName: newCategory };
-    const response = await axios.post('http://localhost:8002/api/category', temp);
+    const response = await axios.post(`${configs.otherSerivce}/api/category`, temp);
     let temp1 = _.cloneDeep(categoryData);
     temp1.push(temp);
     if (response.status == 201) {
@@ -49,7 +52,7 @@ const Category = () => {
   };
 
   return (
-    <div>
+    <div className="category">
       {tableData && <Table dataSource={tableData} columns={columns} pagination={paginationConfig} />}
       {categoryData.map((_data, _idx) => {
         tableData.push({

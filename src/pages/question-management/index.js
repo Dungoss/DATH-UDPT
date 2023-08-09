@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
 
+import configs from '../../config/config.cfg';
 import './styles.css';
-import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
-import { SearchBox } from '../../components';
+import { IconLogo, IconPop } from '../../utils/constants/img';
 import * as questionActions from '../../redux/questionSlice';
 
 const QuestionManagement = () => {
@@ -27,7 +27,7 @@ const QuestionManagement = () => {
     setIsModalOpen(true);
   };
   const handleOk = async () => {
-    const response = await axios.delete(`http://localhost:8001/api/questions/${questionsToDelete[0]}`);
+    const response = await axios.delete(`${configs.questionService}/api/questions/${questionsToDelete[0]}`);
     updatedData = temp.filter((item) => item.id !== questionsToDelete[0]);
     if (response.status == 200) {
       setQuestionsToDelete([]);
@@ -45,7 +45,7 @@ const QuestionManagement = () => {
     setIsModalApproveOpen(true);
   };
   const handleOkApprove = async () => {
-    const response = await axios.put(`http://localhost:8001/api/questions/${questionsToDelete[0]}/status`, {
+    const response = await axios.put(`${configs.questionService}/api/questions/${questionsToDelete[0]}/status`, {
       statusApproved: 1,
     });
     updatedData = temp.map((item) => {
@@ -70,9 +70,9 @@ const QuestionManagement = () => {
     setIsModalAutoApproveOpen(true);
   };
   const handleOkAutoApprove = async () => {
-    const response = await axios.put(`http://localhost:8001/api/questions/auto-approve`);
+    const response = await axios.put(`${configs.questionService}/api/questions/auto-approve`);
     if (response.status == 200) {
-      const response = await axios.get('http://localhost:8001/api/questions');
+      const response = await axios.get(`${configs.questionService}/api/questions`);
       dispatch(questionActions.setQuestion(response.data));
     }
     setIsModalAutoApproveOpen(false);
@@ -100,14 +100,14 @@ const QuestionManagement = () => {
   };
 
   const emailNotiSubscribe = async () => {
-    const response = await axios.put(`http://localhost:8000/api/users/${userDetail.id}/accept-noti`, {
+    const response = await axios.put(`${configs.userSerivce}/api/users/${userDetail.id}/accept-noti`, {
       accept_noti: 1,
     });
     console.log(response);
   };
 
   const emailNotiUnsubscribe = async () => {
-    const response = await axios.put(`http://localhost:8000/api/users/${userDetail.id}/accept-noti`, {
+    const response = await axios.put(`${configs.userSerivce}/api/users/${userDetail.id}/accept-noti`, {
       accept_noti: 0,
     });
     console.log(response);
@@ -125,14 +125,6 @@ const QuestionManagement = () => {
             </div>
             <Button onClick={emailNotiSubscribe}>Subscribe for Email Noti</Button>
             <Button onClick={emailNotiUnsubscribe}>Unsubscribe for Email Noti</Button>
-            <div className="question-filter-hotnew">
-              <img src={IconNew} /> New
-            </div>
-            <div className="question-filter-hotnew">
-              <img src={IconHot} /> Hot
-            </div>
-            <SearchBox width={200} />
-            <SearchBox width={200} />
             <Button onClick={showModalAutoApprove}>Auto Approve</Button>
           </div>
         </div>

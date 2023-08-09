@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
+import configs from '../../config/config.cfg';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import { useStateContext } from '../../contexts/contextProvider';
 import './styles.css';
@@ -16,7 +17,7 @@ const TextShpere = () => {
   let tag = [];
 
   const handleFilterByTag = async (value) => {
-    const response = await axios.get(`http://localhost:8001/api/questions/search-tag?tagID="${value}"`);
+    const response = await axios.get(`${configs.questionService}/api/questions/search-tag?tagID="${value}"`);
     setData(response.data);
   };
 

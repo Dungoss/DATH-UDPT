@@ -3,20 +3,21 @@ import { Tabs, Table } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { SearchBox } from '../../components';
+import configs from '../../config/config.cfg';
 import './styles.css';
-import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 
 const ProfileOther = () => {
   const userData = JSON.parse(localStorage.getItem('profile'));
 
   const [questData, setQuestData] = useState([]);
+  const usersData = useSelector((state) => state.question.usersData);
   const tagData = useSelector((state) => state.question.tagData);
+  const categoryData = useSelector((state) => state.question.categoryData);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/users/${userData.id}/questions`);
+        const response = await axios.get(`${configs.userSerivce}/api/users/${userData.id}/questions`);
         setQuestData(response.data);
       } catch (error) {
         console.log(error);
@@ -24,6 +25,33 @@ const ProfileOther = () => {
     };
     fetchData();
   }, []);
+
+  const findNameById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].name;
+      }
+    }
+    return null;
+  };
+
+  const findAvatarById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].avatar;
+      }
+    }
+    return null;
+  };
+
+  const findCategoryById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].categoryID === targetId) {
+        return data[i].categoryName;
+      }
+    }
+    return null;
+  };
 
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
 
@@ -41,20 +69,7 @@ const ProfileOther = () => {
     {
       title: (
         <div>
-          <h1>Question</h1>
-          <div className="question-filter">
-            <div className="question-filter-popular">
-              <img src={IconPop} /> Popular
-            </div>
-            <div className="question-filter-hotnew">
-              <img src={IconNew} /> New
-            </div>
-            <div className="question-filter-hotnew">
-              <img src={IconHot} /> Hot
-            </div>
-            <SearchBox width={200} />
-            <SearchBox width={200} />
-          </div>
+          <h1>Questions of {userData.name}</h1>
         </div>
       ),
       dataIndex: 'questions',
@@ -76,7 +91,6 @@ const ProfileOther = () => {
         </div>
         <span>{userData && userData.name}</span>
       </div>
-      {/* <div className="edit-profile">EDIT PROFILE</div> */}
       <div className="profile-content">
         <div>
           <Tabs
@@ -102,16 +116,15 @@ const ProfileOther = () => {
                               questions: (
                                 <div className="question">
                                   <div className="question-info">
-                                    <div className="question-info-user">
-                                      <img src={IconLogo} />
-                                      <b>{_data.userName}</b>
-                                    </div>
-                                    <h5>0 votes</h5>
-                                    <h5>0 answers</h5>
+                                    <h5>{_data.totalVotes} votes</h5>
+                                    <h5>{_data.totalAnswer} answers</h5>
                                   </div>
                                   <div className="question-content">
                                     <div className="question-content-title">
                                       <h2>{_data.questionTitle}</h2>
+                                      <div className="question-category">
+                                        {findCategoryById(categoryData, _data.categoryID)}
+                                      </div>
                                     </div>
                                     <div className="question-content-content">
                                       <span>{_data.questionContent}</span>
@@ -127,10 +140,24 @@ const ProfileOther = () => {
                                         })}
                                       </div>
                                       <div className="question-time">
-                                        <img src={IconLogo} />
-                                        <span>Nguyen Ngu</span>
+                                        <img src={findAvatarById(usersData, _data.userID)} />
+                                        <span>{findNameById(usersData, _data.userID)}</span>
                                         <b>1</b>
-                                        <span>asked 44 sec ago </span>
+                                        <span>
+                                          {_data.postingTime &&
+                                            (() => {
+                                              const unixTimestamp = _data.postingTime;
+                                              const date = new Date(unixTimestamp * 1000);
+                                              const year = date.getFullYear();
+                                              const month = date.getMonth() + 1;
+                                              const day = date.getDate();
+                                              const hours = date.getHours();
+                                              const minutes = date.getMinutes();
+                                              const seconds = date.getSeconds();
+                                              const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                              return humanReadableTime;
+                                            })()}
+                                        </span>
                                       </div>
                                     </div>
                                   </div>

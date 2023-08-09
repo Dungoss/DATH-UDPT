@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 
+import configs from '../../config/config.cfg';
 import { SearchBox } from '../../components';
 import './styles.css';
 import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
@@ -38,7 +39,7 @@ const Profile = () => {
   };
 
   const handleUploadAvatar = async (imgUrl) => {
-    const response = await axios.post(`http://localhost:8000/api/users/${user.id}/update-avatar`, {
+    const response = await axios.post(`${configs.userSerivce}/api/users/${user.id}/update-avatar`, {
       avatar: imgUrl,
       userId: user.id,
     });
@@ -50,7 +51,7 @@ const Profile = () => {
   };
 
   const handleUploadWallpaper = async (imgUrl) => {
-    const response = await axios.post(`http://localhost:8000/api/users/${user.id}/update-wallpaper`, {
+    const response = await axios.post(`${configs.userSerivce}/api/users/${user.id}/update-wallpaper`, {
       wallpaper: imgUrl,
       userId: user.id,
     });

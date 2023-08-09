@@ -2,13 +2,14 @@ import React from 'react';
 import { Tabs } from 'antd';
 import { useSelector } from 'react-redux';
 
+import './styles.css';
 import { UserRank } from '../../components';
 
 const Ranking = () => {
   const answerRanking = useSelector((state) => state.question.monthlyAnswerRanking);
   const questionRanking = useSelector((state) => state.question.monthlyQuestionRanking);
   return (
-    <div>
+    <div className="ranking">
       <Tabs
         defaultActiveKey="1"
         items={[
@@ -16,7 +17,7 @@ const Ranking = () => {
             label: 'Questions Ranking',
             key: '1',
             children: (
-              <div>
+              <div className="question-rank">
                 {questionRanking &&
                   questionRanking.map((data, idx) => {
                     return (
@@ -35,7 +36,7 @@ const Ranking = () => {
             label: 'Answers Ranking',
             key: '2',
             children: (
-              <div>
+              <div className="answer-rank">
                 {answerRanking &&
                   answerRanking.map((data, idx) => {
                     return (

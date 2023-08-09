@@ -9,6 +9,7 @@ import emailjs from '@emailjs/browser';
 import { Table } from 'antd';
 const { TextArea } = Input;
 
+import configs from '../../config/config.cfg';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 
@@ -140,10 +141,10 @@ const Home = () => {
     data.postingTime = unixTimestamp;
     let tempQ = _.cloneDeep(questionData);
     tempQ.unshift(data);
-    const response = await axios.post('http://localhost:8001/api/questions', data);
+    const response = await axios.post(`${configs.questionService}/api/questions`, data);
     console.log(response);
     if (response.status == 201) {
-      const response = await axios.put(`http://localhost:8000/api/users/${user.id}/increase-question-count`);
+      const response = await axios.put(`${configs.userSerivce}/api/users/${user.id}/increase-question-count`);
       console.log(response.status);
       dispatch(questionActions.setQuestion(tempQ));
     }
