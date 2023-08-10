@@ -78,6 +78,8 @@ const Question = () => {
     return null;
   };
 
+  console.log(answer);
+
   const onAnswerChange = (val) => {
     setAnswer({ ...answer, ['fullContent']: val, ['questionID']: detailQuestion.id });
   };
@@ -270,9 +272,9 @@ const Question = () => {
                   <div key={idx} className="answer">
                     <div className="answer-container">
                       <div className="detail-user">
-                        <img src={findAvatarById(userData, detailQuestion.userID)} alt="avatar" />
+                        <img src={findAvatarById(userData, data.userID)} alt="avatar" />
                         <div>
-                          <b> {findNameById(userData, detailQuestion.userID)} </b>
+                          <b> {findNameById(userData, data.userID)} </b>
                           answered
                         </div>
                       </div>
@@ -313,7 +315,7 @@ const Question = () => {
             </div>
             <div className="detail-trend">
               <div className="trend-title">
-                <h1>TRENDING CATEGORY</h1>
+                <h2>TRENDING CATEGORY</h2>
               </div>
               {trendingCat &&
                 trendingCat.map((_data, _idx) => {

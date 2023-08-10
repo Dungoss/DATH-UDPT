@@ -7,7 +7,6 @@ import _ from 'lodash';
 
 import configs from '../../config/config.cfg';
 import './styles.css';
-import { IconLogo, IconPop } from '../../utils/constants/img';
 import * as questionActions from '../../redux/questionSlice';
 
 const QuestionManagement = () => {
@@ -90,6 +89,15 @@ const QuestionManagement = () => {
     return null;
   };
 
+  const findAvatarById = (data, targetId) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === targetId) {
+        return data[i].avatar;
+      }
+    }
+    return null;
+  };
+
   const findTagNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].tagID === targetId) {
@@ -104,6 +112,8 @@ const QuestionManagement = () => {
       accept_noti: 1,
     });
     console.log(response);
+    const response1 = await axios.get(`${configs.userSerivce}/api/users/${userDetail.id}`);
+    dispatch(questionActions.setUserDetail(response1.data));
   };
 
   const emailNotiUnsubscribe = async () => {
@@ -111,6 +121,8 @@ const QuestionManagement = () => {
       accept_noti: 0,
     });
     console.log(response);
+    const response1 = await axios.get(`${configs.userSerivce}/api/users/${userDetail.id}`);
+    dispatch(questionActions.setUserDetail(response1.data));
   };
 
   let questionData = [];
@@ -119,12 +131,19 @@ const QuestionManagement = () => {
       title: (
         <div>
           <h1>Question</h1>
-          <div className="question-filter">
-            <div className="question-filter-popular">
-              <img src={IconPop} /> Popular
-            </div>
-            <Button onClick={emailNotiSubscribe}>Subscribe for Email Noti</Button>
-            <Button onClick={emailNotiUnsubscribe}>Unsubscribe for Email Noti</Button>
+          <div className="question-manage-options">
+            <Button
+              className={`btn-subscribe${userDetail && userDetail.accept_noti == 1 ? '-true' : ''}`}
+              onClick={emailNotiSubscribe}
+            >
+              Subscribe for Email Noti
+            </Button>
+            <Button
+              className={`btn-unsubscribe${userDetail && userDetail.accept_noti == 0 ? '-true' : ''}`}
+              onClick={emailNotiUnsubscribe}
+            >
+              Unsubscribe for Email Noti
+            </Button>
             <Button onClick={showModalAutoApprove}>Auto Approve</Button>
           </div>
         </div>
@@ -148,12 +167,8 @@ const QuestionManagement = () => {
               questions: (
                 <div className="question">
                   <div className="question-info">
-                    <div className="question-info-user">
-                      <img src={IconLogo} />
-                      <b>{findNameById(userData, _data.userID)}</b>
-                    </div>
-                    <h5>0 votes</h5>
-                    <h5>0 answers</h5>
+                    <h5>{_data.totalVotes} votes</h5>
+                    <h5>{_data.totalAnswer} answers</h5>
                   </div>
                   <div className="question-content">
                     <div className="question-content-title">
@@ -173,20 +188,36 @@ const QuestionManagement = () => {
                         })}
                       </div>
                       <div className="question-time">
-                        <img src={IconLogo} />
+                        <img src={findAvatarById(userData, _data.userID)} />
                         <span>{findNameById(userData, _data.userID)}</span>
                         <b>1</b>
-                        <span>asked 44 sec ago </span>
+                        <span>
+                          {_data.postingTime &&
+                            (() => {
+                              const unixTimestamp = _data.postingTime;
+                              const date = new Date(unixTimestamp * 1000);
+                              const year = date.getFullYear();
+                              const month = date.getMonth() + 1;
+                              const day = date.getDate();
+                              const hours = date.getHours();
+                              const minutes = date.getMinutes();
+                              const seconds = date.getSeconds();
+                              const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                              return humanReadableTime;
+                            })()}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  <CheckCircleFilled
-                    style={{ fontSize: '24px' }}
-                    onClick={() => {
-                      showModalApprove(_data.id);
-                    }}
-                  />
-                  <CloseCircleFilled style={{ fontSize: '24px' }} onClick={() => showModal(_data.id)} />
+                  <div className="manage-q-action">
+                    <CheckCircleFilled
+                      style={{ fontSize: '24px' }}
+                      onClick={() => {
+                        showModalApprove(_data.id);
+                      }}
+                    />
+                    <CloseCircleFilled style={{ fontSize: '24px' }} onClick={() => showModal(_data.id)} />
+                  </div>
                 </div>
               ),
             });
@@ -194,13 +225,9 @@ const QuestionManagement = () => {
       </div>
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <p>Are you sure to delete this question?</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
       </Modal>
       <Modal title="Basic Modal" open={isModalApproveOpen} onOk={handleOkApprove} onCancel={handleCancelApprove}>
         <p>Are you sure to approve this question?</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
       </Modal>
       <Modal
         title="Basic Modal"
@@ -209,8 +236,6 @@ const QuestionManagement = () => {
         onCancel={handleCancelAutoApprove}
       >
         <p>Are you sure to enable auto approve?</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
       </Modal>
     </div>
   );

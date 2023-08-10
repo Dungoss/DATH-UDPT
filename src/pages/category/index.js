@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Modal } from 'antd';
-import { EditOutlined, PlusSquareFilled } from '@ant-design/icons';
+import { Table, Modal, Button, Input } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +36,7 @@ const Category = () => {
     {
       title: (
         <div>
-          <PlusSquareFilled onClick={showModal} />
+          <Button onClick={showModal}>Add category</Button>
         </div>
       ),
       dataIndex: 'category',
@@ -67,8 +67,8 @@ const Category = () => {
           ),
         });
       })}
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <input onChange={(e) => onNewCategoryChange(e.target.value)} />
+      <Modal title="Add new category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Input placeholder={'Enter category name'} onChange={(e) => onNewCategoryChange(e.target.value)} />
       </Modal>
     </div>
   );

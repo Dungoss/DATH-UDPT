@@ -7,9 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 
 import configs from '../../config/config.cfg';
-import { SearchBox } from '../../components';
 import './styles.css';
-import { IconLogo, IconPop, IconNew, IconHot } from '../../utils/constants/img';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 
@@ -76,20 +74,7 @@ const Profile = () => {
     {
       title: (
         <div>
-          <h1>Question</h1>
-          <div className="question-filter">
-            <div className="question-filter-popular">
-              <img src={IconPop} /> Popular
-            </div>
-            <div className="question-filter-hotnew">
-              <img src={IconNew} /> New
-            </div>
-            <div className="question-filter-hotnew">
-              <img src={IconHot} /> Hot
-            </div>
-            <SearchBox width={200} />
-            <SearchBox width={200} />
-          </div>
+          <h1>Questions you have asked</h1>
         </div>
       ),
       dataIndex: 'questions',
@@ -174,12 +159,8 @@ const Profile = () => {
                               questions: (
                                 <div className="question">
                                   <div className="question-info">
-                                    <div className="question-info-user">
-                                      <img src={userData.avatar} />
-                                      <b>{_data.userName}</b>
-                                    </div>
-                                    <h5>0 votes</h5>
-                                    <h5>0 answers</h5>
+                                    <h5>{_data.totalVotes} votes</h5>
+                                    <h5>{_data.totalAnswer} answers</h5>
                                   </div>
                                   <div className="question-content">
                                     <div className="question-content-title">
@@ -202,7 +183,7 @@ const Profile = () => {
                                         })}
                                       </div>
                                       <div className="question-time">
-                                        <img src={IconLogo} />
+                                        <img src={userData.avatar} />
                                         <span>{userData.name}</span>
                                         <b>1</b>
                                         <span>

@@ -181,7 +181,7 @@ const Home = () => {
     backgroundColor: '#3498db',
     height: '50px',
     width: '50%',
-    marginLeft: '400px',
+    marginLeft: '25%',
     marginTop: '24px',
     marginBottom: '24px',
     color: 'white',
@@ -249,63 +249,64 @@ const Home = () => {
           <Table dataSource={questionDataa} columns={columns} pagination={paginationConfig} />
           {questionData &&
             questionData.map((_data, _idx) => {
-              questionDataa.push({
-                key: _idx + 1,
-                questions: (
-                  <div className="question">
-                    <div className="question-info">
-                      <h5>{_data.totalVotes} votes</h5>
-                      <h5>{_data.totalAnswer} answers</h5>
-                    </div>
-                    <div className="question-content">
-                      <div className="question-content-title">
-                        <h2>{_data.questionTitle}</h2>
-                        <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
+              _data.statusApproved == 1 &&
+                questionDataa.push({
+                  key: _idx + 1,
+                  questions: (
+                    <div className="question">
+                      <div className="question-info">
+                        <h5>{_data.totalVotes} votes</h5>
+                        <h5>{_data.totalAnswer} answers</h5>
                       </div>
+                      <div className="question-content">
+                        <div className="question-content-title">
+                          <h2>{_data.questionTitle}</h2>
+                          <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
+                        </div>
 
-                      <div className="question-content-content">
-                        <span>{_data.questionContent}</span>
-                      </div>
-                      <div className="question-footer">
-                        <div className="question-tag">
-                          {JSON.parse(_data.tagID).map((_data, _idx) => {
-                            return (
-                              <div key={_idx} className="question-tag-item">
-                                {findTagNameById(tagData, _data)}
-                              </div>
-                            );
-                          })}
+                        <div className="question-content-content">
+                          <span>{_data.questionContent}</span>
                         </div>
-                        <div className="question-time">
-                          <img src={findAvatarById(userData, _data.userID)} />
-                          <span>{findNameById(userData, _data.userID)}</span>
-                          <b>1</b>
-                          <span>
-                            {_data.postingTime &&
-                              (() => {
-                                const unixTimestamp = _data.postingTime;
-                                const date = new Date(unixTimestamp * 1000);
-                                const year = date.getFullYear();
-                                const month = date.getMonth() + 1;
-                                const day = date.getDate();
-                                const hours = date.getHours();
-                                const minutes = date.getMinutes();
-                                const seconds = date.getSeconds();
-                                const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                                return humanReadableTime;
-                              })()}
-                          </span>
+                        <div className="question-footer">
+                          <div className="question-tag">
+                            {JSON.parse(_data.tagID).map((_data, _idx) => {
+                              return (
+                                <div key={_idx} className="question-tag-item">
+                                  {findTagNameById(tagData, _data)}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="question-time">
+                            <img src={findAvatarById(userData, _data.userID)} />
+                            <span>{findNameById(userData, _data.userID)}</span>
+                            <b>1</b>
+                            <span>
+                              {_data.postingTime &&
+                                (() => {
+                                  const unixTimestamp = _data.postingTime;
+                                  const date = new Date(unixTimestamp * 1000);
+                                  const year = date.getFullYear();
+                                  const month = date.getMonth() + 1;
+                                  const day = date.getDate();
+                                  const hours = date.getHours();
+                                  const minutes = date.getMinutes();
+                                  const seconds = date.getSeconds();
+                                  const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                  return humanReadableTime;
+                                })()}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ),
-              });
+                  ),
+                });
             })}
         </div>
       </div>
       <Modal title="Basic Modal" open={isModalWarningOpen} onOk={handleOkWarning} onCancel={handleCancelWarning}>
-        <p>Login first you bitch...</p>
+        <p>Please login start asking questions!</p>
       </Modal>
     </div>
   );

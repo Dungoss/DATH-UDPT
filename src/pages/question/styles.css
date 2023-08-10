@@ -127,8 +127,8 @@
 }
 
 .detail-user img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
 }
 
@@ -226,6 +226,7 @@
 .btn-type1 {
   width: 150px;
   margin-left: 24px;
+  background-color: rgb(173, 162, 162);
 }
 
 .detail-trend {

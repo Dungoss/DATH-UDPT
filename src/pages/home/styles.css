@@ -6,17 +6,18 @@
 }
 
 .trending {
-  height: 500px;
+  height: 375px;
   display: flex;
 }
 
 .trending-category {
   background-color: #ffffff;
   width: 50%;
-  height: calc(100% - 24px);
+  height: 350px;
   border-radius: 16px;
   padding: 12px;
   overflow-y: scroll;
+  margin-left: 12px;
 }
 
 .category-trend {

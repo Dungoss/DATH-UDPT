@@ -1,0 +1,21 @@
+.question-manage-options {
+  width: 70%;
+  margin-left: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-subscribe-true {
+  background-color: green;
+}
+
+.btn-unsubscribe-true {
+  background-color: red;
+}
+
+.manage-q-action {
+  width: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
