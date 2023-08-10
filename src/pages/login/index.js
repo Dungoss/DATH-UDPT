@@ -13,14 +13,10 @@ const Login = () => {
     window.location.href = '/signup';
   };
   const onFinish = (values) => {
-    http
-      .post('https://udpt-user-service.000webhostapp.com/api/login', {
-        email: values.username,
-        password: values.password,
-      })
-      .then((res) => {
-        setToken(res.data.user, res.data.access_token);
-      });
+    console.log('Success:', values);
+    http.post('/login', { email: values.username, password: values.password }).then((res) => {
+      setToken(res.data.user, res.data.access_token);
+    });
   };
   return (
     <div className="login">

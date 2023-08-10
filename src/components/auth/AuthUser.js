@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import configs from '../../config/config.cfg';
 export default function AuthUser() {
   const getToken = () => {
     const tokenString = sessionStorage.getItem('token');
@@ -32,10 +33,9 @@ export default function AuthUser() {
   };
 
   const http = axios.create({
-    baseURL: 'https://udpt-user-service.000webhostapp.com/api',
+    baseURL: `${configs.userSerivce}/api`,
     headers: {
-      'Content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      // 'Content-type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   });
