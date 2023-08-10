@@ -181,7 +181,8 @@ const Question = () => {
     dispatch(questionActions.setVote(response10.data));
   };
 
-  console.log(data);
+  console.log(configs.userSerivce);
+
   const columns = [
     {
       title: (

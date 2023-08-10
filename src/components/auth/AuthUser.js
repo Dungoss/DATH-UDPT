@@ -35,6 +35,7 @@ export default function AuthUser() {
     baseURL: 'https://udpt-user-service.000webhostapp.com/api',
     headers: {
       'Content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${token}`,
     },
   });
