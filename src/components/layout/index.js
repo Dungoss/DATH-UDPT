@@ -12,6 +12,7 @@ import { useStateContext } from '../../contexts/contextProvider';
 function Layout({ propchild }) {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.question.loading);
+  const loadingChild = useSelector((state) => state.question.loadingChild);
 
   useEffect(() => {
     getQuestionData(dispatch);
@@ -65,7 +66,7 @@ function Layout({ propchild }) {
               )}
             </div>
             <div className="content-container">
-              <div className="cont">{propchild}</div>
+              {loadingChild ? <Loading /> : <div className="cont">{propchild}</div>}
             </div>
           </div>
         </div>

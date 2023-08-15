@@ -26,6 +26,7 @@ const Ranking = () => {
                         avatar={data.user_data.avatar}
                         name={data.user_data.name}
                         numquest={data.num_quest}
+                        rank={idx + 1}
                       />
                     );
                   })}
@@ -45,6 +46,7 @@ const Ranking = () => {
                         avatar={data.user_data.avatar}
                         name={data.user_data.name}
                         numans={data.num_ans}
+                        rank={idx + 1}
                       />
                     );
                   })}

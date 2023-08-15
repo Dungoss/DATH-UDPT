@@ -130,7 +130,7 @@ const QuestionManagement = () => {
     {
       title: (
         <div>
-          <h1>Question</h1>
+          <h1>Questions Management</h1>
           <div className="question-manage-options">
             <Button
               className={`btn-subscribe${userDetail && userDetail.accept_noti == 1 ? '-true' : ''}`}

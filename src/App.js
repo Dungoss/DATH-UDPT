@@ -43,7 +43,6 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/" element={<Layout propchild={displayPage.render} />} />
       </Routes>
     </BrowserRouter>

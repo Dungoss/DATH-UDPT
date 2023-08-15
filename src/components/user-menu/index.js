@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './styles.css';
 import AuthUser from '../../components/auth/AuthUser';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
+import { useStateContext } from '../../contexts/contextProvider';
 
 const UserMenu = () => {
+  const dispatch = useDispatch();
+  const { setIsActive } = useStateContext();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -29,7 +33,8 @@ const UserMenu = () => {
     }
   };
   const handleGoToProfile = () => {
-    window.location.href = '/profile';
+    setIsActive(7);
+    dispatch(pageActions.setActivePane('profile'));
   };
 
   return (
@@ -43,21 +48,23 @@ const UserMenu = () => {
       {isOpen && (
         <div className="user-menu-content">
           <div className="user-info">
-            <div className="header-user-big">
-              <span>{user.name.charAt(0).toUpperCase()}</span>
-            </div>
+            {userData && userData.avatar ? (
+              <img
+                style={{ width: '40px', height: '40px', borderRadius: '100%', marginLeft: '12px' }}
+                src={userData.avatar}
+              />
+            ) : (
+              <div className="header-user-big">
+                <span>{user.name.charAt(0).toUpperCase()}</span>
+              </div>
+            )}
             <div className="user-name">
               <span>{user.name}</span>
-              <span>{user.email}</span>
             </div>
           </div>
           <hr />
           <ul className="profile">
             <li onClick={handleGoToProfile}>Trang cá nhân</li>
-          </ul>
-          <hr />
-          <ul className="post">
-            <li>Câu hỏi của tôi</li>
           </ul>
           <hr />
           <ul className="configure">

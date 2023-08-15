@@ -12,7 +12,7 @@ import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 
 const uploader = Uploader({
-  apiKey: 'public_W142i7RAL2pkmDJyvXnMSF7utfyN',
+  apiKey: 'public_W142iARCb7TLAftdNLcvcZ23CYvn',
 });
 
 const options = { multi: false };

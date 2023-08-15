@@ -28,6 +28,7 @@ const User = () => {
                 numans={data.answer_count}
                 avatar={data.avatar}
                 action={() => setShow(data)}
+                rank={idx + 1}
               />
             );
           })}

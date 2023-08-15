@@ -16,6 +16,11 @@ export const getQuestionData = async (dispatch) => {
     const response2 = await axios.get(`${configs.otherSerivce}/api/category`);
     dispatch(questionActions.setCategory(response2.data));
 
+    if (user) {
+      const response7 = await axios.get(`${configs.userSerivce}/api/users/${user.id}`);
+      dispatch(questionActions.setUserDetail(response7.data));
+    }
+
     dispatch(questionActions.setLoading(false));
 
     const response1 = await axios.get(`${configs.userSerivce}/api/users`);
@@ -35,7 +40,6 @@ export const getQuestionData = async (dispatch) => {
 
     const response13 = await axios.get(`${configs.questionService}/api/questions/treding-category`);
     dispatch(questionActions.setTrendingCate(response13.data));
-
     if (user) {
       const response5 = await axios.get(`${configs.userSerivce}/api/users/${user.id}/question-spam`);
       dispatch(questionActions.setSpams(response5.data));
@@ -45,9 +49,6 @@ export const getQuestionData = async (dispatch) => {
 
       const response6 = await axios.get(`${configs.userSerivce}/api/users/${user.id}/questions`);
       dispatch(questionActions.setQuestionUser(response6.data));
-
-      const response7 = await axios.get(`${configs.userSerivce}/api/users/${user.id}`);
-      dispatch(questionActions.setUserDetail(response7.data));
 
       const response11 = await axios.get(`${configs.userSerivce}/api/users/admin-email`);
       dispatch(questionActions.setAdminAccept(response11.data));

@@ -1,13 +1,23 @@
 import React from 'react';
+import { Input } from 'antd';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
+const { Search } = Input;
+
+import configs from '../../config/config.cfg';
+// import * as questionActions from '../../redux/questionSlice';
+import { useStateContext } from '../../contexts/contextProvider';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
-import { IconLogo } from '../../utils/constants/img';
-import { SearchBox } from '../search-box';
+// import { IconLogo } from '../../utils/constants/img';
 import { UserMenu } from '../user-menu';
 import AuthUser from '../../components/auth/AuthUser';
 
 const Header = () => {
   const { token } = AuthUser();
+  const dispatch = useDispatch();
+  const { setIsActive, setData } = useStateContext();
 
   const handleToLogin = () => {
     window.location.href = '/login';
@@ -17,14 +27,31 @@ const Header = () => {
     window.location.href = '/signup';
   };
 
+  const handleSearch = async (value) => {
+    const response = await axios.get(`${configs.questionService}/api/questions/search-keyword?keyword=${value}`);
+    setData(response.data);
+  };
+
+  const onSearch = async (value) => {
+    handleSearch(value);
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
+  };
+
   return (
     <div className="header">
       <div className="header-logo">
-        <img src={IconLogo} />
-        <h4>Học Lập Trình Để Đi Làm</h4>
+        <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" />
+        <h4>Mạng xã hội tri thức số Việt</h4>
       </div>
       <div className="header-input">
-        <SearchBox width={400} />
+        <Search
+          placeholder="input search text"
+          onSearch={onSearch}
+          style={{
+            width: 200,
+          }}
+        />
       </div>
       {!token && (
         <div className="header-avatar">

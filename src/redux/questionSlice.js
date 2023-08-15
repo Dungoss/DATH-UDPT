@@ -16,6 +16,7 @@ const initialState = {
   adminAcceptEmail: [],
   trendingCat: [],
   loading: false,
+  loadingChild: false,
 };
 
 export const questionSlice = createSlice({
@@ -67,6 +68,9 @@ export const questionSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    setLoadingChild: (state, action) => {
+      state.loadingChild = action.payload;
+    },
     resetState: () => initialState,
   },
 });
@@ -88,6 +92,7 @@ export const {
   setQuestionRank,
   setAdminAccept,
   setLoading,
+  setLoadingChild,
 } = questionSlice.actions;
 const { reducer } = questionSlice;
 export default reducer;

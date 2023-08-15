@@ -3,7 +3,11 @@
 }
 
 .question-rank {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .answer-rank {
+  display: flex;
+  flex-wrap: wrap;
 }
