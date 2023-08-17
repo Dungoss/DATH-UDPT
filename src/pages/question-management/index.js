@@ -190,7 +190,7 @@ const QuestionManagement = () => {
                       <div className="question-time">
                         <img src={findAvatarById(userData, _data.userID)} />
                         <span>{findNameById(userData, _data.userID)}</span>
-                        <b>1</b>
+                        <b>{_data.totalAnswer}</b>
                         <span>
                           {_data.postingTime &&
                             (() => {

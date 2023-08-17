@@ -12,6 +12,8 @@ const { TextArea } = Input;
 import configs from '../../config/config.cfg';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
+import { useStateContext } from '../../contexts/contextProvider';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
 
 const uploader = Uploader({
   apiKey: 'free',
@@ -25,6 +27,8 @@ import { TextShpere } from '../../components';
 const Home = () => {
   const { user } = AuthUser();
   const dispatch = useDispatch();
+
+  const { setIsActive, setData } = useStateContext();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImg, setUploadedImg] = useState([]);
@@ -191,6 +195,17 @@ const Home = () => {
     borderRadius: '5px',
     cursor: 'pointer',
   };
+
+  const handleFilterByCategory = async (value) => {
+    const response = await axios.get(`${configs.questionService}/api/questions/search-category?categoryID=${value}`);
+    setData(response.data);
+  };
+
+  function handleSeachByCategory(categoryID) {
+    handleFilterByCategory(categoryID);
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
+  }
   return (
     <div className="home">
       <div className="trending">
@@ -199,7 +214,7 @@ const Home = () => {
           {categoryData &&
             categoryData.map((data, idx) => {
               return (
-                <div key={idx} className="category-trend">
+                <div onClick={() => handleSeachByCategory(data.categoryID)} key={idx} className="category-trend">
                   {data.categoryName}
                 </div>
               );
@@ -280,7 +295,7 @@ const Home = () => {
                           <div className="question-time">
                             <img src={findAvatarById(userData, _data.userID)} />
                             <span>{findNameById(userData, _data.userID)}</span>
-                            <b>1</b>
+                            <b>{_data.totalAnswer}</b>
                             <span>
                               {_data.postingTime &&
                                 (() => {

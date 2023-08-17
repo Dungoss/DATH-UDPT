@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Tabs, Table } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
+import { Tabs, Table, Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -8,6 +8,10 @@ import './styles.css';
 
 const ProfileOther = () => {
   const userData = JSON.parse(localStorage.getItem('profile'));
+  const imgRef = useRef(null);
+
+  const [showAva, setShowAva] = useState(false);
+  const [showWallpaper, setShowWallpaper] = useState(false);
 
   const [questData, setQuestData] = useState([]);
   const usersData = useSelector((state) => state.question.usersData);
@@ -80,17 +84,59 @@ const ProfileOther = () => {
     pageSize: 7,
   };
 
+  const handleOkshowAva = () => {
+    setShowAva(false);
+  };
+  const handleCancel = () => {
+    setShowAva(false);
+  };
+
+  const handleOkshowWallpaper = () => {
+    setShowWallpaper(false);
+  };
+  const handleCancelshowWallpaper = () => {
+    setShowWallpaper(false);
+  };
+  const modalWidth = imgRef.current ? imgRef.current.width : 600;
+  const modalHeight = imgRef.current ? imgRef.current.height : 400;
+
   return (
     <div className="profile-container">
       <div className="wall-paper">
-        <img src={userData.wallpaper} className="resized-image" />
+        <img onClick={() => setShowWallpaper(true)} src={userData.wallpaper} className="resized-image" />
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <div className="avatar">
-          <img src={userData && userData.avatar} />
+          <img onClick={() => setShowAva(true)} src={userData && userData.avatar} />
         </div>
-        <span>{userData && userData.name}</span>
+        <div className="basic-info">
+          <span>{userData && userData.name}</span>
+          <span>
+            {userData &&
+              userData.question_count &&
+              userData.answer_count &&
+              (() => {
+                const { question_count, answer_count } = userData;
+                let level;
+
+                if (question_count > 40 && answer_count > 20) {
+                  level = 'Level 5';
+                } else if (question_count > 30 && answer_count > 15) {
+                  level = 'Level 4';
+                } else if (question_count > 20 && answer_count > 10) {
+                  level = 'Level 3';
+                } else if (question_count > 10 && answer_count > 5) {
+                  level = 'Level 2';
+                } else {
+                  level = 'Level 1';
+                }
+
+                return level;
+              })()}
+          </span>
+        </div>
       </div>
+
       <div className="profile-content">
         <div>
           <Tabs
@@ -176,6 +222,20 @@ const ProfileOther = () => {
           />
         </div>
       </div>
+      <img style={{ display: 'none' }} ref={imgRef} src={userData.wallpaper} />
+      <Modal open={showAva} onOk={handleOkshowAva} onCancel={handleCancel} width={280} height={200} footer={null}>
+        <img style={{ width: '200px', height: '200px' }} src={userData.avatar}></img>
+      </Modal>
+      <Modal
+        open={showWallpaper}
+        onOk={handleOkshowWallpaper}
+        onCancel={handleCancelshowWallpaper}
+        width={modalWidth + 80}
+        height={modalHeight}
+        footer={null}
+      >
+        <img src={userData.wallpaper}></img>
+      </Modal>
     </div>
   );
 };

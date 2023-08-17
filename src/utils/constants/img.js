@@ -18,6 +18,7 @@ import Slider1 from '../../assets/images/slider1.jpg';
 import Slider2 from '../../assets/images/slider2.jpg';
 import Login from '../../assets/images/login.png';
 import WallPaper from '../../assets/images/wall-paper.svg';
+import Camera from '../../assets/images/camera.svg';
 
 export {
   IconLogo,
@@ -39,4 +40,5 @@ export {
   IconNew,
   IconHot,
   WallPaper,
+  Camera,
 };

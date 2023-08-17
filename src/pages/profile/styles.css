@@ -1,3 +1,9 @@
+.profilee {
+  width: calc(100% - 48px);
+  height: calc(100% - 48px);
+  padding: 24px;
+}
+
 .profile-container {
   width: 100%;
   height: 100vh;
@@ -8,16 +14,26 @@
 }
 
 .wall-paper {
-  width: 80%;
+  width: 100%;
   height: 30vh;
   background-color: rgb(173, 217, 217);
   border-radius: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.wall-paper img {
+  border-radius: 8px;
 }
 
 .resized-image {
   width: 100%;
-  height: 100%;
+  height: calc(100% + 12px);
   object-fit: cover;
+  cursor: pointer;
 }
 
 .avatar {
@@ -26,7 +42,7 @@
   border-radius: 100%;
   background-color: blueviolet;
   margin-top: -100px;
-  margin-left: -35vw;
+  margin-left: -150%;
   border: 10px solid white;
 }
 
@@ -34,6 +50,7 @@
   width: 200px;
   height: 200px;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 .edit-profile {
@@ -55,4 +72,37 @@
   height: 500px;
   width: 70vw;
   background-color: rgb(245, 240, 235);
+}
+
+.basic-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.basic-info span {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.change-ava {
+  border: 0;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  margin-top: -120px;
+  margin-left: 130px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.change-wall {
+  border: 0;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  margin-top: -62px;
+  margin-right: 12px;
+  border-radius: 8px;
+  cursor: pointer;
 }
