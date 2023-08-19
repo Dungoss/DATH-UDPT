@@ -182,7 +182,8 @@ const Home = () => {
     pageSize: 7,
   };
   const buttonStyle = {
-    backgroundColor: '#3498db',
+    // backgroundColor: '#3498db',
+    background: 'linear-gradient(to bottom, #4b79a1, #283e51)',
     height: '50px',
     width: '50%',
     marginLeft: '25%',
@@ -194,6 +195,7 @@ const Home = () => {
     padding: '10px 20px',
     borderRadius: '5px',
     cursor: 'pointer',
+    fontWeight: 'bold',
   };
 
   const handleFilterByCategory = async (value) => {
@@ -270,8 +272,8 @@ const Home = () => {
                   questions: (
                     <div className="question">
                       <div className="question-info">
-                        <h5>{_data.totalVotes} votes</h5>
-                        <h5>{_data.totalAnswer} answers</h5>
+                        <h4>{_data.totalVotes} votes</h4>
+                        <h4>{_data.totalAnswer} answers</h4>
                       </div>
                       <div className="question-content">
                         <div className="question-content-title">

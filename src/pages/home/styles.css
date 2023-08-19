@@ -1,3 +1,5 @@
+
+
 .home {
   display: flex;
   flex-direction: column;
@@ -23,16 +25,22 @@
 .category-trend {
   width: calc(100% - 12px);
   height: 42px;
-  background-color: rgb(243, 238, 238);
+  background: #E0EAFC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   margin-bottom: 12px;
   border-radius: 8px;
   padding-left: 12px;
   display: flex;
   align-items: center;
+  font-weight: 700;
 }
 
 .category-trend:hover {
-  background-color: rgb(214, 202, 202);
+  background: #FFEFBA;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #FFFFFF, #FFEFBA);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #FFFFFF, #FFEFBA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   cursor: pointer;
 }
 

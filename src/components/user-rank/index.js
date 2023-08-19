@@ -7,11 +7,11 @@ const UserRank = (props) => {
   const { rank, avatar, name, numquest, numans, action, ...userProps } = props;
   return (
     <div className="user-rank" {...userProps}>
-      <h3>{rank}</h3>
+      <h2>{rank}</h2>
       <img src={avatar} alt="avatar" onClick={action} />
       <div className="user-rank-info">
         <div className="qna-info">
-          <h2>{name}</h2>
+          <h3>{name}</h3>
           <b>{numquest && `${numquest} questions`} </b>
           <b>{numans && `${numans} answers`} </b>
         </div>

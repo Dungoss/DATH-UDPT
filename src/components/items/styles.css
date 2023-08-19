@@ -13,10 +13,11 @@
 }
 
 .item__sidebar__menu-active {
-  background: linear-gradient(0deg, rgba(234, 240, 247, 0.24), rgba(234, 240, 247, 0.24)), #e1e1e8;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(245, 175, 25, 0.8));
+  font-weight: 700;
 }
 
 .item__sidebar__menu:hover {
-  background: linear-gradient(0deg, rgba(234, 240, 247, 0.08), rgba(234, 240, 247, 0.08)), #e1e1e8;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(245, 175, 25, 0.8));
   cursor: pointer;
 }

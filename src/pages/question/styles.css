@@ -14,7 +14,8 @@
 
 .question-info {
   width: 180px;
-  padding-left: 50px;
+  height: auto;
+  padding-left: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -40,7 +41,7 @@
 
 .question-content {
   padding-left: 24px;
-  width: 60%;
+  width: 70%;
 }
 
 .question-content-title h2 {
@@ -94,7 +95,7 @@
 }
 
 .question-filter-popular:hover {
-  background-color: hsl(213, 68%, 74%);
+  background-color: #ffc266;
   cursor: pointer;
 }
 
