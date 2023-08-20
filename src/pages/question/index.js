@@ -258,7 +258,10 @@ const Question = () => {
                     <div>{detailQuestion.questionContent}</div>
                   </div>
                   <div className="detail-actions">
-                    <Rate defaultValue={voteData && voteData[detailQuestion.id]} onChange={onStarVote} />
+                    <div className='RateStar'>
+                      <Rate defaultValue={voteData && voteData[detailQuestion.id]} onChange={onStarVote} />
+                    </div>
+                    
                     <div className="detail-spam">
                       <Button
                         className={`btn-spam${user && spamData.includes(detailQuestion.id) ? 'spam' : ''}`}
