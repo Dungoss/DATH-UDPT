@@ -63,6 +63,7 @@
   height: 24px;
   margin: 6px;
   padding: 6px;
+  margin-top: 18px;
   background-color: hsl(213, 62%, 83%);
   border-radius: 4px;
 }

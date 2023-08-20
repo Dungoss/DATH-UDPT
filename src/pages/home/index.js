@@ -171,7 +171,7 @@ const Home = () => {
     {
       title: (
         <div>
-          <h1>Trending Questions</h1>
+          <h1 style={{marginLeft: '50px'}}>Trending Questions</h1>
         </div>
       ),
       dataIndex: 'questions',
