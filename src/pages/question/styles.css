@@ -153,11 +153,14 @@
 }
 
 .detail-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: rgb(62, 178, 221);
   padding: 0px 24px 10px 24px;
 }
 
 .detail-conten {
-  padding: 24px;
+  padding: 5px 24px 24px 24px;
 }
 
 .detail-spam {
@@ -170,7 +173,16 @@
   display: flex;
   justify-content: space-between;
   margin: 0 20px 0 20px;
+}
 
+.detail-actions .RateStar{
+  height: 30px;
+  background-color: #ffffff;
+  margin-top: 5px;
+  padding: 0px 5px 0px 5px;
+  border-color: #d9d9d9;
+  border-radius: 6px;
+  
 }
 
 .detail-answer {
@@ -252,6 +264,12 @@
   border-radius: 8px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   /* padding: 24px 0 0 24px; */
+}
+
+.answer-container .detail-title {
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
 }
 
 .btn-type1 {
