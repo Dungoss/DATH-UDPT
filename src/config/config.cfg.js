@@ -11,6 +11,7 @@ const configs = {
   questionService: 'http://localhost:8001',
   userSerivce: 'http://localhost:8000',
   otherSerivce: 'http://localhost:8002',
+  bonusSerivce: 'http://localhost:8003',
   originFrontend: 'http://localhost:3000',
 };
 

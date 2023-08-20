@@ -136,7 +136,7 @@
 .detail-content-content {
   margin-top: 20px;
   padding: 10px;
-  background: rgba(236,233,230,1);
+  background: rgba(236, 233, 230, 1);
   border-radius: 10px;
 }
 
@@ -170,7 +170,6 @@
   display: flex;
   justify-content: space-between;
   margin: 0 20px 0 20px;
-
 }
 
 .detail-answer {
@@ -235,7 +234,6 @@
   border-radius: 8px;
   padding: 16px;
   display: flex;
-  
 }
 
 .comment-input {
@@ -293,4 +291,10 @@
 
 .trend-item:hover {
   color: #f12711;
+}
+
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

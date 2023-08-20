@@ -185,36 +185,45 @@ const Question = () => {
 
   console.log(configs.userSerivce);
 
+  const onExport = async () => {
+    window.open(`${configs.bonusSerivce}/api/export-excel-csv-file`, '_blank');
+  };
+
   const columns = [
     {
       title: (
         <div>
           <h1>Question</h1>
-          <div className="question-filter">
-            <div className="question-filter-popular">
-              <img src={IconPop} /> Popular
+          <div className="spread">
+            <div className="question-filter">
+              <div className="question-filter-popular">
+                <img src={IconPop} /> Popular
+              </div>
+              <div className="question-filter-hotnew">
+                <img src={IconHot} /> Hot
+              </div>
+              {tagData.map((_data) => {
+                tagOptions.push({ value: _data.tagID, label: _data.tagName });
+              })}
+              <Select
+                style={{
+                  width: 120,
+                }}
+                placeholder="Filter By Tags"
+                onChange={handleFilterByTag}
+                options={tagOptions}
+              />
+              <Search
+                placeholder="input search text"
+                onSearch={onSearch}
+                style={{
+                  width: 200,
+                }}
+              />
             </div>
-            <div className="question-filter-hotnew">
-              <img src={IconHot} /> Hot
+            <div>
+              <Button onClick={onExport}>Export</Button>
             </div>
-            {tagData.map((_data) => {
-              tagOptions.push({ value: _data.tagID, label: _data.tagName });
-            })}
-            <Select
-              style={{
-                width: 120,
-              }}
-              placeholder="Filter By Tags"
-              onChange={handleFilterByTag}
-              options={tagOptions}
-            />
-            <Search
-              placeholder="input search text"
-              onSearch={onSearch}
-              style={{
-                width: 200,
-              }}
-            />
           </div>
         </div>
       ),
