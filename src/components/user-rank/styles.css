@@ -19,12 +19,12 @@
 }
 
 .qna-info {
-  width: 175px;
+  width: 200px;
 }
 
 .qna-info h3 {
   margin-top: 20px;
-  margin-left: 12px;
+  color: #F37335;
 }
 
 .user-rank img {
@@ -40,7 +40,7 @@
 }
 
 .level {
-  margin-left: 30px;
+  margin-left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
