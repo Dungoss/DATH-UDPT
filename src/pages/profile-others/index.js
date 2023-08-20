@@ -105,7 +105,7 @@ const ProfileOther = () => {
       <div className="wall-paper">
         <img onClick={() => setShowWallpaper(true)} src={userData.wallpaper} className="resized-image" />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
         <div className="avatar">
           <img onClick={() => setShowAva(true)} src={userData && userData.avatar} />
         </div>

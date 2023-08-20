@@ -124,7 +124,7 @@ const Profile = () => {
             )}
           </UploadButton>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
           <div className="avatar">
             <img onClick={() => setShowAva(true)} src={userData && userData.avatar} />
             <UploadButton
