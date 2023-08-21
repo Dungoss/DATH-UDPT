@@ -10,7 +10,7 @@ import configs from '../../config/config.cfg';
 import { useStateContext } from '../../contexts/contextProvider';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
-// import { IconLogo } from '../../utils/constants/img';
+import { IconLogo } from '../../utils/constants/img';
 import { UserMenu } from '../user-menu';
 import AuthUser from '../../components/auth/AuthUser';
 
@@ -41,7 +41,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header-logo">
-        <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" />
+        <img src={IconLogo} />
         <h4>Mạng xã hội tri thức số Việt</h4>
       </div>
       <div className="header-input">

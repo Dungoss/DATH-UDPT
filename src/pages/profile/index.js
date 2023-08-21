@@ -11,6 +11,8 @@ import './styles.css';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 import { Camera } from '../../utils/constants/img';
+import { useStateContext } from '../../contexts/contextProvider';
+import { QuestionDetail } from '../../components';
 
 const uploader = Uploader({
   apiKey: 'public_W142iARCb7TLAftdNLcvcZ23CYvn',
@@ -26,6 +28,8 @@ const Profile = () => {
 
   const [showAva, setShowAva] = useState(false);
   const [showWallpaper, setShowWallpaper] = useState(false);
+
+  const { setDetailQuestion, openDetail, setOpenDetail } = useStateContext();
 
   const userData = useSelector((state) => state.question.userDetail);
   const categoryData = useSelector((state) => state.question.categoryData);
@@ -52,6 +56,10 @@ const Profile = () => {
       temp.avatar = imgUrl;
       dispatch(questionActions.setUserDetail(temp));
     }
+  };
+
+  const handleToQuestionDetail = () => {
+    setOpenDetail(true);
   };
 
   const handleUploadWallpaper = async (imgUrl) => {
@@ -184,7 +192,10 @@ const Profile = () => {
                     <div>
                       {id === '0' ? (
                         <div className="profile-question">
-                          <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
+                          {openDetail == true && <QuestionDetail />}
+                          {openDetail == false && (
+                            <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
+                          )}
                           {questData &&
                             questData.map((_data, _idx) => {
                               questionData.push({
@@ -196,7 +207,13 @@ const Profile = () => {
                                       <h5>{_data.totalAnswer} answers</h5>
                                     </div>
                                     <div className="question-content">
-                                      <div className="question-content-title">
+                                      <div
+                                        className="question-content-title"
+                                        onClick={() => {
+                                          setDetailQuestion(_data);
+                                          handleToQuestionDetail();
+                                        }}
+                                      >
                                         <h2>{_data.questionTitle}</h2>
                                         <div className="question-category">
                                           {findCategoryById(categoryData, _data.categoryID)}

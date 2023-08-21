@@ -10,7 +10,7 @@ const SidebarItem = ({ data, isSidebarSmall, onClick, isActive }) => {
       className={`item__sidebar__menu ${isActive === data.id ? 'item__sidebar__menu-active' : ''}`}
       onClick={onClick}
     >
-      <img src={data.icon} alt={data.name} />
+      <img style={{ width: '30px', height: '30px' }} src={data.icon} alt={data.name} />
       <p className={`${isSidebarSmall ? 'display-none' : ''}`}>{data.name}</p>
     </div>
   );

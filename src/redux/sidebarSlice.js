@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IconHome, IconPopular, IconSport, IconBusiness, IconCrypto } from '../utils/constants/img';
+import { Manage, User, Ranking, Question, IconHome, IconBusiness, Profile } from '../utils/constants/img';
 
 const dataSidebar = [
   {
@@ -13,21 +13,21 @@ const dataSidebar = [
   {
     id: 1,
     name: 'Question',
-    icon: IconPopular,
+    icon: Question,
     key: 'question',
     role: 'general',
   },
   {
     id: 3,
     name: 'User',
-    icon: IconSport,
+    icon: User,
     key: 'user',
     role: 'general',
   },
   {
     id: 4,
     name: 'Monthly Ranking',
-    icon: IconSport,
+    icon: Ranking,
     key: 'ranking',
     role: 'general',
   },
@@ -41,14 +41,14 @@ const dataSidebar = [
   {
     id: 6,
     name: 'Manage',
-    icon: IconCrypto,
+    icon: Manage,
     key: 'manage',
     role: 'admin',
   },
   {
     id: 7,
     name: 'Profile',
-    icon: IconCrypto,
+    icon: Profile,
     key: 'profile',
     role: 'user',
   },

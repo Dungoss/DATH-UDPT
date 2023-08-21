@@ -14,11 +14,14 @@ import IconHot from '../../assets/images/hot.svg';
 
 import ArrowLeft from '../../assets/images/arrow-left.svg';
 import ArrowRight from '../../assets/images/arrow-right.svg';
-import Slider1 from '../../assets/images/slider1.jpg';
-import Slider2 from '../../assets/images/slider2.jpg';
+import Profile from '../../assets/images/profile.svg';
+import Question from '../../assets/images/question.svg';
 import Login from '../../assets/images/login.png';
 import WallPaper from '../../assets/images/wall-paper.svg';
 import Camera from '../../assets/images/camera.svg';
+import Ranking from '../../assets/images/ranking.svg';
+import User from '../../assets/images/user.svg';
+import Manage from '../../assets/images/manage.svg';
 
 export {
   IconLogo,
@@ -33,12 +36,15 @@ export {
   IconCeleb,
   ArrowLeft,
   ArrowRight,
-  Slider1,
-  Slider2,
+  Profile,
+  Question,
   Login,
   IconPop,
   IconNew,
   IconHot,
   WallPaper,
   Camera,
+  Ranking,
+  User,
+  Manage,
 };

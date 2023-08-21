@@ -10,6 +10,7 @@ import { useStateContext } from '../../contexts/contextProvider';
 
 const ProfileOther = () => {
   const userData = JSON.parse(localStorage.getItem('profile'));
+  console.log(userData);
   const imgRef = useRef(null);
 
   const { openDetail, setOpenDetail, setDetailQuestion, isModalWarningOpen, setIsModalWarningOpen } = useStateContext();
