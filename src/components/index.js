@@ -8,3 +8,4 @@ export * from './user-menu';
 export * from './tag-cloud';
 export * from './user-rank';
 export * from './loading';
+export * from './detail';

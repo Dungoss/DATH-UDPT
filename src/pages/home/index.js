@@ -14,6 +14,7 @@ import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
 import { useStateContext } from '../../contexts/contextProvider';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
+import { QuestionDetail } from '../../components';
 
 const uploader = Uploader({
   apiKey: 'free',
@@ -28,7 +29,7 @@ const Home = () => {
   const { user } = AuthUser();
   const dispatch = useDispatch();
 
-  const { setIsActive, setData } = useStateContext();
+  const { setIsActive, setData, setDetailQuestion, openDetail, setOpenDetail } = useStateContext();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImg, setUploadedImg] = useState([]);
@@ -53,6 +54,9 @@ const Home = () => {
 
   let categoryOptions = [];
   let tagOptions = [];
+  const handleToQuestionDetail = () => {
+    setOpenDetail(true);
+  };
 
   const sendEmail = (email) => {
     const dataToSend = {
@@ -171,7 +175,7 @@ const Home = () => {
     {
       title: (
         <div>
-          <h1 style={{marginLeft: '50px'}}>Trending Questions</h1>
+          <h1 style={{ marginLeft: '50px' }}>Trending Questions</h1>
         </div>
       ),
       dataIndex: 'questions',
@@ -209,121 +213,132 @@ const Home = () => {
     dispatch(pageActions.setActivePane('question'));
   }
   return (
-    <div className="home">
-      <div className="trending">
-        <TextShpere />
-        <div className="trending-category">
-          {categoryData &&
-            categoryData.map((data, idx) => {
-              return (
-                <div onClick={() => handleSeachByCategory(data.categoryID)} key={idx} className="category-trend">
-                  {data.categoryName}
-                </div>
-              );
-            })}
+    <div>
+      <div className="home">
+        <div className="trending">
+          <TextShpere />
+          <div className="trending-category">
+            {categoryData &&
+              categoryData.map((data, idx) => {
+                return (
+                  <div onClick={() => handleSeachByCategory(data.categoryID)} key={idx} className="category-trend">
+                    {data.categoryName}
+                  </div>
+                );
+              })}
+          </div>
         </div>
-      </div>
-      <Button style={buttonStyle} type="primary" onClick={showModal}>
-        Ask Questions
-      </Button>
-      <Modal title="Enter your question" open={isModalOpen} onOk={handleAddQuestion} onCancel={handleCancel}>
-        <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
-        <TextArea rows={4} placeholder="Content" onChange={(e) => onQuestionChange(e.target.value)} />
-        {categoryData.map((_data) => {
-          categoryOptions.push({ value: _data.categoryID, label: _data.categoryName });
-        })}
-        {tagData.map((_data) => {
-          tagOptions.push({ value: _data.tagID, label: _data.tagName });
-        })}
-        <Select
-          style={{
-            width: 120,
-          }}
-          placeholder="Category"
-          onChange={handleChangeCategory}
-          options={categoryOptions}
-        />
-        <Select
-          mode="multiple"
-          allowClear
-          style={{
-            width: '100%',
-          }}
-          placeholder="Please select"
-          onChange={handleTagChange}
-          options={tagOptions}
-        />
-        <UploadButton
-          uploader={uploader}
-          options={options}
-          onComplete={(files) => files.map((x) => setUploadedImg([...uploadedImg, x.fileUrl]))}
-        >
-          {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
-        </UploadButton>
-      </Modal>
-      <div className="popular-topic">
-        <div className="profile-question">
-          <Table dataSource={questionDataa} columns={columns} pagination={paginationConfig} />
-          {questionData &&
-            questionData.map((_data, _idx) => {
-              _data.statusApproved == 1 &&
-                questionDataa.push({
-                  key: _idx + 1,
-                  questions: (
-                    <div className="question">
-                      <div className="question-info">
-                        <h4>{_data.totalVotes} votes</h4>
-                        <h4>{_data.totalAnswer} answers</h4>
-                      </div>
-                      <div className="question-content">
-                        <div className="question-content-title">
-                          <h2>{_data.questionTitle}</h2>
-                          <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
+        <Button style={buttonStyle} type="primary" onClick={showModal}>
+          Ask Questions
+        </Button>
+        <Modal title="Enter your question" open={isModalOpen} onOk={handleAddQuestion} onCancel={handleCancel}>
+          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
+          <TextArea rows={4} placeholder="Content" onChange={(e) => onQuestionChange(e.target.value)} />
+          {categoryData.map((_data) => {
+            categoryOptions.push({ value: _data.categoryID, label: _data.categoryName });
+          })}
+          {tagData.map((_data) => {
+            tagOptions.push({ value: _data.tagID, label: _data.tagName });
+          })}
+          <Select
+            style={{
+              width: 120,
+            }}
+            placeholder="Category"
+            onChange={handleChangeCategory}
+            options={categoryOptions}
+          />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{
+              width: '100%',
+            }}
+            placeholder="Please select"
+            onChange={handleTagChange}
+            options={tagOptions}
+          />
+          <UploadButton
+            uploader={uploader}
+            options={options}
+            onComplete={(files) => files.map((x) => setUploadedImg([...uploadedImg, x.fileUrl]))}
+          >
+            {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
+          </UploadButton>
+        </Modal>
+        <div className="popular-topic">
+          <div className="profile-question">
+            {openDetail == true && <QuestionDetail />}
+            {openDetail == false && (
+              <Table dataSource={questionDataa} columns={columns} pagination={paginationConfig} />
+            )}
+            {questionData &&
+              questionData.map((_data, _idx) => {
+                _data.statusApproved == 1 &&
+                  questionDataa.push({
+                    key: _idx + 1,
+                    questions: (
+                      <div className="question">
+                        <div className="question-info">
+                          <h4>{_data.totalVotes} votes</h4>
+                          <h4>{_data.totalAnswer} answers</h4>
                         </div>
+                        <div className="question-content">
+                          <div
+                            className="question-content-title"
+                            onClick={() => {
+                              setDetailQuestion(_data);
+                              handleToQuestionDetail();
+                            }}
+                          >
+                            <h2>{_data.questionTitle}</h2>
+                            <div className="question-category">{findCategoryById(categoryData, _data.categoryID)}</div>
+                          </div>
 
-                        <div className="question-content-content">
-                          <span>{_data.questionContent}</span>
-                        </div>
-                        <div className="question-footer">
-                          <div className="question-tag">
-                            {JSON.parse(_data.tagID).map((_data, _idx) => {
-                              return (
-                                <div key={_idx} className="question-tag-item">
-                                  {findTagNameById(tagData, _data)}
-                                </div>
-                              );
-                            })}
+                          <div className="question-content-content">
+                            <span>{_data.questionContent}</span>
                           </div>
-                          <div className="question-time">
-                            <img src={findAvatarById(userData, _data.userID)} />
-                            <span>{findNameById(userData, _data.userID)}</span>
-                            <b>{_data.totalAnswer}</b>
-                            <span>
-                              {_data.postingTime &&
-                                (() => {
-                                  const unixTimestamp = _data.postingTime;
-                                  const date = new Date(unixTimestamp * 1000);
-                                  const year = date.getFullYear();
-                                  const month = date.getMonth() + 1;
-                                  const day = date.getDate();
-                                  const hours = date.getHours();
-                                  const minutes = date.getMinutes();
-                                  const seconds = date.getSeconds();
-                                  const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                                  return humanReadableTime;
-                                })()}
-                            </span>
+                          <div className="question-footer">
+                            <div className="question-tag">
+                              {JSON.parse(_data.tagID).map((_data, _idx) => {
+                                return (
+                                  <div key={_idx} className="question-tag-item">
+                                    {findTagNameById(tagData, _data)}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div className="question-time">
+                              <img src={findAvatarById(userData, _data.userID)} />
+                              <span>{findNameById(userData, _data.userID)}</span>
+                              <b>{_data.totalAnswer}</b>
+                              <span>
+                                {_data.postingTime &&
+                                  (() => {
+                                    const unixTimestamp = _data.postingTime;
+                                    const date = new Date(unixTimestamp * 1000);
+                                    const year = date.getFullYear();
+                                    const month = date.getMonth() + 1;
+                                    const day = date.getDate();
+                                    const hours = date.getHours();
+                                    const minutes = date.getMinutes();
+                                    const seconds = date.getSeconds();
+                                    const humanReadableTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                                    return humanReadableTime;
+                                  })()}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ),
-                });
-            })}
+                    ),
+                  });
+              })}
+          </div>
         </div>
       </div>
       <Modal title="Basic Modal" open={isModalWarningOpen} onOk={handleOkWarning} onCancel={handleCancelWarning}>
-        <p>Please login start asking questions!</p>
+        <p>Please login first!</p>
       </Modal>
     </div>
   );

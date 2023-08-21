@@ -5,10 +5,14 @@ import axios from 'axios';
 
 import configs from '../../config/config.cfg';
 import './styles.css';
+import { QuestionDetail } from '../../components';
+import { useStateContext } from '../../contexts/contextProvider';
 
 const ProfileOther = () => {
   const userData = JSON.parse(localStorage.getItem('profile'));
   const imgRef = useRef(null);
+
+  const { openDetail, setOpenDetail, setDetailQuestion, isModalWarningOpen, setIsModalWarningOpen } = useStateContext();
 
   const [showAva, setShowAva] = useState(false);
   const [showWallpaper, setShowWallpaper] = useState(false);
@@ -66,6 +70,18 @@ const ProfileOther = () => {
       }
     }
     return null;
+  };
+
+  const handleToQuestionDetail = () => {
+    setOpenDetail(true);
+  };
+
+  const handleOkWarning = () => {
+    setIsModalWarningOpen(false);
+    window.location.href = '/login';
+  };
+  const handleCancelWarning = () => {
+    setIsModalWarningOpen(false);
   };
 
   let questionData = [];
@@ -154,7 +170,10 @@ const ProfileOther = () => {
                   <div>
                     {id === '0' ? (
                       <div className="profile-question">
-                        <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
+                        {openDetail == true && <QuestionDetail />}
+                        {openDetail == false && (
+                          <Table dataSource={questionData} columns={columns} pagination={paginationConfig} />
+                        )}
                         {questData &&
                           questData.map((_data, _idx) => {
                             questionData.push({
@@ -166,7 +185,13 @@ const ProfileOther = () => {
                                     <h5>{_data.totalAnswer} answers</h5>
                                   </div>
                                   <div className="question-content">
-                                    <div className="question-content-title">
+                                    <div
+                                      className="question-content-title"
+                                      onClick={() => {
+                                        setDetailQuestion(_data);
+                                        handleToQuestionDetail();
+                                      }}
+                                    >
                                       <h2>{_data.questionTitle}</h2>
                                       <div className="question-category">
                                         {findCategoryById(categoryData, _data.categoryID)}
@@ -235,6 +260,9 @@ const ProfileOther = () => {
         footer={null}
       >
         <img src={userData.wallpaper}></img>
+      </Modal>
+      <Modal title="Basic Modal" open={isModalWarningOpen} onOk={handleOkWarning} onCancel={handleCancelWarning}>
+        <p>Please login first!</p>
       </Modal>
     </div>
   );

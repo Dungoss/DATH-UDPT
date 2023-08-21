@@ -69,9 +69,9 @@
 }
 
 .profile-question {
-  height: 500px;
+  /* height: 500px; */
+  border-radius: 8px;
   width: 70vw;
-  background-color: rgb(245, 240, 235);
 }
 
 .basic-info {

@@ -18,9 +18,10 @@ function Layout({ propchild }) {
     getQuestionData(dispatch);
   }, [dispatch]);
 
-  const { isActive, setIsActive } = useStateContext();
+  const { isActive, setIsActive, setOpenDetail } = useStateContext();
 
   const handleActiveSidebar = (idx, pane) => {
+    setOpenDetail(false);
     setIsActive(idx);
     dispatch(pageActions.setActivePane(pane));
   };

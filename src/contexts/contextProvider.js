@@ -7,6 +7,8 @@ export const ContextProvider = ({ children }) => {
   const [detailQuestion, setDetailQuestion] = useState();
   const [detailProfile, setDetailProfile] = useState();
   const [data, setData] = useState();
+  const [openDetail, setOpenDetail] = useState(false);
+  const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
 
   const [isActive, setIsActive] = useState(0);
   return (
@@ -20,6 +22,10 @@ export const ContextProvider = ({ children }) => {
         setDetailProfile,
         data,
         setData,
+        openDetail,
+        setOpenDetail,
+        isModalWarningOpen,
+        setIsModalWarningOpen,
       }}
     >
       {children}
