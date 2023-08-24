@@ -9,6 +9,7 @@ import './styles.css';
 import { useStateContext } from '../../contexts/contextProvider';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
+import { Back } from '../../utils/constants/img';
 
 const QuestionDetail = () => {
   const { user } = AuthUser();
@@ -163,7 +164,7 @@ const QuestionDetail = () => {
       <div className="question-detail">
         <div className="detail-ques">
           <div className="detail-content">
-            <b onClick={handleCloseQuestionDetail}>Back</b>
+            <img style={{ width: '24px', height: '24px' }} src={Back} alt="Back" onClick={handleCloseQuestionDetail} />
             <div className="detail-content-content">
               <div className="detail-user">
                 <img src={findAvatarById(userData, detailQuestion.userID)} alt="avatar" />

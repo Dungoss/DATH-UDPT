@@ -29,7 +29,15 @@ const Home = () => {
   const { user } = AuthUser();
   const dispatch = useDispatch();
 
-  const { setIsActive, setData, setDetailQuestion, openDetail, setOpenDetail } = useStateContext();
+  const {
+    setIsActive,
+    setData,
+    setDetailQuestion,
+    openDetail,
+    setOpenDetail,
+    isModalWarningOpen,
+    setIsModalWarningOpen,
+  } = useStateContext();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImg, setUploadedImg] = useState([]);
@@ -45,7 +53,7 @@ const Home = () => {
     tagID: 0,
     spam: 0,
   });
-  const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
+
   const categoryData = useSelector((state) => state.question.categoryData);
   const questionData = useSelector((state) => state.question.questionData);
   const userData = useSelector((state) => state.question.usersData);

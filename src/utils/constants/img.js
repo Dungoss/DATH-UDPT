@@ -22,6 +22,7 @@ import Camera from '../../assets/images/camera.svg';
 import Ranking from '../../assets/images/ranking.svg';
 import User from '../../assets/images/user.svg';
 import Manage from '../../assets/images/manage.svg';
+import Back from '../../assets/images/back.svg';
 
 export {
   IconLogo,
@@ -47,4 +48,5 @@ export {
   Ranking,
   User,
   Manage,
+  Back,
 };

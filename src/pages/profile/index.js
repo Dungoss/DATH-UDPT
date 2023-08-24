@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Tabs, Table, Modal } from 'antd';
+import { Tabs, Table, Modal, Button } from 'antd';
 import { Uploader } from 'uploader';
 import { UploadButton } from 'react-uploader';
 import axios from 'axios';
@@ -260,7 +260,26 @@ const Profile = () => {
                             })}
                         </div>
                       ) : (
-                        <div className="profile-question"></div>
+                        <div className="profile-question">
+                          <div>
+                            <span>Username: {userData.name}</span>
+                          </div>
+                          <div>
+                            <span>Email address: {userData.email}</span>
+                          </div>
+                          <div>
+                            <span>Total questions: {userData.question_count}</span>
+                          </div>
+                          <div>
+                            <span>Total answers: {userData.answer_count}</span>
+                          </div>
+                          <div>
+                            <span>Role: {userData.role}</span>
+                          </div>
+                          <div>
+                            <Button>Đổi mật khẩu</Button>
+                          </div>
+                        </div>
                       )}
                     </div>
                   ),
