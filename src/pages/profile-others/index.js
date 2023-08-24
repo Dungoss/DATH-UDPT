@@ -240,23 +240,30 @@ const ProfileOther = () => {
                       </div>
                     ) : (
                       <div className="profile-question">
-                        <div>
-                          <span>Username: {userData.name}</span>
-                        </div>
-                        <div>
-                          <span>Email address: {userData.email}</span>
-                        </div>
-                        <div>
-                          <span>Total questions: {userData.question_count}</span>
-                        </div>
-                        <div>
-                          <span>Total answers: {userData.answer_count}</span>
-                        </div>
-                        <div>
-                          <span>Role: {userData.role}</span>
-                        </div>
-                        <div>
-                          <Button>Đổi mật khẩu</Button>
+                        <table className="profile-question-list">
+                          <tr>
+                            <td className="title">Username:</td>
+                            <td className="info">{userData.name}</td>
+                          </tr>
+                          <tr>
+                            <td className="title">Email address:</td>
+                            <td className="info">{userData.email}</td>
+                          </tr>
+                          <tr>
+                            <td className="title">Total questions:</td>
+                            <td className="info">{userData.question_count}</td>
+                          </tr>
+                          <tr>
+                            <td className="title">Total answers:</td>
+                            <td className="info">{userData.answer_count}</td>
+                          </tr>
+                          <tr>
+                            <td className="title">Role:</td>
+                            <td className="info">{userData.role}</td>
+                          </tr>
+                        </table>
+                        <div className="profile-question-button">
+                          <Button className='btn'>Đổi mật khẩu</Button>
                         </div>
                       </div>
                     )}

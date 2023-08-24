@@ -261,22 +261,27 @@ const Profile = () => {
                         </div>
                       ) : (
                         <div className="profile-question">
-                          <div>
-                            <span>Username: {userData.name}</span>
+                          <div >
+                            <span>Username:</span> 
+                            <span>{userData.name}</span>
                           </div>
-                          <div>
-                            <span>Email address: {userData.email}</span>
+                          <div >
+                            <span>Email address:</span> 
+                            <span>{userData.email}</span>
                           </div>
-                          <div>
-                            <span>Total questions: {userData.question_count}</span>
+                          <div >
+                            <span> Total questions:</span>
+                            <span>{userData.question_count}</span>
                           </div>
-                          <div>
-                            <span>Total answers: {userData.answer_count}</span>
+                          <div > 
+                            <span> Total answers:</span>
+                            <span>{userData.answer_count}</span>
                           </div>
-                          <div>
-                            <span>Role: {userData.role}</span>
+                          <div > 
+                            <span> Role:</span>
+                            <span>{userData.role}</span>
                           </div>
-                          <div>
+                          <div >
                             <Button>Đổi mật khẩu</Button>
                           </div>
                         </div>
