@@ -21,29 +21,40 @@ const QuestionManagement = () => {
   let updatedData = [];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const showModal = (id) => {
     setQuestionsToDelete((prevQuestionsToDelete) => [...prevQuestionsToDelete, id]);
     setIsModalOpen(true);
   };
+
   const handleOk = async () => {
+    setIsModalOpen(false);
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.delete(`${configs.questionService}/api/questions/${questionsToDelete[0]}`);
     updatedData = temp.filter((item) => item.id !== questionsToDelete[0]);
     if (response.status == 200) {
       setQuestionsToDelete([]);
       dispatch(questionActions.setQuestion(updatedData));
     }
-    setIsModalOpen(false);
+    dispatch(questionActions.setLoadingChild(false));
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
+  console.log(questionsToDelete);
+
   const [isModalApproveOpen, setIsModalApproveOpen] = useState(false);
+
   const showModalApprove = (id) => {
     setQuestionsToDelete((prevQuestionsToDelete) => [...prevQuestionsToDelete, id]);
     setIsModalApproveOpen(true);
   };
+
   const handleOkApprove = async () => {
+    setIsModalApproveOpen(false);
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.put(`${configs.questionService}/api/questions/${questionsToDelete[0]}/status`, {
       statusApproved: 1,
     });
@@ -57,9 +68,9 @@ const QuestionManagement = () => {
       setQuestionsToDelete([]);
       dispatch(questionActions.setQuestion(updatedData));
     }
-
-    setIsModalApproveOpen(false);
+    dispatch(questionActions.setLoadingChild(false));
   };
+
   const handleCancelApprove = () => {
     setIsModalApproveOpen(false);
   };
@@ -69,12 +80,14 @@ const QuestionManagement = () => {
     setIsModalAutoApproveOpen(true);
   };
   const handleOkAutoApprove = async () => {
+    setIsModalAutoApproveOpen(false);
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.put(`${configs.questionService}/api/questions/auto-approve`);
     if (response.status == 200) {
       const response = await axios.get(`${configs.questionService}/api/questions`);
       dispatch(questionActions.setQuestion(response.data));
     }
-    setIsModalAutoApproveOpen(false);
+    dispatch(questionActions.setLoadingChild(false));
   };
   const handleCancelAutoApprove = () => {
     setIsModalAutoApproveOpen(false);
@@ -108,21 +121,25 @@ const QuestionManagement = () => {
   };
 
   const emailNotiSubscribe = async () => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.put(`${configs.userSerivce}/api/users/${userDetail.id}/accept-noti`, {
       accept_noti: 1,
     });
     console.log(response);
     const response1 = await axios.get(`${configs.userSerivce}/api/users/${userDetail.id}`);
     dispatch(questionActions.setUserDetail(response1.data));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const emailNotiUnsubscribe = async () => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.put(`${configs.userSerivce}/api/users/${userDetail.id}/accept-noti`, {
       accept_noti: 0,
     });
     console.log(response);
     const response1 = await axios.get(`${configs.userSerivce}/api/users/${userDetail.id}`);
     dispatch(questionActions.setUserDetail(response1.data));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   let questionData = [];

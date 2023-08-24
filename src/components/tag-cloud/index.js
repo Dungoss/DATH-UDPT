@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import configs from '../../config/config.cfg';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
+import * as questionActions from '../../redux/questionSlice';
 import { useStateContext } from '../../contexts/contextProvider';
 import './styles.css';
 
@@ -17,8 +18,10 @@ const TextShpere = () => {
   let tag = [];
 
   const handleFilterByTag = async (value) => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/search-tag?tagID="${value}"`);
     setData(response.data);
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './styles.css';
-import { Header, SidebarItem, Loading } from '../../components';
+import { Header, SidebarItem, Loading, LoadingChild } from '../../components';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 // import * as questionActions from '../../redux/questionSlice';
 import { getQuestionData } from '../../utils/api/general-data-api';
@@ -67,7 +67,8 @@ function Layout({ propchild }) {
               )}
             </div>
             <div className="content-container">
-              {loadingChild ? <Loading /> : <div className="cont">{propchild}</div>}
+              {loadingChild && <LoadingChild />}
+              <div className="cont">{propchild}</div>
             </div>
           </div>
         </div>

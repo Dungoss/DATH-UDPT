@@ -10,6 +10,7 @@ import configs from '../../config/config.cfg';
 import './styles.css';
 import AuthUser from '../../components/auth/AuthUser';
 import * as questionActions from '../../redux/questionSlice';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import { Camera } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
 import { QuestionDetail } from '../../components';
@@ -29,13 +30,44 @@ const Profile = () => {
   const [showAva, setShowAva] = useState(false);
   const [showWallpaper, setShowWallpaper] = useState(false);
 
-  const { setDetailQuestion, openDetail, setOpenDetail } = useStateContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { setDetailQuestion, openDetail, setOpenDetail, setIsActive } = useStateContext();
 
   const userData = useSelector((state) => state.question.userDetail);
   const categoryData = useSelector((state) => state.question.categoryData);
   const questData = useSelector((state) => state.question.questionUserData);
   const tagData = useSelector((state) => state.question.tagData);
   const tabs = [{ name: 'Questions' }, { name: 'Info' }];
+
+  const [changePassword, setChangePassword] = useState({
+    current_password: '',
+    new_password: '',
+  });
+
+  const onChange = (prop, val) => {
+    setChangePassword((prevState) => ({
+      ...prevState,
+      [prop]: val,
+    }));
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    dispatch(questionActions.setLoadingChild(true));
+    const res = axios.post(`${configs.userSerivce}/api/users/${user.id}/change-password`, {
+      current_password: changePassword.current_password,
+      new_password: changePassword.new_password,
+    });
+    dispatch(questionActions.setLoadingChild(false));
+    console.log(res);
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const findTagNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
@@ -59,6 +91,8 @@ const Profile = () => {
   };
 
   const handleToQuestionDetail = () => {
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
     setOpenDetail(true);
   };
 
@@ -102,7 +136,7 @@ const Profile = () => {
   const handleOkshowAva = () => {
     setShowAva(false);
   };
-  const handleCancel = () => {
+  const handleCancelAva = () => {
     setShowAva(false);
   };
 
@@ -174,7 +208,6 @@ const Profile = () => {
             </span>
           </div>
         </div>
-        {/* <div className="edit-profile">EDIT PROFILE</div> */}
         <div className="profile-content">
           <div>
             <Tabs
@@ -261,28 +294,34 @@ const Profile = () => {
                         </div>
                       ) : (
                         <div className="profile-question">
-                          <div >
-                            <span>Username:</span> 
-                            <span>{userData.name}</span>
-                          </div>
-                          <div >
-                            <span>Email address:</span> 
-                            <span>{userData.email}</span>
-                          </div>
-                          <div >
-                            <span> Total questions:</span>
-                            <span>{userData.question_count}</span>
-                          </div>
-                          <div > 
-                            <span> Total answers:</span>
-                            <span>{userData.answer_count}</span>
-                          </div>
-                          <div > 
-                            <span> Role:</span>
-                            <span>{userData.role}</span>
-                          </div>
-                          <div >
-                            <Button>Đổi mật khẩu</Button>
+                          <table className="profile-question-list">
+                            <tbody>
+                              <tr>
+                                <td className="title">Username:</td>
+                                <td className="info">{userData.name}</td>
+                              </tr>
+                              <tr>
+                                <td className="title">Email address:</td>
+                                <td className="info">{userData.email}</td>
+                              </tr>
+                              <tr>
+                                <td className="title">Total questions:</td>
+                                <td className="info">{userData.question_count}</td>
+                              </tr>
+                              <tr>
+                                <td className="title">Total answers:</td>
+                                <td className="info">{userData.answer_count}</td>
+                              </tr>
+                              <tr>
+                                <td className="title">Role:</td>
+                                <td className="info">{userData.role}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div className="profile-question-button">
+                            <Button onClick={showModal} className="btn">
+                              Đổi mật khẩu
+                            </Button>
                           </div>
                         </div>
                       )}
@@ -295,7 +334,7 @@ const Profile = () => {
         </div>
       </div>
       <img style={{ display: 'none' }} ref={imgRef} src={userData.wallpaper} />
-      <Modal open={showAva} onOk={handleOkshowAva} onCancel={handleCancel} width={280} height={200} footer={null}>
+      <Modal open={showAva} onOk={handleOkshowAva} onCancel={handleCancelAva} width={280} height={200} footer={null}>
         <img style={{ width: '200px', height: '200px', borderRadius: '4px' }} src={userData.avatar}></img>
       </Modal>
       <Modal
@@ -307,6 +346,11 @@ const Profile = () => {
         footer={null}
       >
         <img style={{ borderRadius: '4px' }} src={userData.wallpaper}></img>
+      </Modal>
+
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <input type="text" onChange={(e) => onChange('current_password', e.target.value)}></input>
+        <input type="text" onChange={(e) => onChange('new_password', e.target.value)}></input>
       </Modal>
     </div>
   );

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 const { Search } = Input;
 
 import configs from '../../config/config.cfg';
-// import * as questionActions from '../../redux/questionSlice';
+import * as questionActions from '../../redux/questionSlice';
 import { useStateContext } from '../../contexts/contextProvider';
 import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
@@ -28,8 +28,10 @@ const Header = () => {
   };
 
   const handleSearch = async (value) => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/search-keyword?keyword=${value}`);
     setData(response.data);
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const onSearch = async (value) => {

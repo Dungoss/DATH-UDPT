@@ -2,19 +2,31 @@ import React, { useEffect } from 'react';
 import { Table, Input, Button, Select, Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import configs from '../../config/config.cfg';
 import { QuestionDetail } from '../../components';
+import * as questionActions from '../../redux/questionSlice';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
 import { IconPop, IconHot } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
 
 const { Search } = Input;
 const Question = () => {
+  const dispatch = useDispatch();
   let tagOptions = [];
 
-  const { openDetail, setOpenDetail, setDetailQuestion, data, setData, isModalWarningOpen, setIsModalWarningOpen } =
-    useStateContext();
+  const {
+    setIsActive,
+    openDetail,
+    setOpenDetail,
+    setDetailQuestion,
+    data,
+    setData,
+    isModalWarningOpen,
+    setIsModalWarningOpen,
+  } = useStateContext();
   const userData = useSelector((state) => state.question.usersData);
   const categoryData = useSelector((state) => state.question.categoryData);
   const tagData = useSelector((state) => state.question.tagData);
@@ -70,17 +82,23 @@ const Question = () => {
   };
 
   const onSearch = async (value) => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/search-keyword?keyword=${value}`);
     setData(response.data);
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const handleFilterByTag = async (value) => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/search-tag?tagID="${value}"`);
     setData(response.data);
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   let questionData = [];
   const handleToQuestionDetail = () => {
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
     setOpenDetail(true);
   };
 

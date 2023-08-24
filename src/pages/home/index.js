@@ -63,6 +63,8 @@ const Home = () => {
   let categoryOptions = [];
   let tagOptions = [];
   const handleToQuestionDetail = () => {
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
     setOpenDetail(true);
   };
 
@@ -211,8 +213,10 @@ const Home = () => {
   };
 
   const handleFilterByCategory = async (value) => {
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/search-category?categoryID=${value}`);
     setData(response.data);
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   function handleSeachByCategory(categoryID) {

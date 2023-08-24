@@ -82,6 +82,7 @@ const QuestionDetail = () => {
   };
 
   const handleAnswer = async () => {
+    dispatch(questionActions.setLoadingChild(true));
     const currentTime = new Date();
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(answer);
@@ -92,9 +93,11 @@ const QuestionDetail = () => {
     console.log(response1);
     const response3 = await axios.get(`${configs.otherSerivce}/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const handleComment = async () => {
+    dispatch(questionActions.setLoadingChild(true));
     const currentTime = new Date();
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(comment);
@@ -104,10 +107,12 @@ const QuestionDetail = () => {
     console.log(response);
     const response1 = await axios.get(`${configs.otherSerivce}/api/comments`);
     dispatch(questionActions.setComments(response1.data));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const onSpamChange = async () => {
     if (user && !spamData.includes(detailQuestion.id)) {
+      dispatch(questionActions.setLoadingChild(true));
       const response = await axios.post(`${configs.questionService}/api/questions/${detailQuestion.id}/spam`);
       if (response.status == 200) {
         let temp = _.cloneDeep(spamData);
@@ -119,6 +124,7 @@ const QuestionDetail = () => {
         });
         console.log(response1);
       }
+      dispatch(questionActions.setLoadingChild(false));
     } else {
       showModalWarning();
     }
@@ -126,6 +132,7 @@ const QuestionDetail = () => {
 
   const onNotSpamChange = async () => {
     if (user && spamData.includes(detailQuestion.id)) {
+      dispatch(questionActions.setLoadingChild(true));
       const response = await axios.post(`${configs.questionService}/api/questions/${detailQuestion.id}/not-spam`);
       if (response.status == 200) {
         let temp = _.cloneDeep(spamData);
@@ -137,6 +144,7 @@ const QuestionDetail = () => {
         });
         console.log(response1);
       }
+      dispatch(questionActions.setLoadingChild(false));
     } else {
       showModalWarning();
     }
@@ -144,6 +152,7 @@ const QuestionDetail = () => {
 
   const onStarVote = async (value) => {
     if (user) {
+      dispatch(questionActions.setLoadingChild(true));
       const response = await axios.post(`${configs.userSerivce}/api/users/add-star`, {
         userID: user.id,
         questionID: detailQuestion.id,
@@ -152,6 +161,7 @@ const QuestionDetail = () => {
       console.log(response);
       const response10 = await axios.get(`${configs.userSerivce}/api/users/${user.id}/question-star`);
       dispatch(questionActions.setVote(response10.data));
+      dispatch(questionActions.setLoadingChild(false));
     } else {
       showModalWarning();
     }

@@ -1,19 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Tabs, Table, Modal, Button } from 'antd';
+import { Tabs, Table, Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import configs from '../../config/config.cfg';
+import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
 import { QuestionDetail } from '../../components';
 import { useStateContext } from '../../contexts/contextProvider';
 
 const ProfileOther = () => {
+  const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem('profile'));
   console.log(userData);
   const imgRef = useRef(null);
 
-  const { openDetail, setOpenDetail, setDetailQuestion, isModalWarningOpen, setIsModalWarningOpen } = useStateContext();
+  const { setIsActive, openDetail, setOpenDetail, setDetailQuestion, isModalWarningOpen, setIsModalWarningOpen } =
+    useStateContext();
 
   const [showAva, setShowAva] = useState(false);
   const [showWallpaper, setShowWallpaper] = useState(false);
@@ -74,6 +78,8 @@ const ProfileOther = () => {
   };
 
   const handleToQuestionDetail = () => {
+    setIsActive(1);
+    dispatch(pageActions.setActivePane('question'));
     setOpenDetail(true);
   };
 
@@ -262,9 +268,6 @@ const ProfileOther = () => {
                             <td className="info">{userData.role}</td>
                           </tr>
                         </table>
-                        <div className="profile-question-button">
-                          <Button className='btn'>Đổi mật khẩu</Button>
-                        </div>
                       </div>
                     )}
                   </div>
