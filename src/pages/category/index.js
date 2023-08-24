@@ -36,7 +36,7 @@ const Category = () => {
     {
       title: (
         <div>
-          <Button onClick={showModal}>Add category</Button>
+          <Button className='AddCategory' onClick={showModal}>Add category</Button>
         </div>
       ),
       dataIndex: 'category',
@@ -58,9 +58,9 @@ const Category = () => {
         tableData.push({
           key: _idx + 1,
           category: (
-            <div>
+            <div className='category-list'>
               <div>{_data.categoryName}</div>
-              <div>
+              <div className='category-icon'>
                 <EditOutlined />
               </div>
             </div>

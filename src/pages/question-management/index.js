@@ -153,15 +153,15 @@ const QuestionManagement = () => {
               className={`btn-subscribe${userDetail && userDetail.accept_noti == 1 ? '-true' : ''}`}
               onClick={emailNotiSubscribe}
             >
-              Subscribe for Email Noti
+              Subscribe for Email Notification
             </Button>
             <Button
               className={`btn-unsubscribe${userDetail && userDetail.accept_noti == 0 ? '-true' : ''}`}
               onClick={emailNotiUnsubscribe}
             >
-              Unsubscribe for Email Noti
+              Unsubscribe for Email Notification
             </Button>
-            <Button onClick={showModalAutoApprove}>Auto Approve</Button>
+            <Button className='auto-approve' onClick={showModalAutoApprove}>Auto Approve</Button>
           </div>
         </div>
       ),

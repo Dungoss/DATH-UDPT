@@ -5,12 +5,39 @@
   justify-content: space-between;
 }
 
-.btn-subscribe-true {
-  background-color: green;
+.question-manage-options span{
+  font-weight: 700;
+  font-size: 16px;
 }
 
-.btn-unsubscribe-true {
-  background-color: red;
+.question-manage-options .btn-subscribe{
+  background-color: #F0EFF0;
+  background-image: linear-gradient(#F0EFF0, #FAF8F9);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.question-manage-options .btn-subscribe-true{
+  background-color: #08AEEA; 
+  background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.question-manage-options .btn-unsubscribe{
+  background-color: rgb(75, 121, 161);
+  background-image: linear-gradient(#F0EFF0, #FAF8F9);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.question-manage-options .btn-unsubscribe-true {
+  background-color: #FFE53B;
+  background-image: linear-gradient(0deg, #FFE53B 0%, #FF2525 74%);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.question-manage-options .auto-approve{
+  background-color: #F0EFF0;
+  background-image: linear-gradient(#F0EFF0, #FAF8F9);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .manage-q-action {
