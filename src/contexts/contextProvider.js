@@ -9,6 +9,7 @@ export const ContextProvider = ({ children }) => {
   const [data, setData] = useState();
   const [openDetail, setOpenDetail] = useState(false);
   const [isModalWarningOpen, setIsModalWarningOpen] = useState(false);
+  const [isImportModal, setIsImportModal] = useState(false);
 
   const [isActive, setIsActive] = useState(0);
   return (
@@ -26,6 +27,8 @@ export const ContextProvider = ({ children }) => {
         setOpenDetail,
         isModalWarningOpen,
         setIsModalWarningOpen,
+        isImportModal,
+        setIsImportModal,
       }}
     >
       {children}

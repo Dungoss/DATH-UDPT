@@ -11,6 +11,9 @@ import * as pageActions from '../../redux/selectMenuSidebarSlice';
 import './styles.css';
 import { IconPop, IconHot } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
+import { InboxOutlined } from '@ant-design/icons';
+import { message, Upload } from 'antd';
+const { Dragger } = Upload;
 
 const { Search } = Input;
 const Question = () => {
@@ -26,12 +29,34 @@ const Question = () => {
     setData,
     isModalWarningOpen,
     setIsModalWarningOpen,
+    isImportModal,
+    setIsImportModal,
   } = useStateContext();
   const userData = useSelector((state) => state.question.usersData);
   const categoryData = useSelector((state) => state.question.categoryData);
   const tagData = useSelector((state) => state.question.tagData);
-
   const questData = useSelector((state) => state.question.questionData);
+
+  const uploadProps = {
+    name: 'file',
+    accept: 'file',
+    multiple: false,
+    action: `${configs.bonusSerivce}/api/import-excel-csv-file`,
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
 
   useEffect(() => {
     setData(questData);
@@ -108,6 +133,10 @@ const Question = () => {
     window.open(`${configs.bonusSerivce}/api/export-excel-csv-file`, '_blank');
   };
 
+  const onImport = async () => {
+    // window.open(`${configs.bonusSerivce}/api/export-excel-csv-file`, '_blank');
+  };
+
   const columns = [
     {
       title: (
@@ -141,6 +170,9 @@ const Question = () => {
               />
             </div>
             <div>
+              <Button type="primary" onClick={() => setIsImportModal(true)}>
+                Import
+              </Button>
               <Button onClick={onExport}>Export</Button>
             </div>
           </div>
@@ -225,6 +257,17 @@ const Question = () => {
       )}
       <Modal title="Basic Modal" open={isModalWarningOpen} onOk={handleOkWarning} onCancel={handleCancelWarning}>
         <p>Please login first!</p>
+      </Modal>
+      <Modal title="Import" open={isImportModal} onOk={onImport} onCancel={() => setIsImportModal(false)}>
+        <Dragger {...uploadProps}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          <p className="ant-upload-hint">
+            Support for a single or bulk upload. Strictly prohibited from uploading company data or other banned files.
+          </p>
+        </Dragger>
       </Modal>
     </div>
   );
