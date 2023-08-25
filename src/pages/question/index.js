@@ -115,7 +115,7 @@ const Question = () => {
 
   const handleFilterByTag = async (value) => {
     dispatch(questionActions.setLoadingChild(true));
-    const response = await axios.get(`${configs.questionService}/api/questions/search-tag?tagID="${value}"`);
+    const response = await axios.get(`${configs.questionService}/api/questions/search-tag?tagID=${value}`);
     setData(response.data);
     dispatch(questionActions.setLoadingChild(false));
   };

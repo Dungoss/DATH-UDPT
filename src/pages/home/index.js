@@ -123,9 +123,12 @@ const Home = () => {
 
   const sendAllEmails = () => {
     emailData.forEach((data) => {
+      console.log(data);
       sendEmail(data);
     });
   };
+
+  console.log(emailData);
 
   const showModalWarning = () => {
     setIsModalWarningOpen(true);
@@ -249,9 +252,12 @@ const Home = () => {
           {categoryData.map((_data) => {
             categoryOptions.push({ value: _data.categoryID, label: _data.categoryName });
           })}
-          {tagData.map((_data) => {
-            tagOptions.push({ value: _data.tagID, label: _data.tagName });
-          })}
+          {question.categoryID &&
+            tagData.map((_data) => {
+              if (question.categoryID == _data.categoryID) {
+                tagOptions.push({ value: _data.tagID, label: _data.tagName });
+              }
+            })}
           <Select
             style={{
               width: 120,
