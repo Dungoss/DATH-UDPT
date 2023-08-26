@@ -20,7 +20,7 @@ const uploader = Uploader({
   apiKey: 'free',
 });
 
-const options = { multi: true };
+const options = { multi: false };
 
 import './styles.css';
 import { TextShpere } from '../../components';
@@ -40,19 +40,21 @@ const Home = () => {
   } = useStateContext();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploadedImg, setUploadedImg] = useState([]);
   const [question, setQuestion] = useState({
     userID: user && user.id,
-    categoryID: '',
+    categoryID: null,
     questionTitle: '',
     questionContent: '',
     postingTime: '',
     totalVotes: 0,
     totalAnswer: 0,
     statusApproved: 0,
-    tagID: 0,
+    tagID: [],
     spam: 0,
+    images: '',
   });
+
+  console.log(question);
 
   const categoryData = useSelector((state) => state.question.categoryData);
   const questionData = useSelector((state) => state.question.questionData);
@@ -160,6 +162,8 @@ const Home = () => {
     const unixTimestamp = Math.floor(currentTime.getTime() / 1000);
     let data = _.cloneDeep(question);
     data.postingTime = unixTimestamp;
+    let tag = JSON.stringify(data.tagID);
+    data.tagID = tag;
     let tempQ = _.cloneDeep(questionData);
     tempQ.unshift(data);
     const response = await axios.post(`${configs.questionService}/api/questions`, data, {
@@ -173,10 +177,24 @@ const Home = () => {
       const response = await axios.put(`${configs.userSerivce}/api/users/${user.id}/increase-question-count`);
       console.log(response.status);
       dispatch(questionActions.setQuestion(tempQ));
+      setQuestion({
+        userID: user && user.id,
+        categoryID: '',
+        questionTitle: '',
+        questionContent: '',
+        postingTime: '',
+        totalVotes: 0,
+        totalAnswer: 0,
+        statusApproved: 0,
+        tagID: [],
+        spam: 0,
+        images: '',
+      });
     }
     sendAllEmails();
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -185,7 +203,11 @@ const Home = () => {
     setQuestion({ ...question, ['categoryID']: val });
   };
   const handleTagChange = (val) => {
-    setQuestion({ ...question, ['tagID']: JSON.stringify(val) });
+    setQuestion({ ...question, ['tagID']: val });
+  };
+
+  const handleImageChange = (val) => {
+    setQuestion({ ...question, ['images']: val });
   };
 
   let questionDataa = [];
@@ -252,8 +274,13 @@ const Home = () => {
           Ask Questions
         </Button>
         <Modal title="Enter your question" open={isModalOpen} onOk={handleAddQuestion} onCancel={handleCancel}>
-          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
-          <TextArea rows={4} placeholder="Content" onChange={(e) => onQuestionChange(e.target.value)} />
+          <Input value={question.questionTitle} placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
+          <TextArea
+            value={question.questionContent}
+            rows={4}
+            placeholder="Content"
+            onChange={(e) => onQuestionChange(e.target.value)}
+          />
           {categoryData.map((_data) => {
             categoryOptions.push({ value: _data.categoryID, label: _data.categoryName });
           })}
@@ -264,6 +291,7 @@ const Home = () => {
               }
             })}
           <Select
+            value={question.categoryID}
             style={{
               width: '100%',
             }}
@@ -272,19 +300,20 @@ const Home = () => {
             options={categoryOptions}
           />
           <Select
+            value={question.tagID}
             style={{
               width: '100%',
             }}
             mode="multiple"
             allowClear
-            placeholder="Please select"
+            placeholder="Tags"
             onChange={handleTagChange}
             options={tagOptions}
           />
           <UploadButton
             uploader={uploader}
             options={options}
-            onComplete={(files) => files.map((x) => setUploadedImg([...uploadedImg, x.fileUrl]))}
+            onComplete={(files) => files.map((x) => handleImageChange(x.fileUrl))}
           >
             {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
           </UploadButton>

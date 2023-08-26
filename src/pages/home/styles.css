@@ -76,6 +76,11 @@
   white-space: nowrap;
 }
 
+.question-content-title {
+  display: flex;
+  justify-content: space-between;
+}
+
 .question-content-title h2 {
   text-align: left;
 }
