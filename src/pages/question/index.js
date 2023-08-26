@@ -62,6 +62,20 @@ const Question = () => {
     setData(questData);
   }, []);
 
+  const handleFilterNew = async () => {
+    dispatch(questionActions.setLoading(true));
+    const response = await axios.get(`${configs.questionService}/api/questions`);
+    dispatch(questionActions.setQuestion(response.data));
+    dispatch(questionActions.setLoading(false));
+  };
+
+  const handleFilterPopular = async () => {
+    dispatch(questionActions.setLoading(true));
+    const response = await axios.get(`${configs.questionService}/api/questions/popular`);
+    dispatch(questionActions.setQuestion(response.data));
+    dispatch(questionActions.setLoading(false));
+  };
+
   const findNameById = (data, targetId) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id === targetId) {
@@ -144,18 +158,18 @@ const Question = () => {
           <h1>Question</h1>
           <div className="spread">
             <div className="question-filter">
-              <div className="question-filter-popular">
+              <div className="question-filter-popular" onClick={handleFilterPopular}>
                 <img src={IconPop} /> Popular
               </div>
-              <div className="question-filter-hotnew">
-                <img src={IconHot} /> Hot
+              <div className="question-filter-hotnew" onClick={handleFilterNew}>
+                <img src={IconHot} /> New
               </div>
               {tagData.map((_data) => {
                 tagOptions.push({ value: _data.tagID, label: _data.tagName });
               })}
               <Select
                 style={{
-                  width: 120,
+                  width: 200,
                 }}
                 placeholder="Filter By Tags"
                 onChange={handleFilterByTag}

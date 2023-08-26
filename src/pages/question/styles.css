@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 50%;
+  width: 70%;
 }
 
 .question-filter-popular {
@@ -104,10 +104,13 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  border-radius: 24px;
+  padding: 6px;
 }
 
 .question-filter-hotnew:hover {
   cursor: pointer;
+  background-color: #e9dede;
 }
 
 .question-detail {
