@@ -12,6 +12,7 @@
 .user-rank h2 {
   margin-top: 35px;
   margin-left: 12px;
+  width: 35px;
 }
 
 .user-rank-info {
@@ -24,7 +25,7 @@
 
 .qna-info h3 {
   margin-top: 20px;
-  color: #F37335;
+  color: #f37335;
 }
 
 .user-rank img {

@@ -17,23 +17,19 @@ const UserRank = (props) => {
         </div>
         <div className="level">
           <b>
-            {numans &&
-              numquest &&
+            {(numans || numquest) &&
               (() => {
-                let level;
+                let level = 'Level 1';
 
-                if (numquest > 40 && numans > 20) {
+                if ((numquest > 40 && numans > 20) || numquest > 45) {
                   level = 'Level 5';
-                } else if (numquest > 30 && numans > 15) {
+                } else if ((numquest > 30 && numans > 15) || numquest > 35 || numans > 25) {
                   level = 'Level 4';
-                } else if (numquest > 20 && numans > 10) {
+                } else if ((numquest > 20 && numans > 10) || numquest > 25 || numans > 25) {
                   level = 'Level 3';
-                } else if (numquest > 10 && numans > 5) {
+                } else if ((numquest > 10 && numans > 5) || numquest > 15 || numans > 15) {
                   level = 'Level 2';
-                } else {
-                  level = 'Level 1';
                 }
-
                 return level;
               })()}
           </b>

@@ -133,27 +133,23 @@ const ProfileOther = () => {
           <img onClick={() => setShowAva(true)} src={userData && userData.avatar} />
         </div>
         <div className="basic-info">
-          <span className='name'>{userData && userData.name}</span>
-          <span className='level'>
+          <span className="name">{userData && userData.name}</span>
+          <span className="level">
             {userData &&
-              userData.question_count &&
-              userData.answer_count &&
+              (userData.question_count || userData.answer_count) &&
               (() => {
                 const { question_count, answer_count } = userData;
-                let level;
+                let level = 'Level 1';
 
-                if (question_count > 40 && answer_count > 20) {
+                if ((question_count > 40 && answer_count > 20) || question_count > 45) {
                   level = 'Level 5';
-                } else if (question_count > 30 && answer_count > 15) {
+                } else if ((question_count > 30 && answer_count > 15) || question_count > 35 || answer_count > 35) {
                   level = 'Level 4';
-                } else if (question_count > 20 && answer_count > 10) {
+                } else if ((question_count > 20 && answer_count > 10) || question_count > 25 || answer_count > 25) {
                   level = 'Level 3';
-                } else if (question_count > 10 && answer_count > 5) {
+                } else if ((question_count > 10 && answer_count > 5) || question_count > 15 || answer_count > 15) {
                   level = 'Level 2';
-                } else {
-                  level = 'Level 1';
                 }
-
                 return level;
               })()}
           </span>
