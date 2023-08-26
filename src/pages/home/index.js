@@ -162,7 +162,12 @@ const Home = () => {
     data.postingTime = unixTimestamp;
     let tempQ = _.cloneDeep(questionData);
     tempQ.unshift(data);
-    const response = await axios.post(`${configs.questionService}/api/questions`, data);
+    const response = await axios.post(`${configs.questionService}/api/questions`, data, {
+      headers: {
+        // 'Content-type': 'application/json',
+        Authorization: configs.GPT_KEY,
+      },
+    });
     console.log(response);
     if (response.status == 201) {
       const response = await axios.put(`${configs.userSerivce}/api/users/${user.id}/increase-question-count`);
