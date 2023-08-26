@@ -13,6 +13,9 @@ export const getQuestionData = async (dispatch) => {
     const response4 = await axios.get(`${configs.otherSerivce}/api/tag`);
     dispatch(questionActions.setTags(response4.data));
 
+    const response15 = await axios.get(`${configs.otherSerivce}/api/tag-cloud`);
+    dispatch(questionActions.setTagCloud(response15.data));
+
     const response2 = await axios.get(`${configs.otherSerivce}/api/category`);
     dispatch(questionActions.setCategory(response2.data));
 

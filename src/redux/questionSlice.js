@@ -7,6 +7,7 @@ const initialState = {
   answerData: [],
   commentData: [],
   tagData: [],
+  tagCloudData: [],
   spamData: [],
   voteData: [],
   questionUserData: [],
@@ -40,6 +41,9 @@ export const questionSlice = createSlice({
     },
     setTags: (state, action) => {
       state.tagData = action.payload;
+    },
+    setTagCloud: (state, action) => {
+      state.tagCloudData = action.payload;
     },
     setSpams: (state, action) => {
       state.spamData = action.payload;
@@ -85,6 +89,7 @@ export const {
   setAnswers,
   setComments,
   setTags,
+  setTagCloud,
   setSpams,
   setVote,
   resetState,

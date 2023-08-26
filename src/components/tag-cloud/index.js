@@ -13,7 +13,9 @@ import { toLower } from 'lodash';
 
 const TextShpere = () => {
   const dispatch = useDispatch();
-  const tagData = useSelector((state) => state.question.tagData);
+  const tagData = useSelector((state) => state.question.tagCloudData);
+
+  console.log(tagData);
   const { setIsActive, setData } = useStateContext();
   let tag = [];
 

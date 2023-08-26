@@ -260,18 +260,18 @@ const Home = () => {
             })}
           <Select
             style={{
-              width: 120,
+              width: '100%',
             }}
             placeholder="Category"
             onChange={handleChangeCategory}
             options={categoryOptions}
           />
           <Select
-            mode="multiple"
-            allowClear
             style={{
               width: '100%',
             }}
+            mode="multiple"
+            allowClear
             placeholder="Please select"
             onChange={handleTagChange}
             options={tagOptions}
@@ -300,6 +300,7 @@ const Home = () => {
                         <div className="question-info">
                           <h4>{_data.totalVotes} votes</h4>
                           <h4>{_data.totalAnswer} answers</h4>
+                          <h4>{_data.spam} spams</h4>
                         </div>
                         <div className="question-content">
                           <div
