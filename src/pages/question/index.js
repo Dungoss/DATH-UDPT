@@ -169,10 +169,12 @@ const Question = () => {
                 }}
               />
             </div>
-            <div>
-              <Button type="primary" onClick={() => setIsImportModal(true)}>
-                Import
-              </Button>
+            <div className="spread">
+              <div style={{ marginRight: 16 }}>
+                <Button type="primary" onClick={() => setIsImportModal(true)}>
+                  Import
+                </Button>
+              </div>
               <Button onClick={onExport}>Export</Button>
             </div>
           </div>
