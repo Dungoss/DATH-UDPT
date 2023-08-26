@@ -23,6 +23,7 @@ import Ranking from '../../assets/images/ranking.svg';
 import User from '../../assets/images/user.svg';
 import Manage from '../../assets/images/manage.svg';
 import Back from '../../assets/images/back.svg';
+import Reload from '../../assets/images/reload.svg';
 
 export {
   IconLogo,
@@ -49,4 +50,5 @@ export {
   User,
   Manage,
   Back,
+  Reload,
 };

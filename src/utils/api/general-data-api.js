@@ -7,7 +7,7 @@ const user = JSON.parse(sessionStorage.getItem('user'));
 export const getQuestionData = async (dispatch) => {
   dispatch(questionActions.setLoading(true));
   try {
-    const response = await axios.get(`${configs.questionService}/api/questions`);
+    const response = await axios.get(`${configs.questionService}/api/questions/popular`);
     dispatch(questionActions.setQuestion(response.data));
 
     const response4 = await axios.get(`${configs.otherSerivce}/api/tag`);

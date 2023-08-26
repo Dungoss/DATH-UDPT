@@ -186,7 +186,7 @@ const Home = () => {
         totalVotes: 0,
         totalAnswer: 0,
         statusApproved: 0,
-        tagID: [],
+        tagID: null,
         spam: 0,
         images: '',
       });

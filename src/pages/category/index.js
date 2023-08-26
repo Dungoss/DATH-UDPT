@@ -13,7 +13,9 @@ const Category = () => {
   const dispatch = useDispatch();
   const categoryData = useSelector((state) => state.question.categoryData);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [newCategory, setNewCategory] = useState('');
+  const [editCategory, setEditCategory] = useState({});
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -31,12 +33,28 @@ const Category = () => {
     setIsModalOpen(false);
   };
 
+  const handleOkEdit = async () => {
+    let temp = { categoryName: editCategory.categoryName };
+    const response = await axios.put(`${configs.otherSerivce}/api/category/${editCategory.categoryID}`, temp);
+    let temp1 = _.cloneDeep(categoryData);
+    temp1.push(temp);
+    if (response.status == 201) {
+      dispatch(questionActions.setCategory(temp1));
+    }
+    setIsModalEditOpen(false);
+  };
+  const handleCancelEdit = () => {
+    setIsModalEditOpen(false);
+  };
+
   let tableData = [];
   const columns = [
     {
       title: (
         <div>
-          <Button className='AddCategory' onClick={showModal}>Add category</Button>
+          <Button className="AddCategory" onClick={showModal}>
+            Add category
+          </Button>
         </div>
       ),
       dataIndex: 'category',
@@ -51,6 +69,11 @@ const Category = () => {
     setNewCategory(val);
   };
 
+  const onEditCategoryChange = (val) => {
+    setIsModalEditOpen(true);
+    setEditCategory(val);
+  };
+
   return (
     <div className="category">
       {tableData && <Table dataSource={tableData} columns={columns} pagination={paginationConfig} />}
@@ -58,10 +81,10 @@ const Category = () => {
         tableData.push({
           key: _idx + 1,
           category: (
-            <div className='category-list'>
+            <div className="category-list">
               <div>{_data.categoryName}</div>
-              <div className='category-icon'>
-                <EditOutlined />
+              <div className="category-icon">
+                <EditOutlined onClick={() => onEditCategoryChange(_data)} />
               </div>
             </div>
           ),
@@ -69,6 +92,13 @@ const Category = () => {
       })}
       <Modal title="Add new category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Input placeholder={'Enter category name'} onChange={(e) => onNewCategoryChange(e.target.value)} />
+      </Modal>
+      <Modal title="Edit category" open={isModalEditOpen} onOk={handleOkEdit} onCancel={handleCancelEdit}>
+        <Input
+          defaultValue={editCategory.categoryName}
+          placeholder={'Enter category name'}
+          onChange={(e) => onNewCategoryChange(e.target.value)}
+        />
       </Modal>
     </div>
   );

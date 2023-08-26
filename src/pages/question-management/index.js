@@ -8,6 +8,7 @@ import _ from 'lodash';
 import configs from '../../config/config.cfg';
 import './styles.css';
 import * as questionActions from '../../redux/questionSlice';
+import { Reload } from '../../utils/constants/img';
 
 const QuestionManagement = () => {
   const dispatch = useDispatch();
@@ -142,6 +143,13 @@ const QuestionManagement = () => {
     dispatch(questionActions.setLoadingChild(false));
   };
 
+  const handleReload = async () => {
+    dispatch(questionActions.setLoadingChild(true));
+    const response = await axios.get(`${configs.questionService}/api/questions`);
+    dispatch(questionActions.setQuestion(response.data));
+    dispatch(questionActions.setLoadingChild(false));
+  };
+
   let questionData = [];
   const columns = [
     {
@@ -161,7 +169,12 @@ const QuestionManagement = () => {
             >
               Unsubscribe for Email Notification
             </Button>
-            <Button className='auto-approve' onClick={showModalAutoApprove}>Auto Approve</Button>
+            <Button className="auto-approve" onClick={showModalAutoApprove}>
+              Auto Approve
+            </Button>
+            <div onClick={handleReload} className="reload">
+              <img src={Reload} alt="reload"></img>
+            </div>
           </div>
         </div>
       ),

@@ -12,6 +12,8 @@ import './styles.css';
 import { IconPop, IconHot } from '../../utils/constants/img';
 import { useStateContext } from '../../contexts/contextProvider';
 import { InboxOutlined } from '@ant-design/icons';
+import { Reload } from '../../utils/constants/img';
+
 import { message, Upload } from 'antd';
 const { Dragger } = Upload;
 
@@ -151,6 +153,13 @@ const Question = () => {
     // window.open(`${configs.bonusSerivce}/api/export-excel-csv-file`, '_blank');
   };
 
+  const handleReload = async () => {
+    dispatch(questionActions.setLoadingChild(true));
+    const response = await axios.get(`${configs.questionService}/api/questions`);
+    dispatch(questionActions.setQuestion(response.data));
+    dispatch(questionActions.setLoadingChild(false));
+  };
+
   const columns = [
     {
       title: (
@@ -190,6 +199,9 @@ const Question = () => {
                 </Button>
               </div>
               <Button onClick={onExport}>Export</Button>
+            </div>
+            <div onClick={handleReload} className="reload">
+              <img src={Reload} alt="reload"></img>
             </div>
           </div>
         </div>
