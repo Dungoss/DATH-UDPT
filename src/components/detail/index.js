@@ -222,7 +222,7 @@ const QuestionDetail = () => {
                 <div className="answer-container">
                   <div className="detail-user">
                     <img src={findAvatarById(userData, data.userID)} alt="avatar" />
-                    <div>
+                    <div style={{ marginLeft: 12 }}>
                       <b> {findNameById(userData, data.userID)} </b>
                       answered
                     </div>
