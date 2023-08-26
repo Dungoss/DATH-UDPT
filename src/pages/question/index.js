@@ -63,17 +63,17 @@ const Question = () => {
   }, []);
 
   const handleFilterNew = async () => {
-    dispatch(questionActions.setLoading(true));
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions`);
     dispatch(questionActions.setQuestion(response.data));
-    dispatch(questionActions.setLoading(false));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const handleFilterPopular = async () => {
-    dispatch(questionActions.setLoading(true));
+    dispatch(questionActions.setLoadingChild(true));
     const response = await axios.get(`${configs.questionService}/api/questions/popular`);
     dispatch(questionActions.setQuestion(response.data));
-    dispatch(questionActions.setLoading(false));
+    dispatch(questionActions.setLoadingChild(false));
   };
 
   const findNameById = (data, targetId) => {
