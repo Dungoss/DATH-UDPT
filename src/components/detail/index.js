@@ -189,6 +189,11 @@ const QuestionDetail = () => {
               <div className="detail-conten">
                 <div>{detailQuestion.questionContent}</div>
               </div>
+              <div style={{ marginLeft: '24px' }}>
+                {detailQuestion.images && (
+                  <img style={{ width: '200px', height: '200px', borderRadius: '4px' }} src={detailQuestion.images} />
+                )}
+              </div>
               <div className="detail-actions">
                 <div className="RateStar">
                   <Rate defaultValue={voteData && voteData[detailQuestion.id]} onChange={onStarVote} />

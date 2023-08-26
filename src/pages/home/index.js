@@ -40,7 +40,6 @@ const Home = () => {
   } = useStateContext();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploadedImg, setUploadedImg] = useState([]);
   const [question, setQuestion] = useState({
     userID: user && user.id,
     categoryID: '',
@@ -52,7 +51,10 @@ const Home = () => {
     statusApproved: 0,
     tagID: 0,
     spam: 0,
+    images: '',
   });
+
+  console.log(question);
 
   const categoryData = useSelector((state) => state.question.categoryData);
   const questionData = useSelector((state) => state.question.questionData);
@@ -183,6 +185,10 @@ const Home = () => {
     setQuestion({ ...question, ['tagID']: JSON.stringify(val) });
   };
 
+  const handleImageChange = (val) => {
+    setQuestion({ ...question, ['images']: val });
+  };
+
   let questionDataa = [];
   const columns = [
     {
@@ -279,7 +285,7 @@ const Home = () => {
           <UploadButton
             uploader={uploader}
             options={options}
-            onComplete={(files) => files.map((x) => setUploadedImg([...uploadedImg, x.fileUrl]))}
+            onComplete={(files) => files.map((x) => handleImageChange(x.fileUrl))}
           >
             {({ onClick }) => <button onClick={onClick}>Upload a file...</button>}
           </UploadButton>
