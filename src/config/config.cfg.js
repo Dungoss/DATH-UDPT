@@ -13,6 +13,7 @@ const configs = {
   otherSerivce: 'http://localhost:8002',
   bonusSerivce: 'http://localhost:8003',
   originFrontend: 'http://localhost:3000',
+  GPT_KEY: 'GPT01',
 };
 
 export default configs;
