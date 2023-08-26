@@ -93,6 +93,14 @@ const QuestionDetail = () => {
     console.log(response1);
     const response3 = await axios.get(`${configs.otherSerivce}/api/answers`);
     dispatch(questionActions.setAnswers(response3.data));
+    setAnswer({
+      questionID: '',
+      userID: user && user.id,
+      summaryContent: '1',
+      fullContent: '',
+      postingTime: '',
+      totalVotes: '0',
+    });
     dispatch(questionActions.setLoadingChild(false));
   };
 
@@ -107,6 +115,7 @@ const QuestionDetail = () => {
     console.log(response);
     const response1 = await axios.get(`${configs.otherSerivce}/api/comments`);
     dispatch(questionActions.setComments(response1.data));
+    setComment({ answerID: '', userID: user && user.id, mentionedID: '1', commentContent: '', postingTime: '' });
     dispatch(questionActions.setLoadingChild(false));
   };
 
@@ -245,6 +254,7 @@ const QuestionDetail = () => {
                 )}
                 <div className="comment-input">
                   <Input
+                    value={comment.commentContent}
                     placeholder={'Enter your comment'}
                     onChange={(e) => onCommentChange(e.target.value, parseInt(data.answerID))}
                   />
@@ -255,7 +265,11 @@ const QuestionDetail = () => {
               </div>
             ))}
             <div className="answer-input">
-              <Input placeholder={'Enter your answer'} onChange={(e) => onAnswerChange(e.target.value)} />
+              <Input
+                value={answer.fullContent}
+                placeholder={'Enter your answer'}
+                onChange={(e) => onAnswerChange(e.target.value)}
+              />
               <Button className="btn-type1" onClick={handleAnswer}>
                 Send Answer
               </Button>
