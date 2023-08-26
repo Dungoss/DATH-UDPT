@@ -183,8 +183,8 @@ const Profile = () => {
           </div>
 
           <div className="basic-info">
-            <span>{userData && userData.name}</span>
-            <span>
+            <span className='name'>{userData && userData.name}</span>
+            <span className='level'>
               {userData &&
                 userData.question_count &&
                 userData.answer_count &&
